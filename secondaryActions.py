@@ -1,4 +1,4 @@
-
+import ctypes
 
 
 def performSecondaryAction(event):
@@ -8,3 +8,8 @@ def performSecondaryAction(event):
 
 
 
+
+        ctypes.windll.user32.SetCursorPos()
+
+
+print(ctypes.windll.user32.GetCursorPos())
