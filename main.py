@@ -57,7 +57,6 @@ def start_hook():
 
 
 if __name__ == '__main__':
-    print(dir(pyWinhook.HookManager))
     start_hook()
 
 

@@ -7,7 +7,6 @@ def on_key_press(event):
 
 
 def on_key_release(event):
-    print("released")
     return False
 
 
