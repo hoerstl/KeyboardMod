@@ -1,5 +1,8 @@
 import ctypes
-
+import win32api
+import win32con
+from myQueue import Queue
+from keyMap import key_map
 
 class POINT(ctypes.Structure):
     _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
@@ -23,7 +26,8 @@ screen_height = ctypes.windll.user32.GetSystemMetrics(1)
 
 major_tile_pos = Point()
 
-def performSecondaryAction(event):
+
+def performSecondaryAction_mousetype(event):
     global screen_width, screen_height, major_tile_pos
 
     left_hand = [*"QWERTASDFGZXCVB"]
@@ -70,8 +74,81 @@ def performSecondaryAction(event):
 
 
 
-# cursor_position = POINT()
-# ctypes.windll.user32.GetCursorPos(ctypes.byref(cursor_position))
+def pressKey(key_name):
+    global key_map, keypress_bypass, keyrelease_bypass
+    key = key_map.get(key_name)
+    if key is None:
+        raise ValueError("Keybinding not given in keyMap.py")
+
+    keypress_bypass.push(key_name)
+    win32api.keybd_event(key, 0, 0, 0)
+    keyrelease_bypass.push(key_name)
+    win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
+
+
+def pressKeyCombo(keycombo):
+    """
+    Presses more complex keyboard input. Splits the keycombo on the +'s and then presses them down in order before
+    releasing them in reverse order.
+    :param keycombo: str. E.X. Ctrl+Left runs press Ctrl -> Left -> release Ctrl -> release Left
+    :return: None
+    """
+    global key_map, keypress_bypass, keyrelease_bypass
+    key_names = keycombo.split("+")
+    keys = [key_map.get(key) for key in key_names]
+    if None in keys:
+        raise ValueError(f"Keybinding for key '{key_names[keys.index(None)]}' not specified in keyMap.py")
+
+    for key, keyname in zip(keys, key_names):
+        keypress_bypass.push(keyname)
+        win32api.keybd_event(key, 0, 0, 0)
+    key_names.reverse()
+    keys.reverse()
+    for key, keyname in zip(keys, key_names):
+        keyrelease_bypass.push(keyname)
+        win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
+
+
+key_bindings = (
+    ('I', lambda: pressKey('Up')),
+    ('J', lambda: pressKey('Left')),
+    ('K', lambda: pressKey('Down')),
+    ('L', lambda: pressKey('Right')),
+    ('S', lambda: pressKeyCombo('Lcontrol+Left')),
+    ('F', lambda: pressKeyCombo('Lcontrol+Right'))
+)
+
+keypress_bypass = Queue()
+keyrelease_bypass = Queue()
+
+
+def performSecondaryAction_keytype(event):
+    global key_bindings, keypress_bypass
+
+    for keybind in key_bindings:
+        if event.Key == keybind[0]:
+            keybind[1]()
+
+
+def is_press_bypassed(event):
+    global keypress_bypass
+    if event.Key == keypress_bypass.peek():
+        keypress_bypass.drop()
+        return True
+    return False
+
+
+def is_release_bypassed(event):
+    global keyrelease_bypass
+    print(keyrelease_bypass.peek())
+    if event.Key == keyrelease_bypass.peek():
+        keyrelease_bypass.drop()
+        return True
+    return False
+
+
+
+
 
 
 
