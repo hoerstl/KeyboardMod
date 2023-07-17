@@ -2,9 +2,6 @@ import pythoncom
 import pyWinhook
 from secondaryActions import performSecondaryAction_mousetype, performSecondaryAction_keytype, is_press_bypassed, is_release_bypassed
 
-in_secondary_keyboard_mode = False
-last_key_released = ''
-
 
 def is_shift_key(key_name):
     shift_names = [
@@ -27,6 +24,7 @@ def process_mode_shift(event):
             last_key_released = ''
             return True
     last_key_released = event.Key
+
 
 def on_key_press(event):
     global in_secondary_keyboard_mode
@@ -70,6 +68,8 @@ def start_hook():
 
 
 if __name__ == '__main__':
+    in_secondary_keyboard_mode = False
+    last_key_released = ''
     start_hook()
 
 

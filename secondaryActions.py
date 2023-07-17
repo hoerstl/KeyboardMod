@@ -115,7 +115,9 @@ key_bindings = (
     ('K', lambda: pressKey('Down')),
     ('L', lambda: pressKey('Right')),
     ('S', lambda: pressKeyCombo('Lcontrol+Left')),
-    ('F', lambda: pressKeyCombo('Lcontrol+Right'))
+    ('F', lambda: pressKeyCombo('Lcontrol+Right')),
+    ('O', lambda: pressKeyCombo('Lcontrol+Lwin+Left')),
+    ('P', lambda: pressKeyCombo('Lcontrol+Lwin+Right'))
 )
 
 keypress_bypass = Queue()

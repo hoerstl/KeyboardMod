@@ -86,5 +86,7 @@ key_map = {
     'Oem_5': 220,  # Backslash
     'Oem_2': 191,  # Forward slash
     'Oem_1': 186,  # Semicolon
-    'Oem_Plus': 187  # Equals
+    'Oem_Plus': 187,  # Equals,
+    'Lwin': 91,
+    'Rwin': 92
 }
