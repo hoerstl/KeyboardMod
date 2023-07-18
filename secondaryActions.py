@@ -151,7 +151,8 @@ key_bindings_CapMode = (  # TODO: Convert this use into a dictionary
     ('P', lambda: pressKeyCombo('Lcontrol+Lwin+Right'))
 )
 def performSecondaryAction_CapMode(event):
-    global key_bindings_CapMode, keypress_bypass
+    global key_bindings_CapMode, keypress_bypass, cap_mode_used
     for keybind in key_bindings_CapMode:
         if event.Key == keybind[0]:
+            cap_mode_used = True
             keybind[1]()
