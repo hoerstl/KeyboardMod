@@ -4,6 +4,10 @@ import win32con
 from myQueue import Queue
 from keyMap import key_map
 
+keypress_bypass = Queue()
+keyrelease_bypass = Queue()
+cap_mode_used = False
+
 class POINT(ctypes.Structure):
     _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
 
@@ -73,6 +77,21 @@ def performSecondaryAction_mousetype(event):
         exit(0)
 
 
+def is_press_bypassed(event):
+    global keypress_bypass
+    if event.Key == keypress_bypass.peek():
+        keypress_bypass.drop()
+        return True
+    return False
+
+
+def is_release_bypassed(event):
+    global keyrelease_bypass
+    if event.Key == keyrelease_bypass.peek():
+        keyrelease_bypass.drop()
+        return True
+    return False
+
 
 def pressKey(key_name):
     global key_map, keypress_bypass, keyrelease_bypass
@@ -109,7 +128,19 @@ def pressKeyCombo(keycombo):
         win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
 
 
-key_bindings = (
+###################### START OF THE SHIFTLOCK DEFINITIONS ############################
+key_bindings_ShiftLock = ()  # TODO: Convert this use into a dictionary
+def performSecondaryAction_ShiftLock(event):
+    global key_bindings_ShiftLock, keypress_bypass
+    for keybind in key_bindings_ShiftLock:
+        if event.Key == keybind[0]:
+            keybind[1]()
+
+
+
+
+###################### START OF THE CAPMODE DEFINITIONS ############################
+key_bindings_CapMode = (  # TODO: Convert this use into a dictionary
     ('I', lambda: pressKey('Up')),
     ('J', lambda: pressKey('Left')),
     ('K', lambda: pressKey('Down')),
@@ -119,42 +150,8 @@ key_bindings = (
     ('O', lambda: pressKeyCombo('Lcontrol+Lwin+Left')),
     ('P', lambda: pressKeyCombo('Lcontrol+Lwin+Right'))
 )
-
-keypress_bypass = Queue()
-keyrelease_bypass = Queue()
-
-
-def performSecondaryAction_keytype(event):
-    global key_bindings, keypress_bypass
-
-    for keybind in key_bindings:
+def performSecondaryAction_CapMode(event):
+    global key_bindings_CapMode, keypress_bypass
+    for keybind in key_bindings_CapMode:
         if event.Key == keybind[0]:
             keybind[1]()
-
-
-def is_press_bypassed(event):
-    global keypress_bypass
-    if event.Key == keypress_bypass.peek():
-        keypress_bypass.drop()
-        return True
-    return False
-
-
-def is_release_bypassed(event):
-    global keyrelease_bypass
-    print(keyrelease_bypass.peek())
-    if event.Key == keyrelease_bypass.peek():
-        keyrelease_bypass.drop()
-        return True
-    return False
-
-
-
-
-
-
-
-
-
-
-

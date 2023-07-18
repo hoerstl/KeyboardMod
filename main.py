@@ -1,6 +1,7 @@
 import pythoncom
 import pyWinhook
-from secondaryActions import performSecondaryAction_mousetype, performSecondaryAction_keytype, is_press_bypassed, is_release_bypassed
+import time
+from secondaryActions import *
 
 
 def is_shift_key(key_name):
@@ -13,45 +14,77 @@ def is_shift_key(key_name):
 
 
 def process_mode_shift(event):
-    global in_secondary_keyboard_mode, last_key_released
+    global keyboard_mode, last_key_released
     if is_shift_key(event.Key):
-        if is_shift_key(last_key_released):
-            if in_secondary_keyboard_mode:
-                print("Returning to normal keyboard function")
+        if is_shift_key(last_key_released) and event.Key != last_key_released:
+            if keyboard_mode == 'ShiftLock':
+                print("ShiftLock Off")
+                keyboard_mode = 'Default'
             else:
-                print("Switching to Secondary mode")
-            in_secondary_keyboard_mode = not in_secondary_keyboard_mode
+                print("ShiftLock On")
+                keyboard_mode = 'ShiftLock'
+
             last_key_released = ''
             return True
     last_key_released = event.Key
 
 
-def on_key_press(event):
-    global in_secondary_keyboard_mode
-    if not in_secondary_keyboard_mode:
-        return True
+def process_mode_cap(event):
+    global keyboard_mode, cap_press_time, cap_mode_used
+    if event.Key == 'Capital':
+        if event.MessageName == 'key down' and keyboard_mode != 'CapMode':
+            cap_mode_used = False
+            if keyboard_mode == 'ShiftLock':  # We should count disabling the shiftlock as a valid use case of cap mode.
+                cap_mode_used = True
+            keyboard_mode = 'CapMode'
+            print('Entering Cap Mode')
+            cap_press_time = time.time()
+        elif event.MessageName == 'key up':
+            keyboard_mode = 'Default'
+            print('Leaving Cap Mode')
+            if time.time() - cap_press_time < .3 and not cap_mode_used:
+                pressKey("Capital")
+        return False
 
-    # Process keyboard input as you wish
+    return True
+
+
+def on_key_press(event):
+    global keyboard_mode
     if is_press_bypassed(event):
         return True
-    performSecondaryAction_keytype(event)
+
+    if not process_mode_cap(event):
+        return False
+
+    if keyboard_mode == 'Default':
+        return True
+    # Process keyboard input as you wish
+    elif keyboard_mode == 'ShiftLock':
+        performSecondaryAction_ShiftLock(event)
+    elif keyboard_mode == 'CapMode':
+        performSecondaryAction_CapMode(event)
 
     return False
 
 
 def on_key_release(event):
-    global in_secondary_keyboard_mode
-    if process_mode_shift(event):
-        return True  # We need to allow the shift keys to be released when we swap to and from modes
-
-    # Default keyboard input
-    if not in_secondary_keyboard_mode:
-        return True
-
-    # Process keyboard releases as you wish
+    global keyboard_mode
     if is_release_bypassed(event):
         return True
-    return False
+
+    if process_mode_shift(event):
+        return True  # We need to allow the shift keys to be released when we swap to and from modes
+    if not process_mode_cap(event):
+        return False
+    # Default keyboard input
+    if keyboard_mode == 'Default':
+        return True
+    elif keyboard_mode == 'ShiftLock':
+        return False
+    elif keyboard_mode == 'CapMode':
+        return False
+    return True
 
 
 def start_hook():
@@ -68,7 +101,8 @@ def start_hook():
 
 
 if __name__ == '__main__':
-    in_secondary_keyboard_mode = False
+    keyboard_mode = 'Default'  # This can have the value 'Default', 'ShiftLock', or 'CapMode'. Starts as 'Default'
+    cap_press_time = 0
     last_key_released = ''
     start_hook()
 
