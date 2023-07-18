@@ -14,9 +14,11 @@ def is_shift_key(key_name):
 
 
 def process_mode_shift(event):
-    global keyboard_mode, last_key_released
+    global keyboard_mode, last_key_released, shift_release_time
     if is_shift_key(event.Key):
-        if is_shift_key(last_key_released) and event.Key != last_key_released:
+        is_different = event.Key != last_key_released
+        was_quick_enough = time.time() - shift_release_time < .05
+        if is_shift_key(last_key_released) and is_different and was_quick_enough:
             if keyboard_mode == 'ShiftLock':
                 print("ShiftLock Off")
                 keyboard_mode = 'Default'
@@ -26,6 +28,7 @@ def process_mode_shift(event):
 
             last_key_released = ''
             return True
+        shift_release_time = time.time()
     last_key_released = event.Key
 
 
@@ -103,6 +106,7 @@ def start_hook():
 if __name__ == '__main__':
     keyboard_mode = 'Default'  # This can have the value 'Default', 'ShiftLock', or 'CapMode'. Starts as 'Default'
     cap_press_time = 0
+    shift_release_time = 0
     last_key_released = ''
     start_hook()
 
