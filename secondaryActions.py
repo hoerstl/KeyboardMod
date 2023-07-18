@@ -129,30 +129,30 @@ def pressKeyCombo(keycombo):
 
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
-key_bindings_ShiftLock = ()  # TODO: Convert this use into a dictionary
+key_bindings_ShiftLock = {}
 def performSecondaryAction_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
-    for keybind in key_bindings_ShiftLock:
-        if event.Key == keybind[0]:
-            keybind[1]()
+    keyaction = key_bindings_ShiftLock.get(event.Key, lambda: 'no binding found')
+    keyaction()
 
 
 
 
 ###################### START OF THE CAPMODE DEFINITIONS ############################
-key_bindings_CapMode = (  # TODO: Convert this use into a dictionary
-    ('I', lambda: pressKey('Up')),
-    ('J', lambda: pressKey('Left')),
-    ('K', lambda: pressKey('Down')),
-    ('L', lambda: pressKey('Right')),
-    ('S', lambda: pressKeyCombo('Lcontrol+Left')),
-    ('F', lambda: pressKeyCombo('Lcontrol+Right')),
-    ('O', lambda: pressKeyCombo('Lcontrol+Lwin+Left')),
-    ('P', lambda: pressKeyCombo('Lcontrol+Lwin+Right'))
-)
+key_bindings_CapMode = {
+    'I': lambda: pressKey('Up'),
+    'J': lambda: pressKey('Left'),
+    'K': lambda: pressKey('Down'),
+    'L': lambda: pressKey('Right'),
+    'S': lambda: pressKeyCombo('Lcontrol+Left'),
+    'F': lambda: pressKeyCombo('Lcontrol+Right'),
+    'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
+    'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right')
+}
 def performSecondaryAction_CapMode(event):
     global key_bindings_CapMode, keypress_bypass, cap_mode_used
-    for keybind in key_bindings_CapMode:
-        if event.Key == keybind[0]:
-            cap_mode_used = True
-            keybind[1]()
+    keyaction = key_bindings_CapMode.get(event.Key, lambda: 'no binding found')
+    if keyaction() != 'no binding found':
+        cap_mode_used = True
+
+
