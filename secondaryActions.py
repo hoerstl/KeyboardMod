@@ -1,12 +1,12 @@
 import ctypes
 import win32api
 import win32con
-from myQueue import Queue
+from myQueue import Queue, Node
 from keyMap import key_map
 
 keypress_bypass = Queue()
 keyrelease_bypass = Queue()
-cap_mode_used = False
+cap_mode_used = Node(False)
 
 class POINT(ctypes.Structure):
     _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
@@ -150,9 +150,9 @@ key_bindings_CapMode = {
     'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right')
 }
 def performSecondaryAction_CapMode(event):
-    global key_bindings_CapMode, keypress_bypass, cap_mode_used
+    global key_bindings_CapMode, keypress_bypass
     keyaction = key_bindings_CapMode.get(event.Key, lambda: 'no binding found')
     if keyaction() != 'no binding found':
-        cap_mode_used = True
+        cap_mode_used.value = True
 
 

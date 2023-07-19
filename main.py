@@ -36,16 +36,16 @@ def process_mode_cap(event):
     global keyboard_mode, cap_press_time, cap_mode_used
     if event.Key == 'Capital':
         if event.MessageName == 'key down' and keyboard_mode != 'CapMode':
-            cap_mode_used = False
+            cap_mode_used.value = False
             if keyboard_mode == 'ShiftLock':  # We should count disabling the shiftlock as a valid use case of cap mode.
-                cap_mode_used = True
+                cap_mode_used.value = True
             keyboard_mode = 'CapMode'
             print('Entering Cap Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up':
             keyboard_mode = 'Default'
             print('Leaving Cap Mode')
-            if time.time() - cap_press_time < .3 and not cap_mode_used:
+            if time.time() - cap_press_time < .3 and not cap_mode_used.value:
                 pressKey("Capital")
         return False
 
@@ -56,7 +56,6 @@ def on_key_press(event):
     global keyboard_mode
     if is_press_bypassed(event):
         return True
-
     if not process_mode_cap(event):
         return False
 
