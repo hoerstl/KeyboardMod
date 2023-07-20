@@ -2,7 +2,7 @@ import ctypes
 import win32api
 import win32con
 from myQueue import Queue, Node
-from keyMap import key_map
+from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
 keyrelease_bypass = Queue()
@@ -96,13 +96,24 @@ def is_release_bypassed(event):
 def pressKey(key_name):
     global key_map, keypress_bypass, keyrelease_bypass
     key = key_map.get(key_name)
-    if key is None:
-        raise ValueError("Keybinding not given in keyMap.py")
+    if key:
+        keypress_bypass.push(key_name)
+        win32api.keybd_event(key, 0, 0, 0)
+        keyrelease_bypass.push(key_name)
+        win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return
 
-    keypress_bypass.push(key_name)
-    win32api.keybd_event(key, 0, 0, 0)
-    keyrelease_bypass.push(key_name)
-    win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
+    raise ValueError(f"Keybinding for '{key_name}' not given in keyMap.py")
+
+def pressKeys(keys):
+    """
+    Takes in a string of keys separated by underscores. Presses each of them in order.
+    :param keys:
+    :return:
+    """
+    keyList = keys.split('_')
+    for key in keyList:
+        pressKey(key)
 
 
 def pressKeyCombo(keycombo):
@@ -128,6 +139,44 @@ def pressKeyCombo(keycombo):
         win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
 
 
+def typeCharacter(character):
+    global key_map, combo_key_map, common_character_map
+    character = common_character_map.get(character, character)
+    if key_map.get(character):
+        pressKey(character)
+        return
+
+    keycombo = combo_key_map.get(character)
+    if keycombo:
+        pressKeyCombo(keycombo)
+        return
+
+    raise ValueError(f"Found no way to type the character '{character}'.")
+
+
+def typeTemplate(template):
+    first, second = template.split('|')
+    for char in first:
+        typeCharacter(char.upper())
+    for char in second:
+        typeCharacter(char.upper())
+    lines_in_second = second.split('\n')
+    if len(lines_in_second) > 1:  # Move to the right spot
+        print(f"Moving up times: {len(lines_in_second[-1])}")
+        for character in lines_in_second[-1]:  # Move to the start of the line you're on
+            pressKey('Left')
+        print(f"Moving")
+        for line in range(len(lines_in_second) - 1):  # Move up a number of lines equal to the number of lines since the cursor position
+            pressKey('Up')
+        for character in first.split('\n')[-1]:  # Move right the correct number of times
+            pressKey('Right')
+    else:
+        for character in second:
+            pressKey('Left')
+
+
+
+
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {}
 def performSecondaryAction_ShiftLock(event):
@@ -146,8 +195,11 @@ key_bindings_CapMode = {
     'L': lambda: pressKey('Right'),
     'S': lambda: pressKeyCombo('Lcontrol+Left'),
     'F': lambda: pressKeyCombo('Lcontrol+Right'),
+    'E': lambda: pressKey('Home'),
+    'D': lambda: pressKey('End'),
     'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
-    'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right')
+    'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
+    'Return': lambda: pressKeys('End_Return')
 }
 def performSecondaryAction_CapMode(event):
     global key_bindings_CapMode, keypress_bypass
