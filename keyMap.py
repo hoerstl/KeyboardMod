@@ -80,13 +80,35 @@ key_map = {
     'Oem_Comma': 188,  # Comma
     'Oem_Period': 190,  # Period
     'GRAVE': 192,  # TODO: find the grave button on my keyboard
-    'Oem_7': 222,  # Quote
+    'Oem_7': 222,  # Single quote
     'Oem_4': 219,  # Left Bracket
     'Oem_6': 221,  # Right bracket
     'Oem_5': 220,  # Backslash
     'Oem_2': 191,  # Forward slash
     'Oem_1': 186,  # Semicolon
-    'Oem_Plus': 187,  # Equals,
+    'Oem_Plus': 187,  #Equals,
     'Lwin': 91,
     'Rwin': 92
+}
+
+combo_key_map = {
+    '(': 'Lshift+9',
+    ')': 'Lshift+0',
+    '"': 'Lshift+Oem_7',
+    '?': 'Lshift+Oem_2',
+    '{': 'Lshift+Oem_4',
+    '}': 'Lshift+Oem_6',
+    '%': 'Lshift+5'
+}
+
+common_character_map = {
+    "'": 'Oem_7',
+    '[': 'Oem_4',
+    ']': 'Oem_6',
+    '\\': 'Oem_5',
+    '/': 'Oem_2',
+    ';': 'Oem_1',
+    '=': 'Oem_Plus',
+    "\n": 'Return',
+    ' ': 'Space'
 }
