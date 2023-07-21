@@ -2,6 +2,7 @@ import ctypes
 import win32api
 import win32con
 from myQueue import Queue, Node
+from popup import displayToUser
 from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
@@ -105,6 +106,7 @@ def pressKey(key_name):
 
     raise ValueError(f"Keybinding for '{key_name}' not given in keyMap.py")
 
+
 def pressKeys(keys):
     """
     Takes in a string of keys separated by underscores. Presses each of them in order.
@@ -178,7 +180,9 @@ def typeTemplate(template):
 
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
-key_bindings_ShiftLock = {}
+key_bindings_ShiftLock = {
+    'B': lambda: displayToUser('DQ', "Your icecream my leige: ", 800)
+}
 def performSecondaryAction_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
     keyaction = key_bindings_ShiftLock.get(event.Key, lambda: 'no binding found')
