@@ -1,0 +1,10 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/KeyboardMod.iml
+/misc.xml
+/modules.xml
+profiles_settings.xml
+Project_Default.xml
+test.py
+vcs.xml
