@@ -2,7 +2,7 @@ import ctypes
 import win32api
 import win32con
 from myQueue import Queue, Node
-from popup import displayToUser
+from specialFunctions import showIcecreamCode
 from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
@@ -181,7 +181,7 @@ def typeTemplate(template):
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {
-    'B': lambda: displayToUser('DQ', "Your icecream my leige: ", 800)
+    'B': lambda: showIcecreamCode()
 }
 def performSecondaryAction_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass

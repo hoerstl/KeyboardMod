@@ -184,5 +184,5 @@ if __name__ == '__main__':
             newNumbers.append([numberList[0], oldDate])
 
 
-    with open('kyPhoneNumbers.pickle', 'wb') as file:
+    with open('DQ/kyPhoneNumbers.pickle', 'wb') as file:
         pickle.dump(newNumbers, file)

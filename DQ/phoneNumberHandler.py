@@ -7,10 +7,10 @@ import os
 
 def getUsablePhoneNumber():
 
-    if not os.path.exists("kyPhoneNumbers.pickle"):
+    if not os.path.exists("DQ/kyPhoneNumbers.pickle"):
         subprocess.run(['python', 'phoneNumbers.py'])
 
-    with open('kyPhoneNumbers.pickle', 'rb') as file:
+    with open('DQ/kyPhoneNumbers.pickle', 'rb') as file:
         kyPhoneNumbers = pickle.load(file)
 
     tooRecent = date.today() - relativedelta(months=1)
@@ -21,7 +21,7 @@ def getUsablePhoneNumber():
 
 
 def markNumberUsed(phoneNumber):
-    with open('kyPhoneNumbers.pickle', 'rb') as file:
+    with open('DQ/kyPhoneNumbers.pickle', 'rb') as file:
         kyPhoneNumbers = pickle.load(file)
 
     for i in range(len(kyPhoneNumbers)):

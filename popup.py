@@ -30,13 +30,13 @@ class Popup:
         self.root.mainloop()
 
 
-def handlePopup(title, text, desiredWidth, desiredHeight):
+def displayToUser(title, text, desiredWidth=500, desiredHeight=100):
     pop = Popup(title, text, desiredWidth, desiredHeight)
     pop.mainloop()
 
 
-def displayToUser(title, text, desiredWidth=500, desiredHeight=100):
-    thread = threading.Thread(target=handlePopup, args=[title, text, desiredWidth, desiredHeight])
+def displayToUser_threaded(title, text, desiredWidth=500, desiredHeight=100):
+    thread = threading.Thread(target=displayToUser, args=[title, text, desiredWidth, desiredHeight])
     thread.start()
 
 

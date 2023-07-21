@@ -1,6 +1,6 @@
-from phoneNumberHandler import getUsablePhoneNumber, markNumberUsed
-from completeDQSurvey import completeSurvey
-from parseDqCode import parseCode
+from DQ.phoneNumberHandler import getUsablePhoneNumber, markNumberUsed
+from DQ.completeDQSurvey import completeSurvey
+from DQ.parseDqCode import parseCode
 
 
 
