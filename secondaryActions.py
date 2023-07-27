@@ -204,9 +204,12 @@ key_bindings_CapMode = {
 'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
 'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
 'Return': lambda: pressKeys('End_Return'),
-'V': lambda: typeTemplate('{% | %}'),
-'Oem_Minus': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
-'Oem_Plus': lambda: pressKeyCombo('Lcontrol+Tab')
+'G': lambda: typeTemplate('{% | %}'),
+'Oem_Comma': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
+'Oem_Period': lambda: pressKeyCombo('Lcontrol+Tab'),
+'R': lambda: typeTemplate(\
+"""print(|) # Beans
+print('*'*1000)""")
 }
 def performSecondaryAction_CapMode(event):
     global key_bindings_CapMode, keypress_bypass
