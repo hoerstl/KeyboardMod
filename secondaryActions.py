@@ -193,17 +193,20 @@ def performSecondaryAction_ShiftLock(event):
 
 ###################### START OF THE CAPMODE DEFINITIONS ############################
 key_bindings_CapMode = {
-    'I': lambda: pressKey('Up'),
-    'J': lambda: pressKey('Left'),
-    'K': lambda: pressKey('Down'),
-    'L': lambda: pressKey('Right'),
-    'S': lambda: pressKeyCombo('Lcontrol+Left'),
-    'F': lambda: pressKeyCombo('Lcontrol+Right'),
-    'E': lambda: pressKey('Home'),
-    'D': lambda: pressKey('End'),
-    'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
-    'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
-    'Return': lambda: pressKeys('End_Return')
+'I': lambda: pressKey('Up'),
+'J': lambda: pressKey('Left'),
+'K': lambda: pressKey('Down'),
+'L': lambda: pressKey('Right'),
+'S': lambda: pressKeyCombo('Lcontrol+Left'),
+'F': lambda: pressKeyCombo('Lcontrol+Right'),
+'E': lambda: pressKey('Home'),
+'D': lambda: pressKey('End'),
+'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
+'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
+'Return': lambda: pressKeys('End_Return'),
+'V': lambda: typeTemplate('{% | %}'),
+'Oem_Minus': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
+'Oem_Plus': lambda: pressKeyCombo('Lcontrol+Tab')
 }
 def performSecondaryAction_CapMode(event):
     global key_bindings_CapMode, keypress_bypass
