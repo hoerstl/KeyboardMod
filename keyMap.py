@@ -92,13 +92,20 @@ key_map = {
 }
 
 combo_key_map = {
+    '!': 'Lshift+1',
+    '@': 'Lshift+2',
+    '#': 'Lshift+3',
+    '$': 'Lshift+4',
+    '%': 'Lshift+5',
+    '^': 'Lshift+6',
+    '&': 'Lshift+7',
+    '*': 'Lshift+8',
     '(': 'Lshift+9',
     ')': 'Lshift+0',
     '"': 'Lshift+Oem_7',
     '?': 'Lshift+Oem_2',
     '{': 'Lshift+Oem_4',
     '}': 'Lshift+Oem_6',
-    '%': 'Lshift+5'
 }
 
 common_character_map = {
