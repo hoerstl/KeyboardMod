@@ -205,8 +205,8 @@ key_bindings_CapMode = {
 'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
 'Return': lambda: pressKeys('End_Return'),
 'G': lambda: typeTemplate('{% | %}'),
-'Oem_Comma': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
-'Oem_Period': lambda: pressKeyCombo('Lcontrol+Tab'),
+'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
+'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
 'R': lambda: typeTemplate(\
 """print(|) # Beans
 print('*'*1000)""")
