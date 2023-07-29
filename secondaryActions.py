@@ -193,10 +193,10 @@ def performSecondaryAction_ShiftLock(event):
 
 ###################### START OF THE CAPMODE DEFINITIONS ############################
 key_bindings_CapMode = {
-'I': lambda: pressKey('Up'),
 'J': lambda: pressKey('Left'),
 'K': lambda: pressKey('Down'),
-'L': lambda: pressKey('Right'),
+'L': lambda: pressKey('Up'),
+'Oem_1': lambda: pressKey('Right'),
 'S': lambda: pressKeyCombo('Lcontrol+Left'),
 'F': lambda: pressKeyCombo('Lcontrol+Right'),
 'E': lambda: pressKey('Home'),
