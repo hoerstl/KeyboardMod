@@ -42,7 +42,8 @@ def process_mode_cap(event):
             keyboard_mode = 'CapMode'
             print('Entering Cap Mode')
             cap_press_time = time.time()
-        elif event.MessageName == 'key up':
+        elif event.MessageName == 'key up' or event.MessageName == 'key sys up':
+            cleanupHeldKeys()
             keyboard_mode = 'Default'
             print('Leaving Cap Mode')
             if time.time() - cap_press_time < .3 and not cap_mode_used.value:
@@ -59,13 +60,13 @@ def on_key_press(event):
     if not process_mode_cap(event):
         return False
 
+    # Process keyboard input as you wish
     if keyboard_mode == 'Default':
         return True
-    # Process keyboard input as you wish
     elif keyboard_mode == 'ShiftLock':
-        performSecondaryAction_ShiftLock(event)
+        onPress_ShiftLock(event)
     elif keyboard_mode == 'CapMode':
-        performSecondaryAction_CapMode(event)
+        onPress_CapMode(event)
 
     return False
 
@@ -85,6 +86,7 @@ def on_key_release(event):
     elif keyboard_mode == 'ShiftLock':
         return False
     elif keyboard_mode == 'CapMode':
+        onRelease_CapMode(event)
         return False
     return True
 

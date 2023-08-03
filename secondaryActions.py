@@ -7,6 +7,8 @@ from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
 keyrelease_bypass = Queue()
+active_mimics = []
+held_keys = []
 cap_mode_used = Node(False)
 
 class POINT(ctypes.Structure):
@@ -94,6 +96,42 @@ def is_release_bypassed(event):
     return False
 
 
+def cleanupHeldKeys():
+    global key_map, held_keys, active_mimics
+    for key_name in held_keys:
+        key = key_map.get(key_name)
+        if not key:
+            raise ValueError(f"Somehow '{key_name}' was added to the held keys yet we have no mapping for it in keyMap.py")
+        keyrelease_bypass.push(key_name)
+        win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
+    held_keys = []
+    active_mimics = []
+
+
+def holdKey(key_name):
+    global key_map, keypress_bypass, held_keys
+    key = key_map.get(key_name)
+    if key:
+        keypress_bypass.push(key_name)
+        win32api.keybd_event(key, 0, 0, 0)
+        held_keys.append(key_name)
+        return
+
+    raise ValueError(f"Keybinding for '{key_name}' not given in keyMap.py")
+
+
+def releaseKey(key_name):
+    global key_map, keyrelease_bypass, held_keys
+    key = key_map.get(key_name)
+    if key:
+        keyrelease_bypass.push(key_name)
+        win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
+        held_keys.remove(key_name)
+        return
+
+    raise ValueError(f"Keybinding for '{key_name}' not given in keyMap.py")
+
+
 def pressKey(key_name):
     global key_map, keypress_bypass, keyrelease_bypass
     key = key_map.get(key_name)
@@ -164,10 +202,8 @@ def typeTemplate(template):
         typeCharacter(char.upper())
     lines_in_second = second.split('\n')
     if len(lines_in_second) > 1:  # Move to the right spot
-        print(f"Moving up times: {len(lines_in_second[-1])}")
         for character in lines_in_second[-1]:  # Move to the start of the line you're on
             pressKey('Left')
-        print(f"Moving")
         for line in range(len(lines_in_second) - 1):  # Move up a number of lines equal to the number of lines since the cursor position
             pressKey('Up')
         for character in first.split('\n')[-1]:  # Move right the correct number of times
@@ -183,7 +219,7 @@ def typeTemplate(template):
 key_bindings_ShiftLock = {
     'B': lambda: showIcecreamCode()
 }
-def performSecondaryAction_ShiftLock(event):
+def onPress_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
     keyaction = key_bindings_ShiftLock.get(event.Key, lambda: 'no binding found')
     keyaction()
@@ -193,28 +229,50 @@ def performSecondaryAction_ShiftLock(event):
 
 ###################### START OF THE CAPMODE DEFINITIONS ############################
 key_bindings_CapMode = {
+# RIGHT HAND BINDINGS
 'J': lambda: pressKey('Left'),
 'K': lambda: pressKey('Down'),
 'L': lambda: pressKey('Up'),
-'Oem_1': lambda: pressKey('Right'),
+'Oem_1': lambda: pressKey('Right'),  # semicolon
+'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
+'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
+'Return': lambda: pressKeys('End_Return'),
+'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
+'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
+
+# LEFT HAND BINDINGS
 'S': lambda: pressKeyCombo('Lcontrol+Left'),
 'F': lambda: pressKeyCombo('Lcontrol+Right'),
 'E': lambda: pressKey('Home'),
 'D': lambda: pressKey('End'),
-'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
-'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
-'Return': lambda: pressKeys('End_Return'),
 'G': lambda: typeTemplate('{% | %}'),
-'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
-'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
 'R': lambda: typeTemplate(\
 """print(|) # Beans
 print('*'*1000)""")
 }
-def performSecondaryAction_CapMode(event):
-    global key_bindings_CapMode, keypress_bypass
+key_mimics_CapMode = {
+    'Lmenu': 'Lshift',
+}
+def onPress_CapMode(event):
+    global key_bindings_CapMode, key_mimics_CapMode
     keyaction = key_bindings_CapMode.get(event.Key, lambda: 'no binding found')
     if keyaction() != 'no binding found':
         cap_mode_used.value = True
+        return
+
+    keyToMimic = key_mimics_CapMode.get(event.Key)
+    if keyToMimic:
+        if event.Key not in active_mimics:
+            holdKey(keyToMimic)
+            active_mimics.append(event.Key)
+        return
 
 
+def onRelease_CapMode(event):
+    global key_mimics_CapMode
+    keyToMimic = key_mimics_CapMode.get(event.Key)
+    if keyToMimic:
+        if event.Key in active_mimics and keyToMimic in held_keys:
+            releaseKey(keyToMimic)
+            active_mimics.remove(event.Key)
+        return
