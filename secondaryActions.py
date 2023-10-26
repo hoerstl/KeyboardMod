@@ -2,7 +2,7 @@ import ctypes
 import win32api
 import win32con
 from myQueue import Queue, Node
-from specialFunctions import showIcecreamCode
+from specialFunctions import showTaskScheduler, showIcecreamCode
 from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
@@ -195,6 +195,7 @@ def typeCharacter(character):
 
 
 def typeTemplate(template):
+    template += '|' if '|' not in template else ''
     first, second = template.split('|')
     for char in first:
         typeCharacter(char.upper())
@@ -217,7 +218,8 @@ def typeTemplate(template):
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {
-    'B': lambda: showIcecreamCode()
+    'A': lambda: showTaskScheduler(),
+    'B': lambda: showIcecreamCode(),
 }
 def onPress_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
@@ -234,6 +236,7 @@ key_bindings_CapMode = {
 'K': lambda: pressKey('Down'),
 'L': lambda: pressKey('Up'),
 'Oem_1': lambda: pressKey('Right'),  # semicolon
+'Oem_7': lambda: pressKeyCombo('Lmenu+Tab'),  # apostrophe
 'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
 'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
 'Return': lambda: pressKeys('End_Return'),
@@ -247,8 +250,9 @@ key_bindings_CapMode = {
 'D': lambda: pressKey('End'),
 'G': lambda: typeTemplate('{% | %}'),
 'R': lambda: typeTemplate(\
-"""print(|) # Beans
-print('*'*1000)""")
+"""print(f"|") # Beans
+print('*'*1000)"""),
+'C': lambda: typeTemplate('{x>=0}{y>=0}')
 }
 key_mimics_CapMode = {
     'Lmenu': 'Lshift',

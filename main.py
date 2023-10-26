@@ -40,6 +40,7 @@ def process_mode_cap(event):
             if keyboard_mode == 'ShiftLock':  # We should count disabling the shiftlock as a valid use case of cap mode.
                 cap_mode_used.value = True
             keyboard_mode = 'CapMode'
+            # TODO: Fix a bug where someone holds down shift (or another non-letter key) and the release is blocked by capmode
             print('Entering Cap Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up' or event.MessageName == 'key sys up':

@@ -106,6 +106,8 @@ combo_key_map = {
     '?': 'Lshift+Oem_2',
     '{': 'Lshift+Oem_4',
     '}': 'Lshift+Oem_6',
+    '<': 'Lshift+Oem_Comma',
+    '>': 'Lshift+Oem_Period',
 }
 
 common_character_map = {

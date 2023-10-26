@@ -3,6 +3,13 @@ from popup import displayToUser
 import threading
 
 
+def showTaskScheduler():
+    def target():
+        import ADHDassist.main
+    thread = threading.Thread(target=target)
+    thread.start()
+
+
 def showIcecreamCode():
     def target():
         freeIceCreamCode = getFreeIceCreamCode()
