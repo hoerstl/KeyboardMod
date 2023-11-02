@@ -255,7 +255,7 @@ print('*'*1000)"""),
 'C': lambda: typeTemplate('{x>=0}{y>=0}')
 }
 key_mimics_CapMode = {
-    'Lmenu': 'Lshift',
+    'Space': 'Lshift',
 }
 def onPress_CapMode(event):
     global key_bindings_CapMode, key_mimics_CapMode
