@@ -1,0 +1,3 @@
+[submodule "ADHDassist"]
+	path = ADHDassist
+	url = https://github.com/AlysSolC/ADHDassist.git
