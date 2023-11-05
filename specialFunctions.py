@@ -7,15 +7,13 @@ import os
 
 
 def showTaskScheduler():
-    def target(pathToFile):
+    def target():
+        global taskSchedulerPath, taskSchedulerModule
         print("Ran the target")
-        targetPath = "\\".join(pathToFile.split("\\")[:-1] + ["ADHDassist"])
-        sys.path.append(targetPath)
-        os.chdir(targetPath)
-        module = importlib.import_module("ADHDassist.main", "ADHDassist")
-        module.main()
+        os.chdir(taskSchedulerPath)
+        taskSchedulerModule.main()
 
-    thread = threading.Thread(target=lambda: target(__file__))
+    thread = threading.Thread(target=target)
     thread.start()
 
 
@@ -28,3 +26,14 @@ def showIcecreamCode():
     thread.start()
 
 
+def init():
+    global taskSchedulerPath, taskSchedulerModule
+    #  For the task scheduler
+    taskSchedulerPath = "\\".join(__file__.split("\\")[:-1] + ["ADHDassist"])
+    sys.path.append(taskSchedulerPath)
+    taskSchedulerModule = importlib.import_module("ADHDassist.main", "ADHDassist")
+
+
+taskSchedulerModule = None
+taskSchedulerPath = None
+init()
