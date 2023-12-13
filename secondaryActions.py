@@ -242,6 +242,7 @@ key_bindings_CapMode = {
 'Return': lambda: pressKeys('End_Return'),
 'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
 'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
+'Rmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Right'),
 'Back': lambda: pressKey('Delete'),
 
 # LEFT HAND BINDINGS
@@ -253,7 +254,8 @@ key_bindings_CapMode = {
 'R': lambda: typeTemplate(\
 """print(f"|") # Beans
 print('*'*1000)"""),
-'C': lambda: typeTemplate('{x>=0}{y>=0}')
+'C': lambda: typeTemplate('{x>=0}{y>=0}'),
+'Lmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Left'),
 }
 key_mimics_CapMode = {
     'Space': 'Lshift',
