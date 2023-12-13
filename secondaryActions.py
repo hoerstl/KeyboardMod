@@ -242,6 +242,7 @@ key_bindings_CapMode = {
 'Return': lambda: pressKeys('End_Return'),
 'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
 'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
+'Back': lambda: pressKey('Delete'),
 
 # LEFT HAND BINDINGS
 'S': lambda: pressKeyCombo('Lcontrol+Left'),
