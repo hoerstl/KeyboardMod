@@ -2,7 +2,7 @@ import ctypes
 import win32api
 import win32con
 from myQueue import Queue, Node
-from specialFunctions import showTaskScheduler, showIcecreamCode
+from specialFunctions import capitalizeWord, showIcecreamCode
 from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
@@ -147,7 +147,7 @@ def pressKey(key_name):
 
 def pressKeys(keys):
     """
-    Takes in a string of keys separated by underscores. Presses each of them in order.
+    Takes in a string of keys separated by underscores. Presses and releases each of them in order.
     :param keys:
     :return:
     """
@@ -218,7 +218,6 @@ def typeTemplate(template):
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {
-    'A': lambda: showTaskScheduler(),
     'B': lambda: showIcecreamCode(),
 }
 def onPress_ShiftLock(event):
@@ -240,6 +239,8 @@ key_bindings_CapMode = {
 'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
 'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
 'Return': lambda: pressKeys('End_Return'),
+'N': lambda: capitalizeWord('Left'),
+'M': lambda: capitalizeWord('Right'),
 'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
 'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
 'Rmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Right'),
@@ -254,7 +255,6 @@ key_bindings_CapMode = {
 'R': lambda: typeTemplate(\
 """print(f"|") # Beans
 print('*'*1000)"""),
-'C': lambda: typeTemplate('{x>=0}{y>=0}'),
 'Lmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Left'),
 }
 key_mimics_CapMode = {
