@@ -16,7 +16,6 @@ def threadedSubProcess(func):
         subprocess.start()
         if mp.current_process().name == "MainProcess":
             allSubProcesses.append(subprocess)
-            print(allSubProcesses)
         return subprocess
 
     decorated_name = "async" + func.__name__[0].upper() + func.__name__[1:]
