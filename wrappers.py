@@ -14,10 +14,12 @@ def threadedSubProcess(func):
         nonlocal func
         subprocess = mp.Process(target=func, args=args, kwargs=kwargs)
         subprocess.start()
-        if mp.current_process().name == "MainProcess":
-            allSubProcesses.append(subprocess)
+        if mp.current_process().name != "MainProcess":
+            print("Don't call an asynchronous function from a subprocess")
+        allSubProcesses.append(subprocess)
         return subprocess
 
+    # Name of the wrapped and decorated function
     decorated_name = "async" + func.__name__[0].upper() + func.__name__[1:]
     wrapper.__name__ = decorated_name
     module = sys.modules[func.__module__]
