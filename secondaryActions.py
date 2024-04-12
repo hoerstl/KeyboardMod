@@ -2,7 +2,7 @@ import ctypes
 import win32api
 import win32con
 from myQueue import Queue, Node
-from specialFunctions import capitalizeWord, showIcecreamCode
+import specialFunctions
 from keyMap import key_map, combo_key_map, common_character_map
 
 keypress_bypass = Queue()
@@ -218,7 +218,9 @@ def typeTemplate(template):
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {
-    'B': lambda: showIcecreamCode(),
+    'B': lambda: specialFunctions.showIcecreamCode(),
+    'T': lambda: specialFunctions.asyncCountToTheMoon(),
+    'K': lambda: specialFunctions.killAllSubprocesses(),
 }
 def onPress_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
@@ -239,8 +241,8 @@ key_bindings_CapMode = {
 'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
 'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
 'Return': lambda: pressKeys('End_Return'),
-'N': lambda: capitalizeWord('Left'),
-'M': lambda: capitalizeWord('Right'),
+'N': lambda: specialFunctions.capitalizeWord('Left'),
+'M': lambda: specialFunctions.capitalizeWord('Right'),
 'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
 'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
 'Rmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Right'),

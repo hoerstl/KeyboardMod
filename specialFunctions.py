@@ -1,11 +1,9 @@
 from DQ.surveyMaster import getFreeIceCreamCode
+import wrappers
+from wrappers import threadedSubProcess
 from popup import displayToUser
 import secondaryActions as secActions
 import pyperclip
-import importlib
-import threading
-import sys
-import os
 import time
 
 
@@ -38,36 +36,20 @@ def capitalizeWord(direction):
 
     pyperclip.copy(initialClipboardContent)
 
-
-# def showTaskScheduler():
-#     def target():
-#         global taskSchedulerPath, taskSchedulerModule
-#         print("Ran the target")
-#         os.chdir(taskSchedulerPath)
-#         taskSchedulerModule.main()
-#
-#     thread = threading.Thread(target=target)
-#     thread.start()
-
-
+@threadedSubProcess
 def showIcecreamCode():
-    def target():
-        freeIceCreamCode = getFreeIceCreamCode()
-        displayToUser('DQ', f"Your icecream my leige: {freeIceCreamCode}", 800)
+    freeIceCreamCode = getFreeIceCreamCode()
+    displayToUser('DQ', f"Your icecream my leige: {freeIceCreamCode}", 800)
 
-    thread = threading.Thread(target=target)
-    thread.start()
+@threadedSubProcess
+def countToTheMoon():
+    for i in range(10):
+        time.sleep(1)
+    print("slept 10 seconds")
 
-
-def init():
-    # global taskSchedulerPath, taskSchedulerModule
-    # #  For the task scheduler
-    # taskSchedulerPath = "\\".join(os.getcwd().split("\\") + ["ADHDassist"])
-    # sys.path.append(taskSchedulerPath)
-    # taskSchedulerModule = importlib.import_module("ADHDassist.main", "ADHDassist")
-    pass
+def killAllSubprocesses():
+    for process in wrappers.allSubProcesses:
+        process.terminate()
+    wrappers.allSubProcesses = []
 
 
-# taskSchedulerModule = None
-# taskSchedulerPath = None
-init()
