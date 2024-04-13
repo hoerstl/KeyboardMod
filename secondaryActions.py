@@ -225,6 +225,7 @@ key_bindings_ShiftLock = {
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'S': lambda: specialFunctions.asyncSetRemoteClipboardIP(),
     'D': lambda: specialFunctions.showRemoteClipboardIP(),
+    'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteClipboardIP']),
     'K': lambda: specialFunctions.killAllSubprocesses(),
 }
 def onPress_ShiftLock(event):
