@@ -6,6 +6,7 @@ from popup import displayToUser, getString
 import secondaryActions as secActions
 
 import globals
+import requests
 import pyperclip
 import socket
 import time
@@ -60,7 +61,7 @@ def hostClipboard(**kwargs):
 def showIPAddress(**kwargs):
     hostname = socket.gethostname()
     ipAddress = socket.gethostbyname(hostname)
-    displayToUser("IP Address", str(ip_address))
+    displayToUser("IP Address", str(ipAddress))
 
 @threadedSubProcess
 def setRemoteClipboardIP(**kwargs):
@@ -71,6 +72,17 @@ def setRemoteClipboardIP(**kwargs):
 
 def showRemoteClipboardIP():
     print(globals.data['remoteClipboardIP'])
+
+
+@threadedSubProcess
+def readRemoteClipboard(remoteClipboardIP, **kwargs):
+    try:
+        response = requests.get(f"http://{remoteClipboardIP}:8080")
+        remoteClipboardData = response.json()
+        print(f"Successfully read remote clipboard data: {remoteClipboardData}")
+        pyperclip.copy(remoteClipboardData)
+    except requests.exceptions.ConnectionError as e:
+        print(f"Couldn't read remote clipboard at {remoteClipboardIP}")
 
 
 def killAllSubprocesses():
