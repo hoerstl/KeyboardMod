@@ -1,9 +1,13 @@
 from DQ.surveyMaster import getFreeIceCreamCode
-import wrappers
-from wrappers import threadedSubProcess
-from popup import displayToUser
+import clipboardServer
+import subprocesses
+from subprocesses import threadedSubProcess
+from popup import displayToUser, getString
 import secondaryActions as secActions
+
+import globals
 import pyperclip
+import socket
 import time
 
 
@@ -37,19 +41,43 @@ def capitalizeWord(direction):
     pyperclip.copy(initialClipboardContent)
 
 @threadedSubProcess
-def showIcecreamCode():
+def showIcecreamCode(**kwargs):
     freeIceCreamCode = getFreeIceCreamCode()
     displayToUser('DQ', f"Your icecream my leige: {freeIceCreamCode}", 800)
 
 @threadedSubProcess
-def countToTheMoon():
+def countToTheMoon(**kwargs):
     for i in range(10):
         time.sleep(1)
     print("slept 10 seconds")
 
+
+@threadedSubProcess
+def hostClipboard(**kwargs):
+    clipboardServer.app.run(host='0.0.0.0', port=8080)
+
+@threadedSubProcess
+def showIPAddress(**kwargs):
+    hostname = socket.gethostname()
+    ipAddress = socket.gethostbyname(hostname)
+    displayToUser("IP Address", str(ip_address))
+
+@threadedSubProcess
+def setRemoteClipboardIP(**kwargs):
+    _remoteClipboardIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to read the clipboard of.")
+    print(f"Got an ip address of {_remoteClipboardIP}")
+    kwargs['queue'].put(('remoteClipboardIP', _remoteClipboardIP))
+
+
+def showRemoteClipboardIP():
+    print(globals.data['remoteClipboardIP'])
+
+
 def killAllSubprocesses():
-    for process in wrappers.allSubProcesses:
+    for process in globals.data['allSubProcesses']:
+        print(f"Killed subprocess: {process}")
         process.terminate()
-    wrappers.allSubProcesses = []
+    globals.data['allSubProcesses'] = []
+
 
 

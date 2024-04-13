@@ -1,6 +1,7 @@
 import ctypes
 import win32api
 import win32con
+import globals
 from myQueue import Queue, Node
 import specialFunctions
 from keyMap import key_map, combo_key_map, common_character_map
@@ -218,8 +219,12 @@ def typeTemplate(template):
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {
-    'B': lambda: specialFunctions.showIcecreamCode(),
+    'B': lambda: specialFunctions.asyncShowIcecreamCode(),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
+    'H': lambda: specialFunctions.asyncHostClipboard(),
+    'I': lambda: specialFunctions.asyncShowIPAddress(),
+    'S': lambda: specialFunctions.asyncSetRemoteClipboardIP(),
+    'D': lambda: specialFunctions.showRemoteClipboardIP(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
 }
 def onPress_ShiftLock(event):

@@ -1,10 +1,12 @@
 import multiprocessing as mp
+import globals
 from functools import wraps
 import sys
 
 
 if mp.current_process().name == "MainProcess":
     allSubProcesses = []
+    subProcessQueue = mp.Queue()
 
 def threadedSubProcess(func):
     # This decorator does nothing to change the original function but creates a new function named
@@ -12,11 +14,12 @@ def threadedSubProcess(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         nonlocal func
-        subprocess = mp.Process(target=func, args=args, kwargs=kwargs)
-        subprocess.start()
         if mp.current_process().name != "MainProcess":
             print("Don't call an asynchronous function from a subprocess")
-        allSubProcesses.append(subprocess)
+        kwargs.update({'queue': globals.data['subProcessQueue']})
+        subprocess = mp.Process(target=func, args=args, kwargs=kwargs)
+        subprocess.start()
+        globals.data['allSubProcesses'].append(subprocess)
         return subprocess
 
     # Name of the wrapped and decorated function

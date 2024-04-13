@@ -1,5 +1,5 @@
 import tkinter as tk
-import threading
+from tkinter import simpledialog
 
 
 class Popup:
@@ -35,9 +35,18 @@ def displayToUser(title, text, desiredWidth=500, desiredHeight=100):
     pop.mainloop()
 
 
-def displayToUser_threaded(title, text, desiredWidth=500, desiredHeight=100):
-    thread = threading.Thread(target=displayToUser, args=[title, text, desiredWidth, desiredHeight])
-    thread.start()
+def getString(title, prompt):
+    # Create a Tkinter root window
+    root = tk.Tk()
+    root.withdraw()  # Hide the root window
+
+    # Prompt the user for text input
+    text = simpledialog.askstring(title, prompt)
+
+    return text
+
+
+
 
 
 if __name__ == '__main__':

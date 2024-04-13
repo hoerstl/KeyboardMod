@@ -54,8 +54,24 @@ def process_mode_cap(event):
     return True
 
 
+def update():
+    """
+    Performs logic as frequently as possible (every frame ideally but really every time a button is pressed)
+    to make it available to the user
+    """
+    # Update all information given from subprocesses
+    while not globals.data['subProcessQueue'].empty():
+        key, value = globals.data['subProcessQueue'].get()
+        globals.data.update({key: value})
+
+
+
+
+
+
 def on_key_press(event):
     global keyboard_mode
+    update()
     if is_press_bypassed(event):
         return True
     if not process_mode_cap(event):
@@ -107,6 +123,7 @@ def start_hook():
 
 if __name__ == '__main__':
     keyboard_mode = 'Default'  # This can have the value 'Default', 'ShiftLock', or 'CapMode'. Starts as 'Default'
+    globals.init()
     cap_press_time = 0
     shift_release_time = 0
     last_key_released = ''
