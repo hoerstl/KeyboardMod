@@ -1,12 +1,13 @@
 # KeyboardMod
 
 ## Mission
-The mission of this project is to allow the user to create their own keyboard shortcuts that
-can have python-integrated functionality such as running other sub-modules with the press of a
+Our goal is to allow users to create their own keyboard shortcuts that
+have python-integrated functionality such as running other sub-modules with the press of a 
 button or rebinding keys to complete complex tasks using other python modules.
 
 Motivation: I, Lawrence, wanted to increase my productivity with a keyboard and reduce the time 
-my hands spend moving away from the home row on my keyboard.
+my hands spend moving away from the home row on my keyboard. I also thought it would be excellent
+to bind the scripts I write to make me more powerful on my machines.
 
 ## Functionalities:
 - Pressing and holding the caps-lock key rebinds every key on the keyboard, entering 'CapMode'
@@ -29,6 +30,7 @@ of the bindings implemented by default:
 |  ;  | rightArrow                                                                     |
 |  o  | move left one desktop                                                          |
 |  p  | move right one desktop                                                         |
+|  '  | alt+tab (view previously focused window)                                       |
 |  .  | shift one tab to the left                                                      |
 |  /  | shift one tab to the right                                                     |
 |  n  | capitalize the first non-cap letter <br> in a word to the left of your cursor  |
