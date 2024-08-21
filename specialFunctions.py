@@ -1,6 +1,6 @@
 from DQ.surveyMaster import getFreeIceCreamCode
+import QuizTaker.main as quizTaker
 import clipboardServer
-import subprocesses
 from subprocesses import threadedSubProcess
 from popup import displayToUser, getString
 import secondaryActions as secActions
@@ -45,6 +45,12 @@ def capitalizeWord(direction):
 def showIcecreamCode(**kwargs):
     freeIceCreamCode = getFreeIceCreamCode()
     displayToUser('DQ', f"Your icecream my leige: {freeIceCreamCode}", 800)
+
+
+@threadedSubProcess
+def answerVisableQuizQuestion():
+    displayToUser('Answer', quizTaker.answerVisableQuizQuestion())
+
 
 @threadedSubProcess
 def countToTheMoon(**kwargs):

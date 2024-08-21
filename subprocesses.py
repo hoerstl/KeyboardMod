@@ -9,8 +9,16 @@ if mp.current_process().name == "MainProcess":
     subProcessQueue = mp.Queue()
 
 def threadedSubProcess(func):
-    # This decorator does nothing to change the original function but creates a new function named
-    # 'async{OriginalFunctionName}' which spawns a new subprocess running the function passed
+    """
+    This decorator does nothing to change the original function, instead creating a new function named
+    'async{OriginalFunctionName}' which spawns a new subprocess running the function passed.
+    Note, the first letter of the original function name will be capitalized to enforce proper camelCase.
+
+    This functionality is necessary because to spawn a function as a subprocess, it needs to be pickleable 
+    but functions defined with decorators are not pickleable so the decorator cannot change the function if 
+    it wants to spawn a subprocess with it.
+    """
+    
     @wraps(func)
     def wrapper(*args, **kwargs):
         nonlocal func
