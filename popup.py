@@ -3,12 +3,13 @@ from tkinter import simpledialog
 
 
 class Popup:
-    def __init__(self, title, text, desiredWidth=500, desiredHeight=100):
+    def __init__(self, title, text, fontSize='small', desiredWidth=500, desiredHeight=100):
         self.text = text
         self.title = title
         self.root = tk.Tk()
         self.root.title(title)
 
+        self.fontSize = fontSize
         self.desiredWidth = desiredWidth
         self.desiredHeight = desiredHeight
 
@@ -22,16 +23,20 @@ class Popup:
         self.root.geometry(f'{self.desiredWidth}x{self.desiredHeight}+{x - (self.desiredWidth//2)}+{y - (self.desiredHeight//2)}')
 
     def populateElements(self):
-        large_font = ("Comic Sans", 30)
-        mainInfo = tk.Label(self.root, text=self.text, font=large_font)
+        selected_font = ("Comic Sans", 10 + 10 * ['small', 'medium', 'large'].index(self.fontSize))
+        mainInfo = tk.Text(self.root, font=selected_font, wrap=tk.WORD)
+        mainInfo.insert(tk.INSERT, self.text)
         mainInfo.pack(fill=tk.BOTH, expand=True, padx=20, pady=20, anchor="center")
 
     def mainloop(self):
         self.root.mainloop()
 
 
-def displayToUser(title, text, desiredWidth=500, desiredHeight=100):
-    pop = Popup(title, text, desiredWidth, desiredHeight)
+def displayToUser(title, text, fontSize='small', desiredWidth=500, desiredHeight=100):
+    """
+    Acceptable font sizes are 'small', 'medium', and 'large'
+    """
+    pop = Popup(title, text, fontSize, desiredWidth, desiredHeight)
     pop.mainloop()
 
 

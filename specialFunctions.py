@@ -48,8 +48,9 @@ def showIcecreamCode(**kwargs):
 
 
 @threadedSubProcess
-def answerVisableQuizQuestion():
-    displayToUser('Answer', quizTaker.answerVisableQuizQuestion())
+def answerVisableQuizQuestion(**kwargs):
+    keywordArguments = {key: value for key, value in kwargs.items() if key == 'verbose'}
+    displayToUser('Answer', quizTaker.answerVisableQuizQuestion(**keywordArguments), fontSize='small', desiredHeight=200)
 
 
 @threadedSubProcess
@@ -99,3 +100,8 @@ def killAllSubprocesses():
 
 
 
+def init():
+    """
+    This function serves as a place to initialize any submodules that need it
+    """
+    quizTaker.init()

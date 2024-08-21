@@ -3,8 +3,9 @@ import win32api
 import win32con
 import globals
 from myQueue import Queue, Node
-import specialFunctions
 from keyMap import key_map, combo_key_map, common_character_map
+import specialFunctions
+specialFunctions.init()
 
 keypress_bypass = Queue()
 keyrelease_bypass = Queue()
@@ -219,14 +220,16 @@ def typeTemplate(template):
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
 key_bindings_ShiftLock = {
+    'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
-    'T': lambda: specialFunctions.asyncCountToTheMoon(),
+    'D': lambda: specialFunctions.showRemoteClipboardIP(),
     'H': lambda: specialFunctions.asyncHostClipboard(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
-    'S': lambda: specialFunctions.asyncSetRemoteClipboardIP(),
-    'D': lambda: specialFunctions.showRemoteClipboardIP(),
-    'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteClipboardIP']),
     'K': lambda: specialFunctions.killAllSubprocesses(),
+    'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True),
+    'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteClipboardIP']),
+    'S': lambda: specialFunctions.asyncSetRemoteClipboardIP(),
+    'T': lambda: specialFunctions.asyncCountToTheMoon(),
 }
 def onPress_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
