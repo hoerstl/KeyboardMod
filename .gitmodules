@@ -1,0 +1,3 @@
+[submodule "QuizTaker"]
+	path = QuizTaker
+	url = https://github.com/hoerstl/QuizTaker.git
