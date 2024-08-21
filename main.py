@@ -123,7 +123,7 @@ def start_hook():
 
 if __name__ == '__main__':
     keyboard_mode = 'Default'  # This can have the value 'Default', 'ShiftLock', or 'CapMode'. Starts as 'Default'
-    globals.init()
+    globals.init() # Perform first time initialization of global data and environment variables
     cap_press_time = 0
     shift_release_time = 0
     last_key_released = ''
