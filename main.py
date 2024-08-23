@@ -55,7 +55,7 @@ def process_mode_cap(event):
             keyboard_mode = 'Default'
             print('Leaving Cap Mode')
             if time.time() - cap_press_time < .3 and not cap_mode_used.value:
-                pressKey("Capital")
+                pressAndReleaseKey("Capital")
         return True
 
     return False
@@ -86,6 +86,7 @@ def process_mode_ctrl(event):
                 keyboard_mode = 'Default'
             else:
                 print("CtrlMode On")
+                entering_ctrl_mode.value = True
                 keyboard_mode = 'CtrlMode'
 
             last_key_released = ''
@@ -113,8 +114,8 @@ def on_key_press(event):
     This function is a callback function which is called every time a key is pressed on the system.
     
     Return:
-    bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
-    default keystroke behavior is blocked
+        bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
+        default keystroke behavior is blocked
     """
     global keyboard_mode
     update()
@@ -142,8 +143,8 @@ def on_key_release(event):
     of blocking key releases.
 
     Return:
-    bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
-    default key release behavior is blocked
+        bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
+        default key release behavior is blocked
     """
     global keyboard_mode, last_key_released
     if is_release_bypassed(event):

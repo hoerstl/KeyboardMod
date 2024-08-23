@@ -1,6 +1,7 @@
 import ctypes
 import win32api
 import win32con
+import pyperclip
 import globals
 from myQueue import Queue, Node
 from keyMap import key_map, combo_key_map, common_character_map
@@ -12,6 +13,7 @@ keyrelease_bypass = Queue()
 active_mimics = []
 held_keys = []
 cap_mode_used = Node(False)
+entering_ctrl_mode = Node(False)
 
 
 
@@ -141,10 +143,12 @@ def releaseKey(key_name):
     raise ValueError(f"Keybinding for '{key_name}' not given in keyMap.py")
 
 
-def pressKey(key_name):
+def pressAndReleaseKey(key_name):
     global key_map, keypress_bypass, keyrelease_bypass
     key = key_map.get(key_name)
     if key:
+        # Key presses are activated via their ascii code while in this system but are converted to a human-readable names in pythoncom when we see them again.
+        # Therefore, to press and release a key, we must bypass a key's NAME and press its ASCII code. 
         keypress_bypass.push(key_name)
         win32api.keybd_event(key, 0, 0, 0)
         keyrelease_bypass.push(key_name)
@@ -154,7 +158,7 @@ def pressKey(key_name):
     raise ValueError(f"Keybinding for '{key_name}' not given in keyMap.py")
 
 
-def pressKeys(keys):
+def pressAndReleaseKeys(keys):
     """
     Takes in a string of keys separated by underscores. Presses and releases each of them in order.
     :param keys:
@@ -162,7 +166,7 @@ def pressKeys(keys):
     """
     keyList = keys.split('_')
     for key in keyList:
-        pressKey(key)
+        pressAndReleaseKey(key)
 
 
 def pressKeyCombo(keycombo):
@@ -190,15 +194,19 @@ def pressKeyCombo(keycombo):
 
 def typeCharacter(character):
     global key_map, combo_key_map, common_character_map
-    character = common_character_map.get(character, character)
-    if key_map.get(character):
-        pressKey(character)
-        return
 
+    # If the character is one pressed with a key combination like capital 'A', do so.
     keycombo = combo_key_map.get(character)
     if keycombo:
         pressKeyCombo(keycombo)
         return
+
+    # Otherwise, convert the character to the pywincom name 
+    character = common_character_map.get(character, character)
+    if key_map.get(character):
+        pressAndReleaseKey(character)
+        return
+    
 
     raise ValueError(f"Found no way to type the character '{character}'.")
 
@@ -207,20 +215,20 @@ def typeTemplate(template):
     template += '|' if '|' not in template else ''
     first, second = template.split('|')
     for char in first:
-        typeCharacter(char.upper())
+        typeCharacter(char)
     for char in second:
-        typeCharacter(char.upper())
+        typeCharacter(char)
     lines_in_second = second.split('\n')
     if len(lines_in_second) > 1:  # Move to the right spot
         for character in lines_in_second[-1]:  # Move to the start of the line you're on
-            pressKey('Left')
+            pressAndReleaseKey('Left')
         for line in range(len(lines_in_second) - 1):  # Move up a number of lines equal to the number of lines since the cursor position
-            pressKey('Up')
+            pressAndReleaseKey('Up')
         for character in first.split('\n')[-1]:  # Move right the correct number of times
-            pressKey('Right')
+            pressAndReleaseKey('Right')
     else:
         for character in second:
-            pressKey('Left')
+            pressAndReleaseKey('Left')
 
 
 
@@ -249,26 +257,26 @@ def onPress_ShiftLock(event):
 ###################### START OF THE CAPMODE DEFINITIONS ############################
 key_bindings_CapMode = {
 # RIGHT HAND BINDINGS
-'J': lambda: pressKey('Left'),
-'K': lambda: pressKey('Down'),
-'L': lambda: pressKey('Up'),
-'Oem_1': lambda: pressKey('Right'),  # semicolon
+'J': lambda: pressAndReleaseKey('Left'),
+'K': lambda: pressAndReleaseKey('Down'),
+'L': lambda: pressAndReleaseKey('Up'),
+'Oem_1': lambda: pressAndReleaseKey('Right'),  # semicolon
 'Oem_7': lambda: pressKeyCombo('Lmenu+Tab'),  # apostrophe
 'O': lambda: pressKeyCombo('Lcontrol+Lwin+Left'),
 'P': lambda: pressKeyCombo('Lcontrol+Lwin+Right'),
-'Return': lambda: pressKeys('End_Return'),
+'Return': lambda: pressAndReleaseKeys('End_Return'),
 'N': lambda: specialFunctions.capitalizeWord('Left'),
 'M': lambda: specialFunctions.capitalizeWord('Right'),
 'Oem_Period': lambda: pressKeyCombo('Lcontrol+Lshift+Tab'),
 'Oem_2': lambda: pressKeyCombo('Lcontrol+Tab'),
 'Rmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Right'),
-'Back': lambda: pressKey('Delete'),
+'Back': lambda: pressAndReleaseKey('Delete'),
 
 # LEFT HAND BINDINGS
 'S': lambda: pressKeyCombo('Lcontrol+Left'),
 'F': lambda: pressKeyCombo('Lcontrol+Right'),
-'E': lambda: pressKey('Home'),
-'D': lambda: pressKey('End'),
+'E': lambda: pressAndReleaseKey('Home'),
+'D': lambda: pressAndReleaseKey('End'),
 'G': lambda: typeTemplate('{% | %}'),
 'R': lambda: typeTemplate(\
 """print(f"|") # Beans
@@ -306,9 +314,41 @@ def onRelease_CapMode(event):
 
 ###################### START OF THE CTRLMODE DEFINITIONS ############################
 
+ctrlMode_payload = ""
+ctrlMode_next_key_index = 0
+
+def load_payload_from_clipboard():
+    """
+    Loads a value from the clipboard into the ctrlMode_payload variable.
+    
+    Return:
+      bool | returns whether or not the payload has been altered on load
+    """
+    global ctrlMode_payload
+    old_payload = ctrlMode_payload
+    if isinstance(payload := pyperclip.paste(), str):
+        ctrlMode_payload = payload
+
+    return old_payload != ctrlMode_payload
+
+
 
 def onPress_CtrlMode(event):
-    print("in ctrl mode")
+    global ctrlMode_payload, ctrlMode_next_key_index
+    if entering_ctrl_mode.value: # Todo, replace al the nodes with key value pairs in the globals.data dictionary
+        payloadChanged = load_payload_from_clipboard()
+        if payloadChanged: ctrlMode_next_key_index = 0
+            
+    if event.Key == "Escape":
+        load_payload_from_clipboard()
+        ctrlMode_next_key_index = 0
+    else:
+        if ctrlMode_next_key_index < len(ctrlMode_payload):
+            typeCharacter(ctrlMode_payload[ctrlMode_next_key_index])
+            ctrlMode_next_key_index += 1
+        else:
+            print("Reached the end of the message.")
+    
 
 
 

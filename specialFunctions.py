@@ -19,7 +19,7 @@ def capitalizeWord(direction):
     secActions.pressKeyCombo(f"Lcontrol+Lshift+{direction}")
     secActions.pressKeyCombo("Lcontrol+C")
     time.sleep(1e-5)
-    secActions.pressKey("Left")
+    secActions.pressAndReleaseKey("Left")
     time.sleep(1e-5)
     wordToCapitalize = pyperclip.paste()
     charIndexToCapitalize = -1
@@ -28,16 +28,16 @@ def capitalizeWord(direction):
             charIndexToCapitalize = i
             letterToReplace = character.upper()
             for j in range(charIndexToCapitalize+1):
-                secActions.pressKey("Right")
-            secActions.pressKey("Back")
+                secActions.pressAndReleaseKey("Right")
+            secActions.pressAndReleaseKey("Back")
             secActions.pressKeyCombo(f"Lshift+{letterToReplace}")
             break
     if homeDirection == "Left":
         for j in range(charIndexToCapitalize+1):
-            secActions.pressKey("Left")
+            secActions.pressAndReleaseKey("Left")
     elif homeDirection == "Right":  # Return cursor back to initial position on right
         for j in range(len(wordToCapitalize) - (charIndexToCapitalize+1)):
-            secActions.pressKey("Right")
+            secActions.pressAndReleaseKey("Right")
 
     pyperclip.copy(initialClipboardContent)
 
