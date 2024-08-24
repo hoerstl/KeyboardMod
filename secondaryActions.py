@@ -245,6 +245,7 @@ key_bindings_ShiftLock = {
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteClipboardIP']),
     'S': lambda: specialFunctions.asyncSetRemoteClipboardIP(),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
+    'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
 }
 def onPress_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass

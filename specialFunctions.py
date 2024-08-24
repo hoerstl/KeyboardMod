@@ -52,6 +52,18 @@ def answerVisableQuizQuestion(**kwargs):
     keywordArguments = {key: value for key, value in kwargs.items() if key == 'verbose'}
     displayToUser('Answer', quizTaker.answerVisableQuizQuestion(**keywordArguments), fontSize='small', desiredHeight=200)
 
+@threadedSubProcess
+def answerVisableExtendedResponseQuestion(**kwargs):
+    isStealthy = kwargs.get('stealthy')
+    
+    answer = quizTaker.answerVisableExtendedResponseQuestion()
+    if isStealthy:
+        pyperclip.copy(answer)
+    else:
+        displayToUser('Answer', answer, fontSize='small', desiredHeight=200)
+
+    print("Recieved an answer to the extended response question.")
+
 
 @threadedSubProcess
 def countToTheMoon(**kwargs):

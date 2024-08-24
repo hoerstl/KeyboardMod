@@ -10,6 +10,8 @@ if mp.current_process().name == "MainProcess":
 
 def threadedSubProcess(func):
     """
+    NOTE: All functions with this decorator must define **kwargs as function arguments
+    
     This decorator does nothing to change the original function, instead creating a new function named
     'async{OriginalFunctionName}' which spawns a new subprocess running the function passed.
     Note, the first letter of the original function name will be capitalized to enforce proper camelCase.
