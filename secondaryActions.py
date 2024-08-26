@@ -3,17 +3,16 @@ import win32api
 import win32con
 import pyperclip
 import globals
+from collections import defaultdict
 from myQueue import Queue, Node
 from keyMap import key_map, combo_key_map, common_character_map
 import specialFunctions
 specialFunctions.init()
 
-keypress_bypass = Queue()
-keyrelease_bypass = Queue()
+keypress_bypass = defaultdict(int)
+keyrelease_bypass = defaultdict(int)
 active_mimics = []
 held_keys = []
-cap_mode_used = Node(False)
-entering_ctrl_mode = Node(False)
 
 
 
@@ -93,16 +92,16 @@ entering_ctrl_mode = Node(False)
 ########################### Convenience functions for common keyboard manipulation ##########################################
 def is_press_bypassed(event):
     global keypress_bypass
-    if event.Key == keypress_bypass.peek():
-        keypress_bypass.drop()
+    if keypress_bypass[event.Key] > 0:
+        keypress_bypass[event.Key] -= 1
         return True
     return False
 
 
 def is_release_bypassed(event):
     global keyrelease_bypass
-    if event.Key == keyrelease_bypass.peek():
-        keyrelease_bypass.drop()
+    if keyrelease_bypass[event.Key] > 0:
+        keyrelease_bypass[event.Key] -= 1
         return True
     return False
 
@@ -113,7 +112,7 @@ def cleanupHeldKeys():
         key = key_map.get(key_name)
         if not key:
             raise ValueError(f"Somehow '{key_name}' was added to the held keys yet we have no mapping for it in keyMap.py")
-        keyrelease_bypass.push(key_name)
+        keyrelease_bypass[key_name] += 1
         win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
     held_keys = []
     active_mimics = []
@@ -123,7 +122,7 @@ def holdKey(key_name):
     global key_map, keypress_bypass, held_keys
     key = key_map.get(key_name)
     if key:
-        keypress_bypass.push(key_name)
+        keypress_bypass[key_name] += 1
         win32api.keybd_event(key, 0, 0, 0)
         held_keys.append(key_name)
         return
@@ -135,7 +134,7 @@ def releaseKey(key_name):
     global key_map, keyrelease_bypass, held_keys
     key = key_map.get(key_name)
     if key:
-        keyrelease_bypass.push(key_name)
+        keyrelease_bypass[key_name] += 1
         win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
         held_keys.remove(key_name)
         return
@@ -147,11 +146,11 @@ def pressAndReleaseKey(key_name):
     global key_map, keypress_bypass, keyrelease_bypass
     key = key_map.get(key_name)
     if key:
-        # Key presses are activated via their ascii code while in this system but are converted to a human-readable names in pythoncom when we see them again.
+        # Key presses are activated via their ascii code while in this system but are converted to a human-readable names in pythoncom when we process them as input.
         # Therefore, to press and release a key, we must bypass a key's NAME and press its ASCII code. 
-        keypress_bypass.push(key_name)
+        keypress_bypass[key_name] += 1
         win32api.keybd_event(key, 0, 0, 0)
-        keyrelease_bypass.push(key_name)
+        keyrelease_bypass[key_name] += 1
         win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
         return
 
@@ -183,12 +182,12 @@ def pressKeyCombo(keycombo):
         raise ValueError(f"Keybinding for key '{key_names[keys.index(None)]}' not specified in keyMap.py")
 
     for key, keyname in zip(keys, key_names):
-        keypress_bypass.push(keyname)
+        keypress_bypass[keyname] += 1
         win32api.keybd_event(key, 0, 0, 0)
     key_names.reverse()
     keys.reverse()
     for key, keyname in zip(keys, key_names):
-        keyrelease_bypass.push(keyname)
+        keyrelease_bypass[keyname] += 1
         win32api.keybd_event(key, 0, win32con.KEYEVENTF_KEYUP, 0)
 
 
@@ -291,7 +290,7 @@ def onPress_CapMode(event):
     global key_bindings_CapMode, key_mimics_CapMode
     keyaction = key_bindings_CapMode.get(event.Key, lambda: 'no binding found')
     if keyaction() != 'no binding found':
-        cap_mode_used.value = True
+        globals.data['cap_mode_used'] = True
         return
 
     keyToMimic = key_mimics_CapMode.get(event.Key)
@@ -336,7 +335,7 @@ def load_payload_from_clipboard():
 
 def onPress_CtrlMode(event):
     global ctrlMode_payload, ctrlMode_next_key_index
-    if entering_ctrl_mode.value: # Todo, replace al the nodes with key value pairs in the globals.data dictionary
+    if globals.data.get('entering_ctrl_mode'): # Todo, replace al the nodes with key value pairs in the globals.data dictionary
         payloadChanged = load_payload_from_clipboard()
         if payloadChanged: ctrlMode_next_key_index = 0
             

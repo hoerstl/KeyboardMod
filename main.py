@@ -40,12 +40,12 @@ def process_mode_cap(event):
     Decides whether or not to switch the keyboard into CapMode
     Runs every key release.
     """
-    global keyboard_mode, cap_press_time, cap_mode_used
+    global keyboard_mode, cap_press_time
     if event.Key == 'Capital':
         if event.MessageName == 'key down' and keyboard_mode != 'CapMode':
-            cap_mode_used.value = False
+            globals.data['cap_mode_used'] = False
             if keyboard_mode != 'Default':  # We should count disabling another keyboard mode as a valid use case of cap mode.
-                cap_mode_used.value = True
+                globals.data['cap_mode_used'] = True
             keyboard_mode = 'CapMode'
             # TODO: Fix a bug where someone holds down shift (or another non-letter key) and the release is blocked by capmode
             print('Entering Cap Mode')
@@ -54,7 +54,7 @@ def process_mode_cap(event):
             cleanupHeldKeys()
             keyboard_mode = 'Default'
             print('Leaving Cap Mode')
-            if time.time() - cap_press_time < .3 and not cap_mode_used.value:
+            if time.time() - cap_press_time < .3 and not globals.data.get('cap_mode_used'):
                 pressAndReleaseKey("Capital")
         return True
 
@@ -86,7 +86,7 @@ def process_mode_ctrl(event):
                 keyboard_mode = 'Default'
             else:
                 print("CtrlMode On")
-                entering_ctrl_mode.value = True
+                globals.data['entering_ctrl_mode'] = True
                 keyboard_mode = 'CtrlMode'
 
             last_key_released = ''
@@ -99,7 +99,7 @@ def update():
     Performs logic as frequently as possible (every frame ideally but really every time a button is pressed)
     to make it available to the user
     """
-    # Update all information given from subprocesses
+    # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
     while not globals.data['subProcessQueue'].empty():
         key, value = globals.data['subProcessQueue'].get()
         globals.data.update({key: value})
@@ -126,6 +126,7 @@ def on_key_press(event):
 
     # Process keyboard input as you wish
     if keyboard_mode == 'Default':
+        keyrelease_bypass[event.Key] += 1
         return True
     elif keyboard_mode == 'ShiftLock':
         onPress_ShiftLock(event)
