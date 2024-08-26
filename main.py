@@ -126,7 +126,7 @@ def on_key_press(event):
 
     # Process keyboard input as you wish
     if keyboard_mode == 'Default':
-        keyrelease_bypass[event.Key] += 1
+        default_bypass[event.Key] += 1
         return True
     elif keyboard_mode == 'ShiftLock':
         onPress_ShiftLock(event)
@@ -159,6 +159,9 @@ def on_key_release(event):
     if process_mode_ctrl(event):
         return True # We need to allow the ctrl keys to be released when we swap to and from modes since it involves two keys
     last_key_released = event.Key
+
+    if is_default_bypassed(event):
+        return True
 
     # Default keyboard input
     if keyboard_mode == 'Default':

@@ -11,6 +11,7 @@ specialFunctions.init()
 
 keypress_bypass = defaultdict(int)
 keyrelease_bypass = defaultdict(int)
+default_bypass = defaultdict(int)
 active_mimics = []
 held_keys = []
 
@@ -105,6 +106,18 @@ def is_release_bypassed(event):
         return True
     return False
 
+
+def is_default_bypassed(event):
+    """
+    This function is used to bypass keys pressed during the default keyboard mode so they can be released in other modes.
+    Unlike release_bypass, these key releases can still trigger logic meant to switch between modes.
+    """
+    global default_bypass
+    if default_bypass[event.Key] > 0:
+        default_bypass[event.Key] -= 1
+        return True
+    return False
+ 
 
 def cleanupHeldKeys():
     global key_map, held_keys, active_mimics
