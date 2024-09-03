@@ -3,15 +3,8 @@ import pyWinhook
 import time
 from secondaryActions import *
 
-
-def is_shift_key(key_name):
-    shift_names = [
-        "shift",
-        "Lshift",
-        "Rshift"
-    ]
-    return key_name in shift_names
-
+# TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
+# don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
 
 def process_mode_shift(event):
     """
@@ -47,7 +40,6 @@ def process_mode_cap(event):
             if keyboard_mode != 'Default':  # We should count disabling another keyboard mode as a valid use case of cap mode.
                 globals.data['cap_mode_used'] = True
             keyboard_mode = 'CapMode'
-            # TODO: Fix a bug where someone holds down shift (or another non-letter key) and the release is blocked by capmode
             print('Entering Cap Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up' or event.MessageName == 'key sys up':
@@ -60,15 +52,6 @@ def process_mode_cap(event):
 
     return False
 
-
-
-def is_ctrl_key(key_name):
-    ctrl_names = [
-        "control",
-        "Lcontrol",
-        "Rcontrol",
-    ]
-    return key_name in ctrl_names
 
 def process_mode_ctrl(event):
     """
@@ -126,7 +109,7 @@ def on_key_press(event):
 
     # Process keyboard input as you wish
     if keyboard_mode == 'Default':
-        default_bypass[event.Key] += 1
+        default_bypass[event.Key] = 1
         return True
     elif keyboard_mode == 'ShiftLock':
         onPress_ShiftLock(event)
@@ -153,11 +136,11 @@ def on_key_release(event):
 
     # Read these if statements as "if the key falls under entering _____ mode's juristiction. Ex. shift keys fall under shiftmode etc."
     if process_mode_shift(event):
-        return True  # We need to allow the shift keys to be released when we swap to and from modes since it involves two keys
+        pass  # We need to allow the shift keys to be released via a default bypass when we swap to and from modes since it involves two keys
     if process_mode_cap(event):
         return False # We can just block both the press and release of a single key since interacting with it at all means that we are certainly changing keyboard modes
     if process_mode_ctrl(event):
-        return True # We need to allow the ctrl keys to be released when we swap to and from modes since it involves two keys
+        pass # We need to allow the ctrl keys to be released via a default bypass when we swap to and from modes since it involves two keys
     last_key_released = event.Key
 
     if is_default_bypassed(event):

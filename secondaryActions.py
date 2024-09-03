@@ -115,7 +115,9 @@ def is_default_bypassed(event):
     global default_bypass
     if default_bypass[event.Key] > 0:
         default_bypass[event.Key] -= 1
+        print(default_bypass)
         return True
+    print(default_bypass)
     return False
  
 
@@ -246,6 +248,14 @@ def typeTemplate(template):
 
 
 ###################### START OF THE SHIFTLOCK DEFINITIONS ############################
+def is_shift_key(key_name):
+    shift_names = [
+        "shift",
+        "Lshift",
+        "Rshift"
+    ]
+    return key_name in shift_names
+
 key_bindings_ShiftLock = {
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
@@ -327,6 +337,14 @@ def onRelease_CapMode(event):
 
 ###################### START OF THE CTRLMODE DEFINITIONS ############################
 
+def is_ctrl_key(key_name):
+    ctrl_names = [
+        "control",
+        "Lcontrol",
+        "Rcontrol",
+    ]
+    return key_name in ctrl_names
+
 ctrlMode_payload = ""
 ctrlMode_next_key_index = 0
 
@@ -344,6 +362,13 @@ def load_payload_from_clipboard():
 
     return old_payload != ctrlMode_payload
 
+def type_next_payload_character():
+    global ctrlMode_payload, ctrlMode_next_key_index
+    if ctrlMode_next_key_index < len(ctrlMode_payload):
+        typeCharacter(ctrlMode_payload[ctrlMode_next_key_index])
+        ctrlMode_next_key_index += 1
+    else:
+        print("Reached the end of the message.")
 
 
 def onPress_CtrlMode(event):
@@ -355,12 +380,8 @@ def onPress_CtrlMode(event):
     if event.Key == "Escape":
         load_payload_from_clipboard()
         ctrlMode_next_key_index = 0
-    else:
-        if ctrlMode_next_key_index < len(ctrlMode_payload):
-            typeCharacter(ctrlMode_payload[ctrlMode_next_key_index])
-            ctrlMode_next_key_index += 1
-        else:
-            print("Reached the end of the message.")
+    elif not is_ctrl_key(event.Key):
+        type_next_payload_character()
     
 
 
