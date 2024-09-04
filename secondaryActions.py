@@ -115,9 +115,7 @@ def is_default_bypassed(event):
     global default_bypass
     if default_bypass[event.Key] > 0:
         default_bypass[event.Key] -= 1
-        print(default_bypass)
         return True
-    print(default_bypass)
     return False
  
 
