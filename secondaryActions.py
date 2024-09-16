@@ -4,7 +4,6 @@ import win32con
 import pyperclip
 import globals
 from collections import defaultdict
-from myQueue import Queue, Node
 from keyMap import key_map, combo_key_map, common_character_map
 import specialFunctions
 specialFunctions.init()

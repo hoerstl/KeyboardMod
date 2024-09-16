@@ -5,6 +5,7 @@ from subprocesses import threadedSubProcess
 from popup import displayToUser, getString
 import secondaryActions as secActions
 
+import multiprocessing as mp
 import globals
 import requests
 import pyperclip
@@ -86,7 +87,7 @@ def showIPAddress(**kwargs):
 def setRemoteClipboardIP(**kwargs):
     _remoteClipboardIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to read the clipboard of.")
     print(f"Got an ip address of {_remoteClipboardIP}")
-    kwargs['queue'].put(('remoteClipboardIP', _remoteClipboardIP))
+    kwargs['mainQueue'].put(('remoteClipboardIP', _remoteClipboardIP))
 
 
 def showRemoteClipboardIP():
@@ -102,6 +103,54 @@ def readRemoteClipboard(remoteClipboardIP, **kwargs):
         pyperclip.copy(remoteClipboardData)
     except requests.exceptions.ConnectionError as e:
         print(f"Couldn't read remote clipboard at {remoteClipboardIP}")
+
+
+
+def createNotepadQueue():
+    mostRecentNotepadID = globals.data['mostRecentNotepadID']
+    if not mostRecentNotepadID:
+        return None
+    # Create a queue and put into the correct spot depending on the 'mostRecentNotepadID'
+    notepadQueue = mp.Queue()
+
+    
+
+@threadedSubProcess(createSubprocessQueue=createNotepadQueue)
+def openNotepad(**kwargs):
+    # This function needs to open the .txt file and handle all the reading and saving
+    pass
+    #os.makedirs(, exist_ok=True)
+
+
+
+def toggleNotepad(notepadID):
+    """
+    This function saves and exits irrelevant open notepads if one is open and then
+    opens a notepad with notepadID [0, 9].
+    """
+    # We need some logic that checks if a notepad that isn't the desired notepad is open
+    # If it is, then we need to save and exit that one before opening the next
+
+    notepadIsOpen = bool(globals.data['notepadQueues'][notepadID])
+    if notepadIsOpen: # close the notepad
+        toNotepadQueue = globals.data['notepadQueues'][notepadID]
+        toNotepadQueue.put('saveAndExit')  # Tell the notepad to save and exit
+        globals.data['notepadQueues'][notepadID] = None
+        globals.data['mostRecentNotepadID'] = None
+    else: # open the notepad
+        globals.data['mostRecentNotepadID'] = notepadID
+        asyncOpenNotepad()
+
+    
+
+
+
+
+
+
+
+
+
 
 
 def killAllSubprocesses():

@@ -8,7 +8,7 @@ if mp.current_process().name == "MainProcess":
     allSubProcesses = []
     subProcessQueue = mp.Queue()
 
-def threadedSubProcess(func):
+def threadedSubProcess(func, createSubprocessQueue=None):
     """
     NOTE: All functions with this decorator must define **kwargs as function arguments
     
@@ -19,6 +19,9 @@ def threadedSubProcess(func):
     This functionality is necessary because to spawn a function as a subprocess, it needs to be pickleable 
     but functions defined with decorators are not pickleable so the decorator cannot change the function if 
     it wants to spawn a subprocess with it.
+
+    createSubprocessQueue func() => mp.Queue: This function is used to create a new queue and may be 
+    implemented in order to add the same queue to globals.data with a dynamically created name.
     """
     
     @wraps(func)
@@ -26,7 +29,8 @@ def threadedSubProcess(func):
         nonlocal func
         if mp.current_process().name != "MainProcess":
             print("Don't call an asynchronous function from a subprocess")
-        kwargs.update({'queue': globals.data['subProcessQueue']})
+        subProcessQueue = createSubprocessQueue and createSubprocessQueue()
+        kwargs.update({'mainQueue': globals.data['subProcessQueue'], 'subprocessQueue': subProcessQueue})
         subprocess = mp.Process(target=func, args=args, kwargs=kwargs)
         subprocess.start()
         globals.data['allSubProcesses'].append(subprocess)
