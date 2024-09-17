@@ -83,8 +83,8 @@ def update():
     to make it available to the user
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
-    while not globals.data['subProcessQueue'].empty():
-        key, value = globals.data['subProcessQueue'].get()
+    while not globals.data['mainQueue'].empty():
+        key, value = globals.data['mainQueue'].get()
         globals.data.update({key: value})
 
 

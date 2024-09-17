@@ -1,8 +1,8 @@
 from DQ.surveyMaster import getFreeIceCreamCode
 import QuizTaker.main as quizTaker
 import clipboardServer
-from subprocesses import threadedSubProcess
-from popup import displayToUser, getString
+from subprocesses import threadedSubprocess
+from popup import displayToUser, getString, OverlayEditModal
 import secondaryActions as secActions
 
 import multiprocessing as mp
@@ -11,6 +11,7 @@ import requests
 import pyperclip
 import socket
 import time
+import os
 
 
 def capitalizeWord(direction):
@@ -42,18 +43,18 @@ def capitalizeWord(direction):
 
     pyperclip.copy(initialClipboardContent)
 
-@threadedSubProcess
+@threadedSubprocess()
 def showIcecreamCode(**kwargs):
     freeIceCreamCode = getFreeIceCreamCode()
     displayToUser('DQ', f"Your icecream my leige: {freeIceCreamCode}", 800)
 
 
-@threadedSubProcess
+@threadedSubprocess()
 def answerVisableQuizQuestion(**kwargs):
     keywordArguments = {key: value for key, value in kwargs.items() if key == 'verbose'}
     displayToUser('Answer', quizTaker.answerVisableQuizQuestion(**keywordArguments), fontSize='small', desiredHeight=200)
 
-@threadedSubProcess
+@threadedSubprocess()
 def answerVisableExtendedResponseQuestion(**kwargs):
     isStealthy = kwargs.get('stealthy')
     
@@ -66,24 +67,24 @@ def answerVisableExtendedResponseQuestion(**kwargs):
     print("Recieved an answer to the extended response question.")
 
 
-@threadedSubProcess
+@threadedSubprocess()
 def countToTheMoon(**kwargs):
     for i in range(10):
         time.sleep(1)
     print("slept 10 seconds")
 
 
-@threadedSubProcess
+@threadedSubprocess()
 def hostClipboard(**kwargs):
     clipboardServer.app.run(host='0.0.0.0', port=8080)
 
-@threadedSubProcess
+@threadedSubprocess()
 def showIPAddress(**kwargs):
     hostname = socket.gethostname()
     ipAddress = socket.gethostbyname(hostname)
     displayToUser("IP Address", str(ipAddress))
 
-@threadedSubProcess
+@threadedSubprocess()
 def setRemoteClipboardIP(**kwargs):
     _remoteClipboardIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to read the clipboard of.")
     print(f"Got an ip address of {_remoteClipboardIP}")
@@ -94,7 +95,7 @@ def showRemoteClipboardIP():
     print(globals.data['remoteClipboardIP'])
 
 
-@threadedSubProcess
+@threadedSubprocess()
 def readRemoteClipboard(remoteClipboardIP, **kwargs):
     try:
         response = requests.get(f"http://{remoteClipboardIP}:8080")
@@ -106,21 +107,42 @@ def readRemoteClipboard(remoteClipboardIP, **kwargs):
 
 
 
+
+####################################### NOTEPAD LOGIC ##################################
 def createNotepadQueue():
     mostRecentNotepadID = globals.data['mostRecentNotepadID']
-    if not mostRecentNotepadID:
+    if mostRecentNotepadID is None or (not 0 <= mostRecentNotepadID <= 9):
         return None
     # Create a queue and put into the correct spot depending on the 'mostRecentNotepadID'
-    notepadQueue = mp.Queue()
+    newNotepadQueue = mp.Queue()
+    globals.data['notepadQueues'][mostRecentNotepadID] = newNotepadQueue
+    return newNotepadQueue
 
-    
 
-@threadedSubProcess(createSubprocessQueue=createNotepadQueue)
-def openNotepad(**kwargs):
+
+@threadedSubprocess(createSubprocessQueue=createNotepadQueue)
+def openNotepad(notepadID, **kwargs):
     # This function needs to open the .txt file and handle all the reading and saving
-    pass
-    #os.makedirs(, exist_ok=True)
+    if notepadID is None or (not 0 <= notepadID <= 9):
+        return None
+    notepadPath = f'notepads/{notepadID}.txt'
+    os.makedirs(notepadPath, exist_ok=True)
+    textContent = ""
+    with open(notepadPath, "r") as notepad:
+        textContent = notepad.readlines()
+    
+    def saveFunction(textToSave):
+        with open(notepadPath, "w") as notepad:
+            notepad.write(textToSave)
 
+    def checkActionQueue():
+        queue = kwargs['subprocessQueue']
+        if queue.empty():
+            return None
+        return queue.get()
+    
+    modal = OverlayEditModal(f"Notepad #{notepadID}", textContent, 'small', saveCallback=saveFunction, checkActionQueue=checkActionQueue)
+    modal.startMainLoop()
 
 
 def toggleNotepad(notepadID):
@@ -139,17 +161,9 @@ def toggleNotepad(notepadID):
         globals.data['mostRecentNotepadID'] = None
     else: # open the notepad
         globals.data['mostRecentNotepadID'] = notepadID
-        asyncOpenNotepad()
+        asyncOpenNotepad(notepadID)
 
-    
-
-
-
-
-
-
-
-
+######################################################################################
 
 
 

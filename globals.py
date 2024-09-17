@@ -14,6 +14,6 @@ def init():
     dotenv.load_dotenv()
     data['remoteClipboardIP'] = '0.0.0.0'
     data['allSubProcesses'] = []
-    data['subProcessQueue'] = mp.Queue()
+    data['mainQueue'] = mp.Queue()
     data['mostRecentNotepadID'] = None
     data['notepadQueues'] = [None for i in range(10)]

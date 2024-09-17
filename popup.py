@@ -7,8 +7,8 @@ from tkinter import simpledialog
 
 ################ New stuff ##########################
 
-class OverlayModal:
-    def __init__(self, title='Unnamed Modal', text='', fontSize='small', windowWidth=600, windowHeight=700, cancelCallback=(lambda: None), saveCallback=(lambda text: text)):
+class OverlayEditModal:
+    def __init__(self, title='Unnamed Modal', text='', fontSize='small', windowWidth=600, windowHeight=700, cancelCallback=(lambda: None), saveCallback=(lambda text: text), checkActionQueue=(lambda: None)):
         self.title = title
         self.text = text
         self.fontSize = fontSize
@@ -16,6 +16,7 @@ class OverlayModal:
         self.windowHeight = windowHeight
         self.cancelCallback = cancelCallback
         self.saveCallback = saveCallback
+        self.checkActionQueue = checkActionQueue
 
         # Create a root window that acts as the greyed-out background
         self.root = tk.Tk()
@@ -26,6 +27,25 @@ class OverlayModal:
 
         self.configure()
         self.populateElements()
+
+        self.checkQueue()
+
+
+    def checkQueue(self):
+        nextAction = self.checkActionQueue()
+        if nextAction is None:
+            pass
+        elif nextAction == "forcedSaveAndExit":
+            self.saveAndExit(forceExit=True)
+            return
+        elif nextAction == "saveAndExit":
+            self.saveAndExit()
+        else:
+            print(f"Edit modal got an unexpected action '{nextAction}'")
+
+
+        self.root.after(10, self.checkQueue)
+
 
 
     def configure(self):
@@ -51,11 +71,16 @@ class OverlayModal:
 
     
     def populateElements(self):
-        # Good past here Beans
+        # Create the notepad body that you write in
         selected_font = ("Comic Sans", 10 + 10 * ['small', 'medium', 'large'].index(self.fontSize))
         self.notepadBody = tk.Text(self.modal, font=selected_font, wrap=tk.WORD)
         self.notepadBody.insert(tk.INSERT, self.text)
         self.notepadBody.pack(fill=tk.BOTH, expand=True, padx=20, pady=(20, 0), anchor="center")
+
+        scrollbar = tk.Scrollbar(self.modal, command=self.notepadBody.yview)
+        self.notepadBody.config(yscrollcommand=scrollbar.set)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
 
         # Add save and cancel buttons to the modal
         # Create a frame to hold the buttons
@@ -102,17 +127,7 @@ class OverlayModal:
         Starts the overlaid modal
         """
         self.root.mainloop()
-    
 
-if __name__ == "__main__":
-    def errorCancel():
-        raise ValueError("You will never cancel me")
-    def errorSave(text):
-        raise ValueError("You will never save me")
-    modal = OverlayModal("Named Modal title", "Hi! I'm notes! Nice to meetcha~`", 'small', 600, 700, errorCancel, errorSave)
-    modal.startMainLoop()
-
-####################################################
 
 class Popup:
     def __init__(self, title, text, fontSize='small', desiredWidth=500, desiredHeight=100):
@@ -167,5 +182,14 @@ def getString(title, prompt):
 
 
 if __name__ == '__main__':
+    # Demo code for the OverlayModal
+    def errorCancel():
+        raise ValueError("You will never cancel me")
+    def errorSave(text):
+        raise ValueError("You will never save me")
+    modal = OverlayEditModal("Named Modal title", "Hi! I'm notes! Nice to meetcha~`", 'small', 600, 700, errorCancel, errorSave)
+    modal.startMainLoop()
+
+
     pop = Popup('This is a test window', 'test')
     pop.startMainLoop()

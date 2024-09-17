@@ -5,7 +5,7 @@ import sys
 
 
 
-def threadedSubProcess(createSubprocessQueue=None):
+def threadedSubprocess(createSubprocessQueue=None):
     """
     NOTE: All functions with this decorator must define **kwargs as function arguments
     
@@ -20,14 +20,14 @@ def threadedSubProcess(createSubprocessQueue=None):
     createSubprocessQueue func() => mp.Queue: This function is used to create a new queue and may be 
     implemented in order to add the same queue to globals.data with a dynamically created name.
     """
-    def threadedSubProcessWithParameters(func):
+    def threadedSubprocessWithParameters(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             nonlocal func
             if mp.current_process().name != "MainProcess":
                 print("Don't call an asynchronous function from a subprocess")
             subProcessQueue = createSubprocessQueue and createSubprocessQueue()
-            kwargs.update({'mainQueue': globals.data['subProcessQueue'], 'subprocessQueue': subProcessQueue})
+            kwargs.update({'mainQueue': globals.data['mainQueue'], 'subprocessQueue': subProcessQueue})
             subprocess = mp.Process(target=func, args=args, kwargs=kwargs)
             subprocess.start()
             globals.data['allSubProcesses'].append(subprocess)
@@ -39,7 +39,7 @@ def threadedSubProcess(createSubprocessQueue=None):
         module = sys.modules[func.__module__]
         setattr(module, decorated_name, wrapper)
         return func
-    return threadedSubProcessWithParameters
+    return threadedSubprocessWithParameters
 
 
 
