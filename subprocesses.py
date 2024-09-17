@@ -4,9 +4,6 @@ from functools import wraps
 import sys
 
 
-if mp.current_process().name == "MainProcess":
-    allSubProcesses = []
-    subProcessQueue = mp.Queue()
 
 def threadedSubProcess(func):
     """
