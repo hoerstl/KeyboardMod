@@ -1,11 +1,10 @@
 import tkinter as tk
 from tkinter import simpledialog
+import win32gui
 
 
 
 
-
-################ New stuff ##########################
 
 class OverlayEditModal:
     def __init__(self, title='Unnamed Modal', text='', fontSize='small', windowWidth=600, windowHeight=700, cancelCallback=(lambda: None), saveCallback=(lambda text: text), checkActionQueue=(lambda: None)):
@@ -24,62 +23,22 @@ class OverlayEditModal:
         # Create a top level modal that sits on top of it
         self.modal = tk.Toplevel(self.root)
         self.modal.protocol("WM_DELETE_WINDOW", lambda: self.saveAndExit(forceExit=True))
-
-        self.configure()
+        
+        
         self.populateElements()
-
-        self.checkQueue()
-
-
-    def checkQueue(self):
-        nextAction = self.checkActionQueue()
-        if nextAction is None:
-            pass
-        elif nextAction == "forcedSaveAndExit":
-            self.saveAndExit(forceExit=True)
-            return
-        elif nextAction == "saveAndExit":
-            self.saveAndExit()
-        else:
-            print(f"Edit modal got an unexpected action '{nextAction}'")
-
+        self.configure()
 
         self.root.after(10, self.checkQueue)
-
-
-
-    def configure(self):
-        ## Configure background (root)
-        self.root.geometry(f"{self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}")
-        self.root.overrideredirect(1)  # Removes window borders
-        self.root.attributes("-alpha", 0.5)  # Makes the background semi-transparent (greyed out)
-        self.root.configure(bg='grey')  # Grey background
+        self.root.after(10, lambda: focusWindow(self.title))
         
-        ## Configure the foreground modal (modal)
-        self.modal.title(self.title)
-        self.modal.geometry("300x200")  # Size of the modal
-        self.modal.transient(self.root)  # Set it to always be on top of the root
-        self.modal.grab_set()  # Block interactions with the root window
-        # Center the modal on the screen
-        screen_width = self.modal.winfo_screenwidth()
-        screen_height = self.modal.winfo_screenheight()
 
-        x_cordinate = int((screen_width/2) - (self.windowWidth/2))
-        y_cordinate = int((screen_height/2) - (self.windowHeight/2))
 
-        self.modal.geometry(f"{self.windowWidth}x{self.windowHeight}+{x_cordinate}+{y_cordinate}")
-
-    
     def populateElements(self):
         # Create the notepad body that you write in
         selected_font = ("Comic Sans", 10 + 10 * ['small', 'medium', 'large'].index(self.fontSize))
         self.notepadBody = tk.Text(self.modal, font=selected_font, wrap=tk.WORD)
         self.notepadBody.insert(tk.INSERT, self.text)
         self.notepadBody.pack(fill=tk.BOTH, expand=True, padx=20, pady=(20, 0), anchor="center")
-
-        scrollbar = tk.Scrollbar(self.modal, command=self.notepadBody.yview)
-        self.notepadBody.config(yscrollcommand=scrollbar.set)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
 
         # Add save and cancel buttons to the modal
@@ -93,7 +52,50 @@ class OverlayEditModal:
 
         save_button = tk.Button(button_frame, text="Save", command=self.saveAndExit)
         save_button.pack(side=tk.RIGHT)
+
+
+    def configure(self):
+        ## Configure background (root)
+        self.root.geometry(f"{self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}")
+        self.root.overrideredirect(1)  # Removes window borders
+        self.root.attributes("-alpha", 0.5)  # Makes the background semi-transparent (greyed out)
+        self.root.configure(bg='grey')  # Grey background
+        self.root.title(self.title)
         
+        
+        ## Configure the foreground modal (modal)
+        self.modal.title(self.title)
+        self.modal.geometry("300x200")  # Size of the modal
+        self.modal.transient(self.root)  # Set it to always be on top of the root
+        self.notepadBody.focus_set()
+
+        self.modal.grab_set()  # Block interactions with the root window
+        # Center the modal on the screen
+        screen_width = self.modal.winfo_screenwidth()
+        screen_height = self.modal.winfo_screenheight()
+
+        x_cordinate = int((screen_width/2) - (self.windowWidth/2))
+        y_cordinate = int((screen_height/2) - (self.windowHeight/2))
+
+        self.modal.geometry(f"{self.windowWidth}x{self.windowHeight}+{x_cordinate}+{y_cordinate}")
+        
+
+    def checkQueue(self):
+        nextAction = self.checkActionQueue()
+        if nextAction: print(nextAction)
+        if nextAction is None:
+            pass
+        elif nextAction == "forcedSaveAndExit":
+            self.root.after(10, lambda: self.saveAndExit(forceExit=True))
+            return
+        elif nextAction == "saveAndExit":
+            self.root.after(10, self.saveAndExit())
+        else:
+            print(f"Overlay edit modal got an unexpected action '{nextAction}'")
+
+
+        self.root.after(10, self.checkQueue)
+
 
     def save(self):
         notepad_content = self.notepadBody.get("1.0", tk.END)[:-1]  # Remove the ever-present newline character at the end of the text input for some reason
@@ -106,6 +108,8 @@ class OverlayEditModal:
         
     def saveAndExit(self, forceExit=False):
         if self.save() or forceExit:
+            for id in self.root.tk.call('after', 'info'):
+                self.root.after_cancel(id)
             self.root.destroy()
 
 
@@ -118,7 +122,9 @@ class OverlayEditModal:
             return False
         
     def cancelAndExit(self, forceExit=False):
-        if self.cancel() or forceExit:
+        if self.cancel() or forceExit and not self.destroyed:
+            for id in self.root.tk.call('after', 'info'):
+                self.root.after_cancel(id)
             self.root.destroy()
 
 
@@ -157,6 +163,25 @@ class Popup:
 
     def startMainLoop(self):
         self.root.mainloop()
+
+
+def focusWindow(title):
+            
+            # ################# print all windows ################
+            # def enum_handler(hwnd, ctx):
+            #     if win32gui.IsWindowVisible(hwnd):
+            #         window_text = win32gui.GetWindowText(hwnd)
+            #         if window_text:  # Only print windows that have a title
+            #             print(f"Window Handle: {hwnd} | Title: {window_text}")
+
+            # # Enumerate all windows
+            # win32gui.EnumWindows(enum_handler, None)
+            # ####################################################
+
+            # Find the window by title
+            hwnd = win32gui.FindWindow(None, title)
+            # Bring it to the front
+            win32gui.SetForegroundWindow(hwnd)
 
 
 def displayToUser(title, text, fontSize='small', desiredWidth=500, desiredHeight=100):

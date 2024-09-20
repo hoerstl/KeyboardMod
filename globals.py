@@ -13,7 +13,9 @@ def init():
     ensureENVfile()
     dotenv.load_dotenv()
     data['remoteClipboardIP'] = '0.0.0.0'
-    data['allSubProcesses'] = []
-    data['mainQueue'] = mp.Queue()
+    data['subprocessManager'] = mp.Manager()
+    data['maxSubprocesses'] = 5
+    data['subprocessPool'] = mp.Pool(processes=data['maxSubprocesses'])
+    data['mainQueue'] = data['subprocessManager'].Queue()
     data['mostRecentNotepadID'] = None
     data['notepadQueues'] = [None for i in range(10)]

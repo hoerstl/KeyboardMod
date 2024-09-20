@@ -47,6 +47,9 @@ of the bindings implemented by default:
 
 
 
+## Known issues
 
+- The crtl mode cannot handle the typing of some characters. typeCharacter() needs some work. Currently values are hardcoded and that's limited.
+- When opening a notepad, the window sometimes does not take focus over other windows. We need a try/catch with a for loop.
 
 

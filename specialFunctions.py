@@ -114,7 +114,7 @@ def createNotepadQueue():
     if mostRecentNotepadID is None or (not 0 <= mostRecentNotepadID <= 9):
         return None
     # Create a queue and put into the correct spot depending on the 'mostRecentNotepadID'
-    newNotepadQueue = mp.Queue()
+    newNotepadQueue = globals.data['subprocessManager'].Queue()
     globals.data['notepadQueues'][mostRecentNotepadID] = newNotepadQueue
     return newNotepadQueue
 
@@ -122,14 +122,22 @@ def createNotepadQueue():
 
 @threadedSubprocess(createSubprocessQueue=createNotepadQueue)
 def openNotepad(notepadID, **kwargs):
-    # This function needs to open the .txt file and handle all the reading and saving
+    """
+    This function opens the .txt file and handle all the reading and saving
+    """
     if notepadID is None or (not 0 <= notepadID <= 9):
         return None
-    notepadPath = f'notepads/{notepadID}.txt'
-    os.makedirs(notepadPath, exist_ok=True)
+    notepadPath = f'./notepads/{notepadID}.txt'
+    # If the folder doesn't exist, create it
+    os.makedirs('./notepads', exist_ok=True)
     textContent = ""
+    # If the file doesn't exist, create it
+    if not os.path.exists(notepadPath):
+        with open(notepadPath, 'x') as file:
+            pass
+    # Read from the file
     with open(notepadPath, "r") as notepad:
-        textContent = notepad.readlines()
+        textContent = ''.join(notepad.readlines())
     
     def saveFunction(textToSave):
         with open(notepadPath, "w") as notepad:
@@ -150,16 +158,15 @@ def toggleNotepad(notepadID):
     This function saves and exits irrelevant open notepads if one is open and then
     opens a notepad with notepadID [0, 9].
     """
-    # We need some logic that checks if a notepad that isn't the desired notepad is open
-    # If it is, then we need to save and exit that one before opening the next
+    mostRecentNotepadID = globals.data['mostRecentNotepadID']
 
-    notepadIsOpen = bool(globals.data['notepadQueues'][notepadID])
-    if notepadIsOpen: # close the notepad
-        toNotepadQueue = globals.data['notepadQueues'][notepadID]
+    if mostRecentNotepadID is not None and globals.data['notepadQueues'][mostRecentNotepadID]: # If a notepad is open, close it
+        toNotepadQueue = globals.data['notepadQueues'][globals.data['mostRecentNotepadID']]
         toNotepadQueue.put('saveAndExit')  # Tell the notepad to save and exit
         globals.data['notepadQueues'][notepadID] = None
         globals.data['mostRecentNotepadID'] = None
-    else: # open the notepad
+    
+    if notepadID != mostRecentNotepadID: # If the selected notepad is different from the one that was open, open the selected notepad
         globals.data['mostRecentNotepadID'] = notepadID
         asyncOpenNotepad(notepadID)
 
@@ -168,10 +175,8 @@ def toggleNotepad(notepadID):
 
 
 def killAllSubprocesses():
-    for process in globals.data['allSubProcesses']:
-        print(f"Killed subprocess: {process}")
-        process.terminate()
-    globals.data['allSubProcesses'] = []
+    globals.data['subprocessPool'].terminate()
+    globals.data['subprocessPool'] = mp.Pool(processes=globals.data['maxSubprocesses'])
 
 
 

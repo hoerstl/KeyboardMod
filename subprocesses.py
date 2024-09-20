@@ -28,10 +28,7 @@ def threadedSubprocess(createSubprocessQueue=None):
                 print("Don't call an asynchronous function from a subprocess")
             subProcessQueue = createSubprocessQueue and createSubprocessQueue()
             kwargs.update({'mainQueue': globals.data['mainQueue'], 'subprocessQueue': subProcessQueue})
-            subprocess = mp.Process(target=func, args=args, kwargs=kwargs)
-            subprocess.start()
-            globals.data['allSubProcesses'].append(subprocess)
-            return subprocess
+            globals.data['subprocessPool'].apply_async(func, args, kwargs, error_callback=lambda e:print(f'There was an error in a subprocess: {e}'))
 
         # Name of the wrapped and decorated function
         decorated_name = "async" + func.__name__[0].upper() + func.__name__[1:]

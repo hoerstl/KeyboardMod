@@ -302,6 +302,17 @@ key_bindings_CapMode = {
 """print(f"|") # Beans
 print('*'*1000)"""),
 'Lmenu': lambda: pressKeyCombo('Lshift+Lcontrol+Left'),
+
+'1': lambda: specialFunctions.toggleNotepad(1),
+'2': lambda: specialFunctions.toggleNotepad(2),
+'3': lambda: specialFunctions.toggleNotepad(3),
+'4': lambda: specialFunctions.toggleNotepad(4),
+'5': lambda: specialFunctions.toggleNotepad(5),
+'6': lambda: specialFunctions.toggleNotepad(6),
+'7': lambda: specialFunctions.toggleNotepad(7),
+'8': lambda: specialFunctions.toggleNotepad(8),
+'9': lambda: specialFunctions.toggleNotepad(9),
+'0': lambda: specialFunctions.toggleNotepad(0),
 }
 key_mimics_CapMode = {
     'Space': 'Lshift',
