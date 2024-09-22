@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import simpledialog
 import win32gui
+import pywintypes
 
 
 
@@ -28,8 +29,8 @@ class OverlayEditModal:
         self.populateElements()
         self.configure()
 
-        self.root.after(10, self.checkQueue)
-        self.root.after(10, lambda: focusWindow(self.title))
+        self.root.after(1000, self.checkQueue)
+        self.root.after(10, self.focusWindow)
         
 
 
@@ -82,7 +83,6 @@ class OverlayEditModal:
 
     def checkQueue(self):
         nextAction = self.checkActionQueue()
-        if nextAction: print(nextAction)
         if nextAction is None:
             pass
         elif nextAction == "forcedSaveAndExit":
@@ -135,6 +135,31 @@ class OverlayEditModal:
         self.root.mainloop()
 
 
+    def focusWindow(self, _calls=0):
+        # ################# print all windows ################
+        # def enum_handler(hwnd, ctx):
+        #     if win32gui.IsWindowVisible(hwnd):
+        #         window_text = win32gui.GetWindowText(hwnd)
+        #         if window_text:  # Only print windows that have a title
+        #             print(f"Window Handle: {hwnd} | Title: {window_text}")
+
+        # # Enumerate all windows
+        # win32gui.EnumWindows(enum_handler, None)
+        # ####################################################
+        
+        try:
+            # Find the window by title
+            hwnd = win32gui.FindWindow(None, self.title)
+            # Bring it to the front
+            win32gui.SetForegroundWindow(hwnd)
+        except pywintypes.error as e:
+            if _calls < 100:
+                self.root.after(10, lambda: self.focusWindow(_calls=_calls+1))
+            else:
+                raise e
+            
+
+
 class Popup:
     def __init__(self, title, text, fontSize='small', desiredWidth=500, desiredHeight=100):
         self.text = text
@@ -165,23 +190,7 @@ class Popup:
         self.root.mainloop()
 
 
-def focusWindow(title):
-            
-            # ################# print all windows ################
-            # def enum_handler(hwnd, ctx):
-            #     if win32gui.IsWindowVisible(hwnd):
-            #         window_text = win32gui.GetWindowText(hwnd)
-            #         if window_text:  # Only print windows that have a title
-            #             print(f"Window Handle: {hwnd} | Title: {window_text}")
 
-            # # Enumerate all windows
-            # win32gui.EnumWindows(enum_handler, None)
-            # ####################################################
-
-            # Find the window by title
-            hwnd = win32gui.FindWindow(None, title)
-            # Bring it to the front
-            win32gui.SetForegroundWindow(hwnd)
 
 
 def displayToUser(title, text, fontSize='small', desiredWidth=500, desiredHeight=100):

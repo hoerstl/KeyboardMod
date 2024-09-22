@@ -13,6 +13,7 @@ def init():
     ensureENVfile()
     dotenv.load_dotenv()
     data['remoteClipboardIP'] = '0.0.0.0'
+    data['subprocessTimestamp'] = 0
     data['subprocessManager'] = mp.Manager()
     data['maxSubprocesses'] = 5
     data['subprocessPool'] = mp.Pool(processes=data['maxSubprocesses'])
