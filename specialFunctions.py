@@ -1,6 +1,6 @@
 from DQ.surveyMaster import getFreeIceCreamCode
 import QuizTaker.main as quizTaker
-import clipboardServer
+import localServer
 from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
 import secondaryActions as secActions
@@ -77,8 +77,8 @@ def countToTheMoon(**kwargs):
 
 
 @threadedSubprocess()
-def hostClipboard(**kwargs): # Beans: Update this to say hostServer and change the filename
-    clipboardServer.app.run(host='0.0.0.0', port=8080)
+def hostServer(**kwargs):
+    localServer.app.run(host='0.0.0.0', port=8080)
 
 @threadedSubprocess()
 def showIPAddress(**kwargs):
@@ -100,7 +100,6 @@ def showRemoteServerIP():
 @threadedSubprocess()
 def readRemoteClipboard(remoteServerIP, **kwargs):
     url = f"http://{remoteServerIP}:8080/getClipboard"
-    print(f"reading remote clipboard at '{url}'")
     try:
         response = requests.get(f"http://{remoteServerIP}:8080/getClipboard")
         remoteClipboardData = response.json()
