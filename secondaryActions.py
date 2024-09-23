@@ -262,7 +262,7 @@ key_bindings_ShiftLock = {
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteServerIP']),
     'S': lambda: specialFunctions.asyncSetRemoteServerIP(),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
-    'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(),
+    'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.data['remoteServerIP']),
     'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
 }
 def onPress_ShiftLock(event):
