@@ -192,6 +192,7 @@ def toggleNotepad(notepadID):
 def killAllSubprocesses():
     globals.data['subprocessPool'].terminate()
     globals.data['subprocessPool'] = mp.Pool(processes=globals.data['maxSubprocesses'])
+    print("All subprocesses killed")
 
 
 
