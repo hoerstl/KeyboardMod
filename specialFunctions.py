@@ -5,6 +5,8 @@ from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
 import secondaryActions as secActions
 
+from PIL import Image
+from io import BytesIO
 import multiprocessing as mp
 import globals
 import requests
@@ -75,7 +77,7 @@ def countToTheMoon(**kwargs):
 
 
 @threadedSubprocess()
-def hostClipboard(**kwargs):
+def hostClipboard(**kwargs): # Beans: Update this to say hostServer and change the filename
     clipboardServer.app.run(host='0.0.0.0', port=8080)
 
 @threadedSubprocess()
@@ -85,26 +87,38 @@ def showIPAddress(**kwargs):
     displayToUser("IP Address", str(ipAddress))
 
 @threadedSubprocess()
-def setRemoteClipboardIP(**kwargs):
-    _remoteClipboardIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to read the clipboard of.")
-    print(f"Got an ip address of {_remoteClipboardIP}")
-    kwargs['mainQueue'].put(('remoteClipboardIP', _remoteClipboardIP))
+def setRemoteServerIP(**kwargs):
+    _remoteServerIP = getString("Clipboard Sync IP", "Please enter the IP of the P2P computer you'd like to read the information of.")
+    print(f"Got an ip address of {_remoteServerIP}")
+    kwargs['mainQueue'].put(('remoteServerIP', _remoteServerIP))
 
 
-def showRemoteClipboardIP():
-    print(globals.data['remoteClipboardIP'])
+def showRemoteServerIP():
+    print(globals.data['remoteServerIP'])
 
 
 @threadedSubprocess()
-def readRemoteClipboard(remoteClipboardIP, **kwargs):
+def readRemoteClipboard(remoteServerIP, **kwargs):
+    url = f"http://{remoteServerIP}:8080/getClipboard"
+    print(f"reading remote clipboard at '{url}'")
     try:
-        response = requests.get(f"http://{remoteClipboardIP}:8080")
+        response = requests.get(f"http://{remoteServerIP}:8080/getClipboard")
         remoteClipboardData = response.json()
         print(f"Successfully read remote clipboard data: {remoteClipboardData}")
         pyperclip.copy(remoteClipboardData)
     except requests.exceptions.ConnectionError as e:
-        print(f"Couldn't read remote clipboard at {remoteClipboardIP}")
+        print(f"Couldn't read remote clipboard at {remoteServerIP}")
 
+@threadedSubprocess()
+def displayRemoteScreenshot(remoteServerIP, **kwargs):
+    try:
+        response = requests.get(f"http://{remoteServerIP}:8080/getScreenshot")
+        img_data = BytesIO(response.content)
+        screenshot = Image.open(img_data) # Read in the image
+        print(f"Successfully read remote screenshot displaying...")
+        screenshot.show()
+    except requests.exceptions.ConnectionError as e:
+        print(f"Couldn't read remote screenshot at {remoteServerIP}")
 
 
 

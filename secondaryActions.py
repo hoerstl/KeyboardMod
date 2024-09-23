@@ -254,14 +254,15 @@ def is_shift_key(key_name):
 key_bindings_ShiftLock = {
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
-    'D': lambda: specialFunctions.showRemoteClipboardIP(),
+    'D': lambda: specialFunctions.showRemoteServerIP(),
     'H': lambda: specialFunctions.asyncHostClipboard(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True),
-    'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteClipboardIP']),
-    'S': lambda: specialFunctions.asyncSetRemoteClipboardIP(),
+    'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteServerIP']),
+    'S': lambda: specialFunctions.asyncSetRemoteServerIP(),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
+    'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(),
     'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
 }
 def onPress_ShiftLock(event):
@@ -398,7 +399,7 @@ def onPress_CtrlMode(event):
     if event.Key == "Escape":
         load_payload_from_clipboard()
         ctrlMode_next_key_index = 0
-    elif not is_ctrl_key(event.Key):
+    elif not is_ctrl_key(event.Key) and not is_shift_key(event.Key):
         type_next_payload_character()
     
 
