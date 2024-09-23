@@ -178,6 +178,7 @@ common_character_map = {
     ';': 'Oem_1',
     "'": 'Oem_7',
     "\n": 'Return',
+    "\t": 'Tab',
     ',': 'Oem_Comma',
     '.': 'Oem_Period',
     '/': 'Oem_2',

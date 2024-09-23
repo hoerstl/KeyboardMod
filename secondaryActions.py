@@ -205,7 +205,6 @@ def pressKeyCombo(keycombo):
 
 def typeCharacter(character):
     global key_map, combo_key_map, common_character_map
-
     # If the character is one pressed with a key combination like capital 'A', do so.
     keycombo = combo_key_map.get(character)
     if keycombo:
@@ -218,8 +217,7 @@ def typeCharacter(character):
         pressAndReleaseKey(character)
         return
     
-
-    raise ValueError(f"Found no way to type the character '{character}'.")
+    raise ValueError(f"Found no way to type the character '{character}' ord:'{ord(character)}'.")
 
 
 def typeTemplate(template):
@@ -365,8 +363,20 @@ def load_payload_from_clipboard():
     """
     global ctrlMode_payload
     old_payload = ctrlMode_payload
-    if isinstance(payload := pyperclip.paste(), str):
-        ctrlMode_payload = payload
+    newPayload = pyperclip.paste()
+    normalized_content = newPayload.replace('\r\n', '\n').replace('\r', '\n')
+
+    # Replace non-breaking spaces, em spaces, and en spaces with regular spaces
+    normalized_content = normalized_content.replace('\u00A0', ' ')  # Non-breaking space
+    normalized_content = normalized_content.replace('\u2002', ' ')  # En space
+    normalized_content = normalized_content.replace('\u2003', ' ')  # Em space
+
+    # Normalize tabs (replace 4 spaces or other sequences with \t)
+    normalized_content = normalized_content.replace('    ', '\t')  # 4 spaces to \t
+
+
+    if isinstance(normalized_content, str):
+        ctrlMode_payload = normalized_content
 
     return old_payload != ctrlMode_payload
 
@@ -381,7 +391,7 @@ def type_next_payload_character():
 
 def onPress_CtrlMode(event):
     global ctrlMode_payload, ctrlMode_next_key_index
-    if globals.data.get('entering_ctrl_mode'): # Todo, replace al the nodes with key value pairs in the globals.data dictionary
+    if globals.data.get('entering_ctrl_mode'):
         payloadChanged = load_payload_from_clipboard()
         if payloadChanged: ctrlMode_next_key_index = 0
             
