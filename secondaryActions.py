@@ -255,7 +255,7 @@ key_bindings_ShiftLock = {
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
     'D': lambda: specialFunctions.showRemoteServerIP(),
-    'H': lambda: specialFunctions.asyncHostClipboard(),
+    'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True),

@@ -1,3 +1,5 @@
+import win32api
+
 key_map = {
     'A': 65,
     'B': 66,
@@ -73,7 +75,7 @@ key_map = {
     'Scroll': 145,  # Scroll Lock
     'Pause': 19,
     'Add': 187,
-    'Subtract': 189,
+    'Subtract': 0xBD,
     'Multiply': 106,
     'Divide': 111,
     'Decimal': 110,
@@ -86,7 +88,7 @@ key_map = {
     'Oem_5': 220,  # Backslash
     'Oem_2': 191,  # Forward slash
     'Oem_1': 186,  # Semicolon
-    'Oem_Minus': 45, # Minus
+    'Oem_Minus': 0xBD, # Minus
     'Oem_Plus': 187,  # Equals
     'Lwin': 91,
     'Rwin': 92
