@@ -61,7 +61,6 @@ class OverlayEditModal:
         self.root.overrideredirect(1)  # Removes window borders
         self.root.attributes("-alpha", 0.5)  # Makes the background semi-transparent (greyed out)
         self.root.configure(bg='grey')  # Grey background
-        self.root.title(self.title)
         
         
         ## Configure the foreground modal (modal)
