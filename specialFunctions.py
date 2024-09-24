@@ -179,8 +179,7 @@ def toggleNotepad(notepadID):
         if toNotepadQueue:
             globals.data['notepadQueues'][mostRecentNotepadID] = None
             toNotepadQueue.put('forcedSaveAndExit')  # Tell the notepad to save and exit
-
-    if notepadID != mostRecentNotepadID: # If the selected notepad is different from the one that was open, open the selected notepad
+    elif notepadID != mostRecentNotepadID: # If the selected notepad is different from the one that was open, open the selected notepad
         globals.data['mostRecentNotepadID'] = notepadID
         asyncOpenNotepad(notepadID)
 

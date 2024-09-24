@@ -29,7 +29,7 @@ class OverlayEditModal:
         self.populateElements()
         self.configure()
 
-        self.root.after(1000, self.checkQueue)
+        self.root.after(250, self.checkQueue)
         self.root.after(10, self.focusWindow)
         
 
