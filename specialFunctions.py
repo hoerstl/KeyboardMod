@@ -7,6 +7,7 @@ import secondaryActions as secActions
 
 from PIL import Image
 from io import BytesIO
+import ctypes
 import multiprocessing as mp
 import globals
 import requests
@@ -74,6 +75,29 @@ def countToTheMoon(**kwargs):
     for i in range(10):
         time.sleep(1)
     print("slept 10 seconds")
+
+
+@threadedSubprocess()
+def clickMouseXTimes(timesToClick, **kwargs):
+    MOUSEEVENTF_MOVE = 0x0001
+    MOUSEEVENTF_ABSOLUTE = 0x8000
+    MOUSEEVENTF_LEFTDOWN = 0x0002
+    MOUSEEVENTF_LEFTUP = 0x0004
+
+    for _ in range(timesToClick):
+        ctypes.windll.user32.mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+        time.sleep(0.05)
+        ctypes.windll.user32.mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+
+
+@threadedSubprocess()
+def setTimesToClick(**kwargs):
+    _clickCount = getString("Times to Click", "How many times would you like to click when you run clickMouse?")
+    try:
+        kwargs['mainQueue'].put(('timesToClick', int(_clickCount)))
+        print(f"Got a click count: {_clickCount}")
+    except:
+        print(f"We got '{_clickCount}' but we needed an integer.")
 
 
 @threadedSubprocess()

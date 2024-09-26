@@ -11,17 +11,17 @@ def process_mode_shift(event):
     Decides whether or not to switch the keyboard into ShiftLock
     Runs every key release.
     """
-    global keyboard_mode, last_key_released, shift_release_time
+    global last_key_released, shift_release_time
     if is_shift_key(event.Key):
         is_different = event.Key != last_key_released
         was_quick_enough = time.time() - shift_release_time < .05
         if is_shift_key(last_key_released) and is_different and was_quick_enough:
-            if keyboard_mode == 'ShiftLock':
+            if globals.data['keyboardMode'] == 'ShiftLock':
                 print("ShiftLock Off")
-                keyboard_mode = 'Default'
+                globals.data['keyboardMode'] = 'Default'
             else:
                 print("ShiftLock On")
-                keyboard_mode = 'ShiftLock'
+                globals.data['keyboardMode'] = 'ShiftLock'
 
             last_key_released = ''
             return True
@@ -33,18 +33,18 @@ def process_mode_cap(event):
     Decides whether or not to switch the keyboard into CapMode
     Runs every key release.
     """
-    global keyboard_mode, cap_press_time
+    global cap_press_time
     if event.Key == 'Capital':
-        if event.MessageName == 'key down' and keyboard_mode != 'CapMode':
+        if event.MessageName == 'key down' and globals.data['keyboardMode'] != 'CapMode':
             globals.data['cap_mode_used'] = False
-            if keyboard_mode != 'Default':  # We should count disabling another keyboard mode as a valid use case of cap mode.
+            if globals.data['keyboardMode'] != 'Default':  # We should count disabling another keyboard mode as a valid use case of cap mode.
                 globals.data['cap_mode_used'] = True
-            keyboard_mode = 'CapMode'
+            globals.data['keyboardMode'] = 'CapMode'
             print('Entering Cap Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up' or event.MessageName == 'key sys up':
             cleanupHeldKeys()
-            keyboard_mode = 'Default'
+            globals.data['keyboardMode'] = 'Default'
             print('Leaving Cap Mode')
             if time.time() - cap_press_time < .3 and not globals.data.get('cap_mode_used'):
                 pressAndReleaseKey("Capital")
@@ -58,19 +58,19 @@ def process_mode_ctrl(event):
     Decides whether or not to switch the keyboard into CtrlMode
     Runs every key release.
     """
-    global keyboard_mode, last_key_released, ctrl_release_time
+    global last_key_released, ctrl_release_time
     if is_ctrl_key(event.Key):
         is_different = event.Key != last_key_released
         was_quick_enough = time.time() - ctrl_release_time < .05
         if is_ctrl_key(last_key_released) and is_different and was_quick_enough:
             'passed all criteria'
-            if keyboard_mode == 'CtrlMode':
+            if globals.data['keyboardMode'] == 'CtrlMode':
                 print("CtrlMode Off")
-                keyboard_mode = 'Default'
+                globals.data['keyboardMode'] = 'Default'
             else:
                 print("CtrlMode On")
                 globals.data['entering_ctrl_mode'] = True
-                keyboard_mode = 'CtrlMode'
+                globals.data['keyboardMode'] = 'CtrlMode'
 
             last_key_released = ''
             return True
@@ -100,7 +100,6 @@ def on_key_press(event):
         bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
         default keystroke behavior is blocked
     """
-    global keyboard_mode
     update()
     if is_press_bypassed(event):
         return True
@@ -108,14 +107,14 @@ def on_key_press(event):
         return False
 
     # Process keyboard input as you wish
-    if keyboard_mode == 'Default':
+    if globals.data['keyboardMode'] == 'Default':
         default_bypass[event.Key] = 1
         return True
-    elif keyboard_mode == 'ShiftLock':
+    elif globals.data['keyboardMode'] == 'ShiftLock':
         onPress_ShiftLock(event)
-    elif keyboard_mode == 'CapMode':
+    elif globals.data['keyboardMode'] == 'CapMode':
         onPress_CapMode(event)
-    elif keyboard_mode == 'CtrlMode':
+    elif globals.data['keyboardMode'] == 'CtrlMode':
         onPress_CtrlMode(event)
 
     return False
@@ -130,7 +129,7 @@ def on_key_release(event):
         bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
         default key release behavior is blocked
     """
-    global keyboard_mode, last_key_released
+    global last_key_released
     if is_release_bypassed(event):
         return True
 
@@ -147,14 +146,14 @@ def on_key_release(event):
         return True
 
     # Default keyboard input
-    if keyboard_mode == 'Default':
+    if globals.data['keyboardMode'] == 'Default':
         return True
-    elif keyboard_mode == 'ShiftLock':
+    elif globals.data['keyboardMode'] == 'ShiftLock':
         return False
-    elif keyboard_mode == 'CapMode':
+    elif globals.data['keyboardMode'] == 'CapMode':
         onRelease_CapMode(event)
         return False
-    elif keyboard_mode == 'CtrlMode':
+    elif globals.data['keyboardMode'] == 'CtrlMode':
         return False
     return True
 
@@ -175,7 +174,6 @@ def start_hook():
 
 
 if __name__ == '__main__':
-    keyboard_mode = 'Default'  # This can have the value 'Default', 'ShiftLock', 'CapMode', or 'CtrlMode'. Starts as 'Default'
     globals.init() # Perform first time initialization of global data and environment variables
     cap_press_time = 0
     shift_release_time = 0

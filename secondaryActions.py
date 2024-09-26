@@ -254,6 +254,7 @@ def is_shift_key(key_name):
 key_bindings_ShiftLock = {
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
+    'C': lambda: specialFunctions.asyncClickMouseXTimes(globals.data['timesToClick']),
     'D': lambda: specialFunctions.showRemoteServerIP(),
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
@@ -263,12 +264,14 @@ key_bindings_ShiftLock = {
     'S': lambda: specialFunctions.asyncSetRemoteServerIP(),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
     'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.data['remoteServerIP']),
+    'X': lambda: specialFunctions.asyncSetTimesToClick(),
     'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
 }
 def onPress_ShiftLock(event):
     global key_bindings_ShiftLock, keypress_bypass
     keyaction = key_bindings_ShiftLock.get(event.Key, lambda: 'no binding found')
     keyaction()
+    globals.data["keyboard_mode"] = 'Default'
 
 
 
