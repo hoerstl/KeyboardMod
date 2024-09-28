@@ -11,8 +11,8 @@ to bind the scripts I write to make me more powerful on my machines.
 
 ## Functionalities:
 - Pressing and holding the caps-lock key rebinds every key on the keyboard, entering 'CapMode'
-- Releasing both Lshift and Rshift at the same time rebinds every key on the keyboard separately in 'ShiftLock'
-- ShiftLock can be toggled via the same shortcut or by entering and leaving 'CapMode'
+- Releasing both Lshift and Rshift at the same time rebinds every key on the keyboard separately in 'ShiftMode'
+- ShiftMode can be toggled via the same shortcut or by entering and leaving 'CapMode'
 - Provides a library of common-use functions for keyboard customization 
 
 

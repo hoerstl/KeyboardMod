@@ -112,7 +112,7 @@ def showIPAddress(**kwargs):
 
 @threadedSubprocess()
 def setRemoteServerIP(**kwargs):
-    _remoteServerIP = getString("Clipboard Sync IP", "Please enter the IP of the P2P computer you'd like to read the information of.")
+    _remoteServerIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to link to.")
     print(f"Got an ip address of {_remoteServerIP}")
     kwargs['mainQueue'].put(('remoteServerIP', _remoteServerIP))
 

@@ -12,7 +12,7 @@ def ensureENVfile():
 def init():
     ensureENVfile()
     dotenv.load_dotenv()
-    data['keyboard_mode'] = 'Default' # This can have the value 'Default', 'ShiftLock', 'CapMode', or 'CtrlMode'. Starts as 'Default'
+    data['keyboardMode'] = 'Default' # This can have the value 'Default', 'ShiftMode', 'CapMode', or 'CtrlMode'. Starts as 'Default'
     data['remoteServerIP'] = '127.0.0.1'
     data['timesToClick'] = 1
     data['subprocessTimestamp'] = 0

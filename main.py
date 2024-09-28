@@ -8,7 +8,7 @@ from secondaryActions import *
 
 def process_mode_shift(event):
     """
-    Decides whether or not to switch the keyboard into ShiftLock
+    Decides whether or not to switch the keyboard into ShiftMode
     Runs every key release.
     """
     global last_key_released, shift_release_time
@@ -16,12 +16,12 @@ def process_mode_shift(event):
         is_different = event.Key != last_key_released
         was_quick_enough = time.time() - shift_release_time < .05
         if is_shift_key(last_key_released) and is_different and was_quick_enough:
-            if globals.data['keyboardMode'] == 'ShiftLock':
-                print("ShiftLock Off")
+            if globals.data['keyboardMode'] == 'ShiftMode':
+                print("ShiftMode Off")
                 globals.data['keyboardMode'] = 'Default'
             else:
-                print("ShiftLock On")
-                globals.data['keyboardMode'] = 'ShiftLock'
+                print("ShiftMode On")
+                globals.data['keyboardMode'] = 'ShiftMode'
 
             last_key_released = ''
             return True
@@ -110,8 +110,8 @@ def on_key_press(event):
     if globals.data['keyboardMode'] == 'Default':
         default_bypass[event.Key] = 1
         return True
-    elif globals.data['keyboardMode'] == 'ShiftLock':
-        onPress_ShiftLock(event)
+    elif globals.data['keyboardMode'] == 'ShiftMode':
+        onPress_ShiftMode(event)
     elif globals.data['keyboardMode'] == 'CapMode':
         onPress_CapMode(event)
     elif globals.data['keyboardMode'] == 'CtrlMode':
@@ -148,7 +148,7 @@ def on_key_release(event):
     # Default keyboard input
     if globals.data['keyboardMode'] == 'Default':
         return True
-    elif globals.data['keyboardMode'] == 'ShiftLock':
+    elif globals.data['keyboardMode'] == 'ShiftMode':
         return False
     elif globals.data['keyboardMode'] == 'CapMode':
         onRelease_CapMode(event)

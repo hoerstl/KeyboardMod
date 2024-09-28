@@ -242,7 +242,7 @@ def typeTemplate(template):
 
 
 
-###################### START OF THE SHIFTLOCK DEFINITIONS ############################
+###################### START OF THE SHIFTMODE DEFINITIONS ############################
 def is_shift_key(key_name):
     shift_names = [
         "shift",
@@ -251,7 +251,7 @@ def is_shift_key(key_name):
     ]
     return key_name in shift_names
 
-key_bindings_ShiftLock = {
+key_bindings_ShiftMode = {
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
     'C': lambda: specialFunctions.asyncClickMouseXTimes(globals.data['timesToClick']),
@@ -267,11 +267,13 @@ key_bindings_ShiftLock = {
     'X': lambda: specialFunctions.asyncSetTimesToClick(),
     'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
 }
-def onPress_ShiftLock(event):
-    global key_bindings_ShiftLock, keypress_bypass
-    keyaction = key_bindings_ShiftLock.get(event.Key, lambda: 'no binding found')
-    keyaction()
-    globals.data["keyboard_mode"] = 'Default'
+def onPress_ShiftMode(event):
+    global key_bindings_ShiftMode, keypress_bypass
+    keyaction = key_bindings_ShiftMode.get(event.Key)
+    if keyaction is not None: 
+        keyaction()
+        globals.data['keyboardMode'] = 'Default'
+        print("ShiftMode Off")
 
 
 
