@@ -100,7 +100,7 @@ def setTimesToClick(**kwargs):
         print(f"We got '{_clickCount}' but we needed an integer.")
 
 
-@threadedSubprocess()
+@threadedSubprocess(atomic=True)
 def hostServer(**kwargs):
     localServer.app.run(host='0.0.0.0', port=8080)
 
@@ -214,6 +214,7 @@ def toggleNotepad(notepadID):
 def killAllSubprocesses():
     globals.data['subprocessPool'].terminate()
     globals.data['subprocessPool'] = mp.Pool(processes=globals.data['maxSubprocesses'])
+    globals.data['atomicSubprocesses'] = set()
     print("All subprocesses killed")
 
 

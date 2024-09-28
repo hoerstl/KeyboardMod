@@ -6,7 +6,7 @@ import time
 
 
 
-def threadedSubprocess(createSubprocessQueue=None):
+def threadedSubprocess(atomic=False, createSubprocessQueue=None):
     """
     NOTE: All functions with this decorator must define **kwargs as function arguments
     
@@ -18,13 +18,22 @@ def threadedSubprocess(createSubprocessQueue=None):
     but functions defined with decorators are not pickleable so the decorator cannot change the function if 
     it wants to spawn a subprocess with it.
 
+    Params:
     createSubprocessQueue func() => mp.Queue: This function is used to create a new queue and may be 
     implemented in order to add the same queue to globals.data with a dynamically created name.
+    
+    atomic bool: Allows only a single subprocess of this function to be run at a time
     """
     def threadedSubprocessWithParameters(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             nonlocal func
+            if atomic and func.__name__ in globals.data['atomicSubprocesses']:
+                print(f"Subprocess {func.__name__} already running.")
+                return
+            elif atomic:
+                globals.data['atomicSubprocesses'].add(func.__name__)
+
             ms = 100
             timestamp = round((time.time() * 1000)/ms) * ms / 1000
             spCountOutdated = globals.data['subprocessTimestamp'] != timestamp

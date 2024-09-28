@@ -14,6 +14,7 @@ def init():
     dotenv.load_dotenv()
     data['keyboardMode'] = 'Default' # This can have the value 'Default', 'ShiftMode', 'CapMode', or 'CtrlMode'. Starts as 'Default'
     data['remoteServerIP'] = '127.0.0.1'
+    data['atomicSubprocesses'] = set()
     data['timesToClick'] = 1
     data['subprocessTimestamp'] = 0
     data['subprocessManager'] = mp.Manager()
