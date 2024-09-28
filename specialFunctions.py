@@ -103,12 +103,14 @@ def setTimesToClick(**kwargs):
 @threadedSubprocess(atomic=True)
 def hostServer(**kwargs):
     localServer.app.run(host='0.0.0.0', port=8080)
+    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', 'hostServer')))
 
-@threadedSubprocess()
+@threadedSubprocess(atomic=True)
 def showIPAddress(**kwargs):
     hostname = socket.gethostname()
     ipAddress = socket.gethostbyname(hostname)
     displayToUser("IP Address", str(ipAddress))
+    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', 'showIPAddress')))
 
 @threadedSubprocess()
 def setRemoteServerIP(**kwargs):

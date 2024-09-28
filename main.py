@@ -84,8 +84,13 @@ def update():
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
     while not globals.data['mainQueue'].empty():
-        key, value = globals.data['mainQueue'].get()
-        globals.data.update({key: value})
+        key, payload = globals.data['mainQueue'].get()
+        if key == "command":
+            command, value = payload
+            if command == "terminateAtomicSubprocess":
+                globals.data['atomicSubprocesses'].remove(value)
+        else:
+            globals.data.update({key: payload})
 
 
 
