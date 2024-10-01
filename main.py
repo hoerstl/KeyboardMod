@@ -1,8 +1,9 @@
 import pythoncom
 import pyWinhook
 import time
-from keyboardModes import *
+import keyboardModes
 import convenienceFunctions as kbd
+import globals
 
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
 # don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
@@ -13,10 +14,10 @@ def process_mode_shift(event):
     Runs every key release.
     """
     global last_key_released, shift_release_time
-    if is_shift_key(event.Key):
+    if keyboardModes.is_shift_key(event.Key):
         is_different = event.Key != last_key_released
         was_quick_enough = time.time() - shift_release_time < .05
-        if is_shift_key(last_key_released) and is_different and was_quick_enough:
+        if keyboardModes.is_shift_key(last_key_released) and is_different and was_quick_enough:
             if globals.data['keyboardMode'] == 'ShiftMode':
                 print("ShiftMode Off")
                 globals.data['keyboardMode'] = 'Default'
@@ -60,10 +61,10 @@ def process_mode_ctrl(event):
     Runs every key release.
     """
     global last_key_released, ctrl_release_time
-    if is_ctrl_key(event.Key):
+    if keyboardModes.is_ctrl_key(event.Key):
         is_different = event.Key != last_key_released
         was_quick_enough = time.time() - ctrl_release_time < .05
-        if is_ctrl_key(last_key_released) and is_different and was_quick_enough:
+        if keyboardModes.is_ctrl_key(last_key_released) and is_different and was_quick_enough:
             'passed all criteria'
             if globals.data['keyboardMode'] == 'CtrlMode':
                 print("CtrlMode Off")
@@ -142,11 +143,11 @@ def on_key_press(event):
         globals.default_bypass[event.Key] = 1
         return True
     elif globals.data['keyboardMode'] == 'ShiftMode':
-        onPress_ShiftMode(event)
+        keyboardModes.onPress_ShiftMode(event)
     elif globals.data['keyboardMode'] == 'CapMode':
-        onPress_CapMode(event)
+        keyboardModes.onPress_CapMode(event)
     elif globals.data['keyboardMode'] == 'CtrlMode':
-        onPress_CtrlMode(event)
+        keyboardModes.onPress_CtrlMode(event)
 
     return False
 
@@ -182,7 +183,7 @@ def on_key_release(event):
     elif globals.data['keyboardMode'] == 'ShiftMode':
         return False
     elif globals.data['keyboardMode'] == 'CapMode':
-        onRelease_CapMode(event)
+        keyboardModes.onRelease_CapMode(event)
         return False
     elif globals.data['keyboardMode'] == 'CtrlMode':
         return False
