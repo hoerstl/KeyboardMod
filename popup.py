@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import simpledialog
 import win32gui
 import pywintypes
+import win32process
+import win32api
+import ctypes
 
 
 
@@ -61,6 +64,9 @@ class OverlayEditModal:
         self.root.overrideredirect(1)  # Removes window borders
         self.root.attributes("-alpha", 0.5)  # Makes the background semi-transparent (greyed out)
         self.root.configure(bg='grey')  # Grey background
+        self.root.attributes("-topmost", True)
+        self.root.lift()  # Brings it to the top of its own stacking order
+        self.root.after(1000, lambda: self.root.attributes("-topmost", False))  # Remove always-on-top after 1 second
         
         
         ## Configure the foreground modal (modal)
@@ -147,13 +153,33 @@ class OverlayEditModal:
         # ####################################################
         
         try:
-            # Find the window by title
-            hwnd = win32gui.FindWindow(None, self.title)
-            # Bring it to the front
-            win32gui.SetForegroundWindow(hwnd)
+            # Get the current thread ID
+            modal_hwnd = self.modal.winfo_id()
+            current_thread_id = win32process.GetWindowThreadProcessId(modal_hwnd)[0]
+
+            # Get the thread ID of the window to bring to the foreground
+            focused_hwind = ctypes.windll.user32.GetForegroundWindow()
+            target_thread_id = win32process.GetWindowThreadProcessId(focused_hwind)[0]
+
+            print(f"{modal_hwnd=} | {focused_hwind=}")
+            print(f"{target_thread_id=} | {current_thread_id=}")
+
+            # Attach
+            ctypes.windll.user32.AttachThreadInput(target_thread_id, current_thread_id, True)
+            # Set the target window as the foreground window
+            ctypes.windll.user32.SetForegroundWindow(modal_hwnd)
+            # Detach
+            ctypes.windll.user32.AttachThreadInput(target_thread_id, current_thread_id, False)
+            
+
+            # Get the title of the current foreground window
+            hwnd = win32gui.GetForegroundWindow()
+            window_title = win32gui.GetWindowText(hwnd)
+            print(f"Current Foreground Window Title: {window_title}")
         except pywintypes.error as e:
             if _calls < 100:
                 self.root.after(10, lambda: self.focusWindow(_calls=_calls+1))
+                print("calling again")
             else:
                 raise e
             
@@ -178,6 +204,7 @@ class Popup:
         x = self.root.winfo_screenwidth() // 2
         y = self.root.winfo_screenheight() // 2
         self.root.geometry(f'{self.desiredWidth}x{self.desiredHeight}+{x - (self.desiredWidth//2)}+{y - (self.desiredHeight//2)}')
+        self.root.after(1, self.root.focus_force())
 
     def populateElements(self):
         selected_font = ("Comic Sans", 10 + 10 * ['small', 'medium', 'large'].index(self.fontSize))

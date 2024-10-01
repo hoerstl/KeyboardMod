@@ -190,6 +190,7 @@ def openNotepad(notepadID, **kwargs):
     
     modal = OverlayEditModal(f"Notepad #{notepadID}", textContent, 'small', saveCallback=saveFunction, checkActionQueue=checkActionQueue)
     modal.startMainLoop()
+    kwargs['mainQueue'].put(('command', ('closeNotepad', notepadID)))
 
 
 def toggleNotepad(notepadID):
@@ -200,10 +201,8 @@ def toggleNotepad(notepadID):
     mostRecentNotepadID = globals.data['mostRecentNotepadID']
 
     if mostRecentNotepadID is not None: # If a notepad is open, close it
-        globals.data['mostRecentNotepadID'] = None
         toNotepadQueue = globals.data['notepadQueues'][mostRecentNotepadID]
         if toNotepadQueue:
-            globals.data['notepadQueues'][mostRecentNotepadID] = None
             toNotepadQueue.put('forcedSaveAndExit')  # Tell the notepad to save and exit
     elif notepadID != mostRecentNotepadID: # If the selected notepad is different from the one that was open, open the selected notepad
         globals.data['mostRecentNotepadID'] = notepadID
@@ -217,6 +216,8 @@ def killAllSubprocesses():
     globals.data['subprocessPool'].terminate()
     globals.data['subprocessPool'] = mp.Pool(processes=globals.data['maxSubprocesses'])
     globals.data['atomicSubprocesses'] = set()
+    globals.data['mostRecentNotepadID'] = None
+    globals.data['notepadQueues'] = [None for _ in globals.data['notepadQueues']]
     print("All subprocesses killed")
 
 

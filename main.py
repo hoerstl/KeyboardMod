@@ -89,6 +89,10 @@ def update():
             command, value = payload
             if command == "terminateAtomicSubprocess":
                 globals.data['atomicSubprocesses'].remove(value)
+                
+            elif command == "closeNotepad":
+                globals.data['mostRecentNotepadID'] = None
+                globals.data['notepadQueues'][value] = None
         else:
             globals.data.update({key: payload})
 
