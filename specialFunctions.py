@@ -112,11 +112,12 @@ def showIPAddress(**kwargs):
     displayToUser("IP Address", str(ipAddress))
     kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', showIPAddress.__name__)))
 
-@threadedSubprocess()
+@threadedSubprocess(atomic=True)
 def setRemoteServerIP(**kwargs):
     _remoteServerIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to link to.")
     print(f"Got an ip address of {_remoteServerIP}")
     kwargs['mainQueue'].put(('remoteServerIP', _remoteServerIP))
+    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', setRemoteServerIP.__name__)))
 
 
 def showRemoteServerIP():
