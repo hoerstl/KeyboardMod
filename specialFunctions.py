@@ -3,7 +3,7 @@ import QuizTaker.main as quizTaker
 import localServer
 from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
-import secondaryActions as secActions
+import convenienceFunctions as kbd
 
 from PIL import Image
 from io import BytesIO
@@ -16,35 +16,53 @@ import socket
 import time
 import os
 
+def typeTemplate(template):
+    template += '|' if '|' not in template else ''
+    first, second = template.split('|')
+    for char in first:
+        kbd.typeCharacter(char)
+    for char in second:
+        kbd.typeCharacter(char)
+    lines_in_second = second.split('\n')
+    if len(lines_in_second) > 1:  # Move to the right spot
+        for character in lines_in_second[-1]:  # Move to the start of the line you're on
+            kbd.pressAndReleaseKey('Left')
+        for line in range(len(lines_in_second) - 1):  # Move up a number of lines equal to the number of lines since the cursor position
+            kbd.pressAndReleaseKey('Up')
+        for character in first.split('\n')[-1]:  # Move right the correct number of times
+            kbd.pressAndReleaseKey('Right')
+    else:
+        for character in second:
+            kbd.pressAndReleaseKey('Left')
 
-def capitalizeWord(direction):
-    assert direction == "Left" or direction == "Right"
-    initialClipboardContent = pyperclip.paste()
-    homeDirection = "Left" if direction == "Right" else "Right"
-    secActions.pressKeyCombo(f"Lcontrol+Lshift+{direction}")
-    secActions.pressKeyCombo("Lcontrol+C")
-    time.sleep(1e-5)
-    secActions.pressAndReleaseKey("Left")
-    time.sleep(1e-5)
-    wordToCapitalize = pyperclip.paste()
-    charIndexToCapitalize = -1
-    for i, character in enumerate(wordToCapitalize):
-        if character.islower():
-            charIndexToCapitalize = i
-            letterToReplace = character.upper()
-            for j in range(charIndexToCapitalize+1):
-                secActions.pressAndReleaseKey("Right")
-            secActions.pressAndReleaseKey("Back")
-            secActions.pressKeyCombo(f"Lshift+{letterToReplace}")
-            break
-    if homeDirection == "Left":
-        for j in range(charIndexToCapitalize+1):
-            secActions.pressAndReleaseKey("Left")
-    elif homeDirection == "Right":  # Return cursor back to initial position on right
-        for j in range(len(wordToCapitalize) - (charIndexToCapitalize+1)):
-            secActions.pressAndReleaseKey("Right")
+# def capitalizeWord(direction):
+#     assert direction == "Left" or direction == "Right"
+#     initialClipboardContent = pyperclip.paste()
+#     homeDirection = "Left" if direction == "Right" else "Right"
+#     kbd.pressKeyCombo(f"Lcontrol+Lshift+{direction}")
+#     kbd.pressKeyCombo("Lcontrol+C")
+#     time.sleep(1e-5)
+#     kbd.pressAndReleaseKey("Left")
+#     time.sleep(1e-5)
+#     wordToCapitalize = pyperclip.paste()
+#     charIndexToCapitalize = -1
+#     for i, character in enumerate(wordToCapitalize):
+#         if character.islower():
+#             charIndexToCapitalize = i
+#             letterToReplace = character.upper()
+#             for j in range(charIndexToCapitalize+1):
+#                 kbd.pressAndReleaseKey("Right")
+#             kbd.pressAndReleaseKey("Back")
+#             kbd.pressKeyCombo(f"Lshift+{letterToReplace}")
+#             break
+#     if homeDirection == "Left":
+#         for j in range(charIndexToCapitalize+1):
+#             kbd.pressAndReleaseKey("Left")
+#     elif homeDirection == "Right":  # Return cursor back to initial position on right
+#         for j in range(len(wordToCapitalize) - (charIndexToCapitalize+1)):
+#             kbd.pressAndReleaseKey("Right")
 
-    pyperclip.copy(initialClipboardContent)
+#     pyperclip.copy(initialClipboardContent)
 
 @threadedSubprocess()
 def showIcecreamCode(**kwargs):

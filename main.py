@@ -1,7 +1,8 @@
 import pythoncom
 import pyWinhook
 import time
-from secondaryActions import *
+from keyboardModes import *
+import convenienceFunctions as kbd
 
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
 # don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
@@ -43,11 +44,11 @@ def process_mode_cap(event):
             print('Entering Cap Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up' or event.MessageName == 'key sys up':
-            cleanupHeldKeys()
+            kbd.cleanupHeldKeys()
             globals.data['keyboardMode'] = 'Default'
             print('Leaving Cap Mode')
             if time.time() - cap_press_time < .3 and not globals.data.get('cap_mode_used'):
-                pressAndReleaseKey("Capital")
+                kbd.pressAndReleaseKey("Capital")
         return True
 
     return False
@@ -97,8 +98,29 @@ def update():
             globals.data.update({key: payload})
 
 
+def is_press_bypassed(event):
+    if globals.keypress_bypass[event.Key] > 0:
+        globals.keypress_bypass[event.Key] -= 1
+        return True
+    return False
 
 
+def is_release_bypassed(event):
+    if globals.keyrelease_bypass[event.Key] > 0:
+        globals.keyrelease_bypass[event.Key] -= 1
+        return True
+    return False
+
+
+def is_default_bypassed(event):
+    """
+    This function is used to bypass keys pressed during the default keyboard mode so they can be released in other modes.
+    Unlike release_bypass, these key releases can still trigger logic meant to switch between modes.
+    """
+    if globals.default_bypass[event.Key] > 0:
+        globals.default_bypass[event.Key] -= 1
+        return True
+    return False
 
 
 def on_key_press(event):
@@ -117,7 +139,7 @@ def on_key_press(event):
 
     # Process keyboard input as you wish
     if globals.data['keyboardMode'] == 'Default':
-        default_bypass[event.Key] = 1
+        globals.default_bypass[event.Key] = 1
         return True
     elif globals.data['keyboardMode'] == 'ShiftMode':
         onPress_ShiftMode(event)

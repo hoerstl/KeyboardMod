@@ -34,7 +34,7 @@ def clickAt(x, y, returnToPos=False, window=None):
 
 
 class OverlayEditModal:
-    def __init__(self, title='Unnamed Modal', text='', fontSize='small', windowWidth=600, windowHeight=700, cancelCallback=(lambda: None), saveCallback=(lambda text: text), checkActionQueue=(lambda: None)):
+    def __init__(self, title='Unnamed Modal', text='', fontSize='small', windowWidth=600, windowHeight=500, cancelCallback=(lambda: None), saveCallback=(lambda text: text), checkActionQueue=(lambda: None)):
         self.title = title
         self.text = text
         self.fontSize = fontSize

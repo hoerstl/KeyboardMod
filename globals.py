@@ -1,7 +1,14 @@
 import multiprocessing as mp
 import dotenv
 import os
+from collections import defaultdict
+
 data = {}
+keypress_bypass = defaultdict(int)
+keyrelease_bypass = defaultdict(int)
+default_bypass = defaultdict(int)
+active_mimics = []
+held_keys = []
 
 def ensureENVfile():
     if not os.path.exists('.env'): 
