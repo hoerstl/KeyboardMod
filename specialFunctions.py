@@ -3,6 +3,7 @@ import QuizTaker.main as quizTaker
 import localServer
 from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
+from settings import PaginatedSettingsWindow
 import convenienceFunctions as kbd
 
 from PIL import Image
@@ -35,34 +36,6 @@ def typeTemplate(template):
         for character in second:
             kbd.pressAndReleaseKey('Left')
 
-# def capitalizeWord(direction):
-#     assert direction == "Left" or direction == "Right"
-#     initialClipboardContent = pyperclip.paste()
-#     homeDirection = "Left" if direction == "Right" else "Right"
-#     kbd.pressKeyCombo(f"Lcontrol+Lshift+{direction}")
-#     kbd.pressKeyCombo("Lcontrol+C")
-#     time.sleep(1e-5)
-#     kbd.pressAndReleaseKey("Left")
-#     time.sleep(1e-5)
-#     wordToCapitalize = pyperclip.paste()
-#     charIndexToCapitalize = -1
-#     for i, character in enumerate(wordToCapitalize):
-#         if character.islower():
-#             charIndexToCapitalize = i
-#             letterToReplace = character.upper()
-#             for j in range(charIndexToCapitalize+1):
-#                 kbd.pressAndReleaseKey("Right")
-#             kbd.pressAndReleaseKey("Back")
-#             kbd.pressKeyCombo(f"Lshift+{letterToReplace}")
-#             break
-#     if homeDirection == "Left":
-#         for j in range(charIndexToCapitalize+1):
-#             kbd.pressAndReleaseKey("Left")
-#     elif homeDirection == "Right":  # Return cursor back to initial position on right
-#         for j in range(len(wordToCapitalize) - (charIndexToCapitalize+1)):
-#             kbd.pressAndReleaseKey("Right")
-
-#     pyperclip.copy(initialClipboardContent)
 
 @threadedSubprocess()
 def showIcecreamCode(**kwargs):
@@ -229,6 +202,12 @@ def toggleNotepad(notepadID):
 
 ######################################################################################
 
+@threadedSubprocess(atomic=True)
+def openSettings(**kwargs):
+    root = PaginatedSettingsWindow(lambda key, value: kwargs['mainQueue'].put(key, value))
+    root.mainloop()
+    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', openSettings.__name__)))
+
 
 
 def killAllSubprocesses():
@@ -246,3 +225,34 @@ def init():
     This function serves as a place to initialize any submodules that need it
     """
     quizTaker.init()
+
+
+
+# def capitalizeWord(direction):
+#     assert direction == "Left" or direction == "Right"
+#     initialClipboardContent = pyperclip.paste()
+#     homeDirection = "Left" if direction == "Right" else "Right"
+#     kbd.pressKeyCombo(f"Lcontrol+Lshift+{direction}")
+#     kbd.pressKeyCombo("Lcontrol+C")
+#     time.sleep(1e-5)
+#     kbd.pressAndReleaseKey("Left")
+#     time.sleep(1e-5)
+#     wordToCapitalize = pyperclip.paste()
+#     charIndexToCapitalize = -1
+#     for i, character in enumerate(wordToCapitalize):
+#         if character.islower():
+#             charIndexToCapitalize = i
+#             letterToReplace = character.upper()
+#             for j in range(charIndexToCapitalize+1):
+#                 kbd.pressAndReleaseKey("Right")
+#             kbd.pressAndReleaseKey("Back")
+#             kbd.pressKeyCombo(f"Lshift+{letterToReplace}")
+#             break
+#     if homeDirection == "Left":
+#         for j in range(charIndexToCapitalize+1):
+#             kbd.pressAndReleaseKey("Left")
+#     elif homeDirection == "Right":  # Return cursor back to initial position on right
+#         for j in range(len(wordToCapitalize) - (charIndexToCapitalize+1)):
+#             kbd.pressAndReleaseKey("Right")
+
+#     pyperclip.copy(initialClipboardContent)

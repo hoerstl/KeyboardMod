@@ -91,6 +91,7 @@ key_bindings_ShiftMode = {
     'L': lambda: specialFunctions.asyncSetRemoteServerIP(),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True),
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.data['remoteServerIP']),
+    'S': lambda: specialFunctions.asyncOpenSettings(),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
     'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.data['remoteServerIP']),
     'X': lambda: specialFunctions.asyncSetTimesToClick(),
