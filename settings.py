@@ -36,7 +36,7 @@ class PaginatedSettingsWindow(tk.Tk):
         # Initialize the first page
         for _ in range(self.total_pages):
             self.add_page()
-        print(self.pages)
+        self.addPresetSettingsContent()
         self.update_navigation_buttons()
         self.show_page(1)
 
@@ -95,7 +95,7 @@ class PaginatedSettingsWindow(tk.Tk):
         else:
             self.next_button.state(['!disabled'])
 
-    def add_widget_to_page(self, page_number, widget_type, key, text=None):
+    def add_widget_to_page(self, page_number, widget_type, text=None, key=None):
         """Dynamically add a widget to a specific page and track its value with the given key."""
         if page_number in self.pages:
             page_frame = self.pages[page_number]
@@ -126,21 +126,30 @@ class PaginatedSettingsWindow(tk.Tk):
         """Called whenever a widget's value changes, triggers the callback with the key-value pair."""
         # Trigger the external callback function with the key and the updated value
         if self.on_change_callback:
+            try:
+                value = int(value)
+            except:
+                pass
             self.on_change_callback(key, value)
+
+    def addPresetSettingsContent(self):
+        # Page 1
+        self.add_widget_to_page(1, "label", text="Linked Computer IP Address")
+        self.add_widget_to_page(1, "entry", key="remoteServerIP")
+        self.add_widget_to_page(1, "label", text="Times to click with command")
+        self.add_widget_to_page(1, "entry", key="timesToClick")
+
+
+        # type in code mode (bool)
+        
+
 
 if __name__ == "__main__":
     # Callback function to handle settings change
     def handle_settings_change(key, value):
-        print(f"Setting changed - Key: {key}, Value: {value}")
+        print(f"Setting changed - Key: {key}, Value: {value}, ValType: {type(value)}")
 
     # Create the settings window with the callback
     app = PaginatedSettingsWindow(on_change_callback=handle_settings_change)
-
-    # Example of adding widgets to different pages with unique keys
-    app.add_widget_to_page(1, "label", key="label_username", text="Username")
-    app.add_widget_to_page(1, "entry", key="username_entry")
-    app.add_widget_to_page(2, "label", key="label_password", text="Password")
-    app.add_widget_to_page(2, "entry", key="password_entry")
-    app.add_widget_to_page(2, "checkbox", key="remember_me", text="Remember me")
 
     app.mainloop()
