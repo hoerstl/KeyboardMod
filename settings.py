@@ -2,12 +2,23 @@ import tkinter as tk
 from tkinter import ttk
 import os
 import json
+from popup import clickAt
 
 class PaginatedSettingsWindow(tk.Tk):
     def __init__(self, on_change_callback, default_values=None):
         super().__init__()
         self.title("Settings")
-        self.setGeometry()
+        self.attributes("-topmost", True)
+        self.lift()  # Brings it to the top of its own stacking order
+
+        # Calculate the position for the window to be centered
+        self.width = self.height = 400
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        self.x = (screen_width // 2) - (self.width // 2)
+        self.y = (screen_height // 2) - (self.height // 2)
+        self.geometry(f'{self.width}x{self.height}+{self.x}+{self.y}')
 
         # Callback function for when a widget value changes
         self.on_change_callback = on_change_callback
@@ -41,17 +52,6 @@ class PaginatedSettingsWindow(tk.Tk):
         self.update_navigation_buttons()
         self.show_page(1)
 
-    def setGeometry(self):
-        width = height = 400
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-
-        # Calculate the position for the window to be centered
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
-
-        # Set the geometry of the window to center it
-        self.geometry(f'{width}x{height}+{x}+{y}')
 
     def add_page(self):
         """Create a new page and add it to the pages dictionary."""

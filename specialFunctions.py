@@ -81,16 +81,6 @@ def clickMouseXTimes(timesToClick, **kwargs):
         ctypes.windll.user32.mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
 
 
-@threadedSubprocess()
-def setTimesToClick(**kwargs):
-    _clickCount = getString("Times to Click", "How many times would you like to click when you run clickMouse?")
-    try:
-        kwargs['mainQueue'].put(('timesToClick', int(_clickCount)))
-        print(f"Got a click count: {_clickCount}")
-    except:
-        print(f"We got '{_clickCount}' but we needed an integer.")
-
-
 @threadedSubprocess(atomic=True)
 def hostServer(**kwargs):
     localServer.app.run(host='0.0.0.0', port=8080)
@@ -102,13 +92,6 @@ def showIPAddress(**kwargs):
     ipAddress = socket.gethostbyname(hostname)
     displayToUser("IP Address", str(ipAddress))
     kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', showIPAddress.__name__)))
-
-@threadedSubprocess(atomic=True)
-def setRemoteServerIP(**kwargs):
-    _remoteServerIP = getString("Clipboard Sync IP", "Please enter the IP of the computer you'd like to link to.")
-    print(f"Got an ip address of {_remoteServerIP}")
-    kwargs['mainQueue'].put(('remoteServerIP', _remoteServerIP))
-    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', setRemoteServerIP.__name__)))
 
 
 def showRemoteServerIP():

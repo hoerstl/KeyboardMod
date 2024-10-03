@@ -88,13 +88,11 @@ key_bindings_ShiftMode = {
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
-    'L': lambda: specialFunctions.asyncSetRemoteServerIP(),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True),
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),
     'S': lambda: specialFunctions.asyncOpenSettingsMenu(globals.settings),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
     'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.settings['remoteServerIP']),
-    'X': lambda: specialFunctions.asyncSetTimesToClick(),
     'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
 }
 def onPress_ShiftMode(event):
