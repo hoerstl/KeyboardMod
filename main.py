@@ -3,6 +3,7 @@ import pyWinhook
 import time
 import keyboardModes
 import convenienceFunctions as kbd
+import settings
 import globals
 
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
@@ -85,6 +86,7 @@ def update():
     to make it available to the user
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
+    settingsChanged = False
     while not globals.data['mainQueue'].empty():
         key, payload = globals.data['mainQueue'].get()
         if key == "command":
@@ -96,7 +98,10 @@ def update():
                 globals.data['mostRecentNotepadID'] = None
                 globals.data['notepadQueues'][value] = None
         else:
-            globals.data.update({key: payload})
+            if key in globals.settings and globals.settings[key] != payload:
+                settingsChanged = True
+                globals.settings.update({key: payload})
+    if settingsChanged: settings.saveSettings(globals.settings)
 
 
 def is_press_bypassed(event):

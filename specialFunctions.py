@@ -112,7 +112,7 @@ def setRemoteServerIP(**kwargs):
 
 
 def showRemoteServerIP():
-    print(globals.data['remoteServerIP'])
+    print(globals.settings['remoteServerIP'])
 
 
 @threadedSubprocess()
@@ -203,10 +203,10 @@ def toggleNotepad(notepadID):
 ######################################################################################
 
 @threadedSubprocess(atomic=True)
-def openSettings(**kwargs):
-    root = PaginatedSettingsWindow(lambda key, value: kwargs['mainQueue'].put(key, value))
+def openSettingsMenu(settings, **kwargs):
+    root = PaginatedSettingsWindow(lambda key, value: kwargs['mainQueue'].put((key, value)), default_values=settings)
     root.mainloop()
-    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', openSettings.__name__)))
+    kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', openSettingsMenu.__name__)))
 
 
 
