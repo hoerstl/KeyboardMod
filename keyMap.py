@@ -186,5 +186,7 @@ common_character_map = {
     '.': 'Oem_Period',
     '/': 'Oem_2',
     ' ': 'Space',
+    '⬅': 'Back',  # Backspace
+    '❌': 'Escape',
 }
 

@@ -116,6 +116,20 @@ def is_ctrl_key(key_name):
 ctrlMode_payload = ""
 ctrlMode_next_key_index = 0
 
+def preprocessAsCode(text):
+    # TODO: Determine if other code editors such as HackerRank drop a tab when a return statement is typed
+    
+    processedText = ""
+    linesOfText = text.split("\n")
+    previousLineTabCount = float("-inf")
+    for i, line in enumerate(linesOfText):
+        currentLineTabCount = len(line) - len(line.lstrip('\t'))
+        processedText += "⬅"*max(0, previousLineTabCount - currentLineTabCount)*bool(line) + line.lstrip('\t') + ("❌\n" if i != len(linesOfText)-1 else "")
+        if line:
+            previousLineTabCount = currentLineTabCount
+    return processedText
+
+
 def load_payload_from_clipboard():
     """
     Loads a value from the clipboard into the ctrlMode_payload variable.
@@ -136,9 +150,14 @@ def load_payload_from_clipboard():
     # Normalize tabs (replace 4 spaces or other sequences with \t)
     normalized_content = normalized_content.replace('    ', '\t')  # 4 spaces to \t
 
+    if not isinstance(normalized_content, str):
+        raise ValueError("The clipboard must hold a string to ghost type")
 
-    if isinstance(normalized_content, str):
-        ctrlMode_payload = normalized_content
+    # Preprocess if we're in code typing mode
+    if globals.settings['ghostTypingMode'] == 'Code':
+        normalized_content = preprocessAsCode(normalized_content)
+
+    ctrlMode_payload = normalized_content
 
     return old_payload != ctrlMode_payload
 

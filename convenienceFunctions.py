@@ -98,7 +98,7 @@ def typeCharacter(character):
         pressKeyCombo(keycombo)
         return
 
-    # Otherwise, convert the character to the pywincom name 
+    # Otherwise, convert the character to the pywincom name and type it
     character = common_character_map.get(character, character)
     if key_map.get(character):
         pressAndReleaseKey(character)
