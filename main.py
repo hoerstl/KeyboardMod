@@ -167,6 +167,7 @@ def on_key_release(event):
         default key release behavior is blocked
     """
     global last_key_released
+    update()
     if is_release_bypassed(event):
         return True
 
