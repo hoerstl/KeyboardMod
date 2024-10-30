@@ -3,7 +3,6 @@ import dotenv
 import os
 from collections import defaultdict
 import settings as sett
-
 data = {}
 settings = {}
 keypress_bypass = defaultdict(int)
@@ -35,3 +34,4 @@ def init():
 
     # Settings
     settings = sett.loadSettings()
+    

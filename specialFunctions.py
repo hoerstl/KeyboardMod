@@ -46,12 +46,13 @@ def showIcecreamCode(**kwargs):
 @threadedSubprocess()
 def answerVisableQuizQuestion(**kwargs):
     keywordArguments = {key: value for key, value in kwargs.items() if key == 'verbose'}
+    quizTaker.init(kwargs['GOOGLE_API_KEY'])
     displayToUser('Answer', quizTaker.answerVisableQuizQuestion(**keywordArguments), fontSize='small', desiredHeight=200)
 
 @threadedSubprocess()
 def answerVisableExtendedResponseQuestion(**kwargs):
     isStealthy = kwargs.get('stealthy')
-    
+    quizTaker.init(kwargs['GOOGLE_API_KEY'])
     answer = quizTaker.answerVisableExtendedResponseQuestion()
     if isStealthy:
         pyperclip.copy(answer)
@@ -207,7 +208,7 @@ def init():
     """
     This function serves as a place to initialize any submodules that need it
     """
-    quizTaker.init()
+    pass
 
 
 

@@ -2,6 +2,7 @@ import pythoncom
 import pyWinhook
 import time
 import keyboardModes
+import specialFunctions
 import convenienceFunctions as kbd
 import settings
 import globals
@@ -82,7 +83,7 @@ def process_mode_ctrl(event):
 
 def update():
     """
-    Performs logic as frequently as possible (every frame ideally but really every time a button is pressed)
+    Performs logic as frequently as possible (every frame ideally but really every time a button is pressed or released)
     to make it available to the user
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
@@ -145,8 +146,7 @@ def on_key_press(event):
 
     # Process keyboard input as you wish
     if globals.data['keyboardMode'] == 'Default':
-        globals.default_bypass[event.Key] = 1
-        return True
+        return keyboardModes.onPress_Default(event)
     elif globals.data['keyboardMode'] == 'ShiftMode':
         keyboardModes.onPress_ShiftMode(event)
     elif globals.data['keyboardMode'] == 'CapMode':
@@ -213,6 +213,7 @@ def start_hook():
 
 if __name__ == '__main__':
     globals.init() # Perform first time initialization of global data and environment variables
+    specialFunctions.init()
     cap_press_time = 0
     shift_release_time = 0
     ctrl_release_time = 0

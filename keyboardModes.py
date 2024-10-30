@@ -2,7 +2,21 @@ import pyperclip
 import globals
 import convenienceFunctions as kbd
 import specialFunctions
-specialFunctions.init()
+
+
+###################### START OF THE DEFAULT DEFINITIONS ############################
+
+
+
+def onPress_Default(event):
+    if event.Key == "Media_Play_Pause" and globals.settings["headphoneActions"]:
+        print("We're play pausing")
+        return False
+    globals.default_bypass[event.Key] = 1
+    return True
+
+
+
 
 
 ###################### START OF THE CAPMODE DEFINITIONS ############################
@@ -81,19 +95,19 @@ def is_shift_key(key_name):
     return key_name in shift_names
 
 key_bindings_ShiftMode = {
-    'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(),
+    'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
     'C': lambda: specialFunctions.asyncClickMouseXTimes(globals.settings['timesToClick']),
     'D': lambda: specialFunctions.showRemoteServerIP(),
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
-    'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True),
+    'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),
     'S': lambda: specialFunctions.asyncOpenSettingsMenu(globals.settings),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
     'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.settings['remoteServerIP']),
-    'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True),
+    'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
 }
 def onPress_ShiftMode(event):
     global key_bindings_ShiftMode

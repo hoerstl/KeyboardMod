@@ -4,12 +4,23 @@ import os
 import json
 from popup import clickAt
 
+### DEFAULT SETTINGS ###
+defaultSettings = { 
+    'remoteServerIP': '127.0.0.1',
+    'ghostTypingMode': 'Default',
+    'timesToClick': 1,
+    'GOOGLE_API_KEY' : "",
+    'headphoneActions': False,
+    }
+
+
 class PaginatedSettingsWindow(tk.Tk):
     def __init__(self, on_change_callback, default_values=None):
         super().__init__()
         self.title("Settings")
         self.attributes("-topmost", True)
         self.lift()  # Brings it to the top of its own stacking order
+        self.attributes("-topmost", False)
 
         # Calculate the position for the window to be centered
         self.width = self.height = 400
@@ -162,6 +173,12 @@ class PaginatedSettingsWindow(tk.Tk):
         self.add_widget_to_page(1, "label", text="Times to Rapid Click")
         self.add_widget_to_page(1, "entry", key="timesToClick")
 
+        # Page 2
+        self.add_widget_to_page(2, "label", text="Enable headphone actions?")
+        self.add_widget_to_page(2, "checkbox", key="headphoneActions")
+        self.add_widget_to_page(2, "label", text="Google API key")
+        self.add_widget_to_page(2, "entry", key="GOOGLE_API_KEY")
+
 
 
 def saveSettings(settings):
@@ -170,17 +187,15 @@ def saveSettings(settings):
 
 
 def loadSettings():
+    global defaultSettings
     if not os.path.exists('settings.json'):
         # File doesn't exist, create with an empty JSON object
         with open('settings.json', 'w') as file:
-            json.dump({ ### DEFAULT SETTINGS ###
-                'remoteServerIP': '127.0.0.1',
-                'ghostTypingMode': 'Default',
-                'timesToClick': 1,
-            }, file, indent=4)
+            json.dump(defaultSettings, file, indent=4)
     # File exists, load its contents
     with open('settings.json', 'r') as file:
         settings = json.load(file)
+    os.environ['GOOGLE_API_KEY'] = settings['GOOGLE_API_KEY']
     return settings
 
 
@@ -190,12 +205,12 @@ if __name__ == "__main__":
         print(f"Setting changed - Key: {key}, Value: {value}, ValType: {type(value)}")
 
     # Example dictionary with default values
-    default_settings = {
+    testing_defaults = {
         "remoteServerIP": "192.168.0.1",
         "timesToClick": 5,
     }
 
     # Create the settings window with the callback and default values
-    app = PaginatedSettingsWindow(on_change_callback=handle_settings_change, default_values=default_settings)
+    app = PaginatedSettingsWindow(on_change_callback=handle_settings_change, default_values=testing_defaults)
 
     app.mainloop()

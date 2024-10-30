@@ -49,6 +49,13 @@ of the bindings implemented by default:
 
 ## Known issues
 
-- The crtl mode cannot handle the typing of some characters. typeCharacter() needs some work. Currently values are hardcoded and that's limited.
-- When opening a notepad, the window sometimes does not take focus over other windows.
+- The crtl mode cannot handle the typing of some characters (emojis). typeCharacter() needs some work. Currently values are hardcoded and that's limited.
 
+
+
+
+TODO: Consider different test taking cases and put an emphasis on being able to solve questions solo.
+- e.x. Move the mouse to the top-left and bottom-right of a question and be able to answer it.
+- in order to flag a teammate, we should flash numlock on and off
+- Focus on both two person and single person tech separately
+- Think about how we scale api keys
