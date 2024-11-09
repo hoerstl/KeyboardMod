@@ -102,6 +102,7 @@ key_bindings_ShiftMode = {
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
+    'N': lambda: specialFunctions.asyncSendNotify(globals.settings['remoteServerIP']),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),
     'S': lambda: specialFunctions.asyncOpenSettingsMenu(globals.settings),

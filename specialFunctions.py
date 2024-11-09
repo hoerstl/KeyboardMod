@@ -84,7 +84,7 @@ def clickMouseXTimes(timesToClick, **kwargs):
 
 @threadedSubprocess(atomic=True)
 def hostServer(**kwargs):
-    localServer.app.run(host='0.0.0.0', port=8080)
+    localServer.startApplication(kwargs['mainQueue'])
     kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', hostServer.__name__)))
 
 @threadedSubprocess(atomic=True)
@@ -121,6 +121,16 @@ def displayRemoteScreenshot(remoteServerIP, **kwargs):
     except requests.exceptions.ConnectionError as e:
         print(f"Couldn't read remote screenshot at {remoteServerIP}")
 
+@threadedSubprocess()
+def sendNotify(remoteServerIP, **kwargs):
+    requests.get(f"http://{remoteServerIP}:8080/notify")
+
+@threadedSubprocess()
+def notify(**kwargs):
+    for _ in range(8):
+        print("pressing capital")
+        kbd.pressAndReleaseKey('Capital')
+        time.sleep(.5)
 
 
 ####################################### NOTEPAD LOGIC ##################################

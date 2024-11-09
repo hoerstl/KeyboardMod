@@ -98,6 +98,10 @@ def update():
             elif command == "closeNotepad":
                 globals.data['mostRecentNotepadID'] = None
                 globals.data['notepadQueues'][value] = None
+
+            elif command == "notify":
+                specialFunctions.asyncNotify()
+                    
         else:
             if key in globals.settings and globals.settings[key] != payload:
                 settingsChanged = True
