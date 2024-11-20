@@ -212,8 +212,9 @@ def type_next_payload_character():
 
 def onPress_CtrlMode(event):
     global ctrlMode_payload, ctrlMode_next_key_index
-    if globals.data.get('entering_ctrl_mode'):
-        ghostTypeFrom = globals.settings.get('ghostTypeFrom')
+    ghostTypeFrom = globals.settings['ghostTypeFrom']
+    if globals.data['entering_ctrl_mode']:
+
         if ghostTypeFrom == 'Clipboard':
             load_payload_from_clipboard()
             
@@ -224,7 +225,7 @@ def onPress_CtrlMode(event):
         globals.data['entering_ctrl_mode'] = False
 
 
-    if globals.data.get('ghostTypeFrom') == "Remote":
+    if ghostTypeFrom == "Remote":
         if globals.data["asyncCtrlModePayloadStatus"] == "Requested":
             return
         elif globals.data["asyncCtrlModePayloadStatus"] == "Recieved":
@@ -236,7 +237,6 @@ def onPress_CtrlMode(event):
 
             
     if event.Key == "Escape":
-        load_payload_from_clipboard()
         ctrlMode_next_key_index = 0
     elif not is_ctrl_key(event.Key) and not is_shift_key(event.Key):
         type_next_payload_character()

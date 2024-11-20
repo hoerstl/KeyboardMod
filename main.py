@@ -118,7 +118,6 @@ def update():
                     else:
                         pyperclip.copy(globals.data["remoteServerClipboard"])
 
-                globals.data.update({key: payload})
 
     if settingsChanged: settings.saveSettings(globals.settings)
 
