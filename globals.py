@@ -29,6 +29,8 @@ def init():
     data['maxSubprocesses'] = 5
     data['subprocessPool'] = mp.Pool(processes=data['maxSubprocesses'])
     data['mainQueue'] = data['subprocessManager'].Queue()
+    data['remoteServerClipboard'] = ""  # TODO: make a third dictionary in globals which holds temporary changing data. These two feel out of place in data.
+    data['asyncCtrlModePayloadStatus'] = "Recieved" # Can be 'Requested', 'Recieved', or "In Use"
     data['mostRecentNotepadID'] = None
     data['notepadQueues'] = [None for i in range(10)]
 

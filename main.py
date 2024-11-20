@@ -6,6 +6,7 @@ import specialFunctions
 import convenienceFunctions as kbd
 import settings
 import globals
+import pyperclip
 
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
 # don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
@@ -87,6 +88,9 @@ def update():
     to make it available to the user
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
+
+    # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well.
+    
     settingsChanged = False
     while not globals.data['mainQueue'].empty():
         key, payload = globals.data['mainQueue'].get()
@@ -106,6 +110,16 @@ def update():
             if key in globals.settings and globals.settings[key] != payload:
                 settingsChanged = True
                 globals.settings.update({key: payload})
+            elif key in globals.data:
+                if key == "remoteServerClipboard":
+                    globals.data["remoteServerClipboard"] = payload
+                    if globals.data['asyncCtrlModePayloadStatus'] == "Requested":
+                        globals.data['asyncCtrlModePayloadStatus'] = "Recieved"
+                    else:
+                        pyperclip.copy(globals.data["remoteServerClipboard"])
+
+                globals.data.update({key: payload})
+
     if settingsChanged: settings.saveSettings(globals.settings)
 
 

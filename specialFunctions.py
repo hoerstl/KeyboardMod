@@ -106,7 +106,7 @@ def readRemoteClipboard(remoteServerIP, **kwargs):
         response = requests.get(f"http://{remoteServerIP}:8080/getClipboard")
         remoteClipboardData = response.json()
         print(f"Successfully read remote clipboard data: {remoteClipboardData}")
-        pyperclip.copy(remoteClipboardData)
+        kwargs['mainQueue'].put(('remoteServerClipboard', remoteClipboardData))
     except requests.exceptions.ConnectionError as e:
         print(f"Couldn't read remote clipboard at {remoteServerIP}")
 

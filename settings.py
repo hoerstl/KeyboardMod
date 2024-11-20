@@ -8,6 +8,7 @@ from popup import clickAt
 defaultSettings = { 
     'remoteServerIP': '127.0.0.1',
     'ghostTypingMode': 'Default',
+    'ghostTypeFrom' : "Clipboard",
     'timesToClick': 1,
     'GOOGLE_API_KEY' : "",
     'headphoneActions': False,
@@ -168,8 +169,10 @@ class PaginatedSettingsWindow(tk.Tk):
         # Page 1
         self.add_widget_to_page(1, "label", text="Linked Computer IP Address")
         self.add_widget_to_page(1, "entry", key="remoteServerIP")
-        self.add_widget_to_page(1, "label", text="Ghost Typing Mode")
+        self.add_widget_to_page(1, "label", text="Ghost Typing Content")
         self.add_widget_to_page(1, "select", options=["Default", "Code"], key="ghostTypingMode")
+        self.add_widget_to_page(1, "label", text="Ghost Type From?")
+        self.add_widget_to_page(1, "select", options=["Clipboard", "Remote"], key="ghostTypeFrom")
         self.add_widget_to_page(1, "label", text="Times to Rapid Click")
         self.add_widget_to_page(1, "entry", key="timesToClick")
 

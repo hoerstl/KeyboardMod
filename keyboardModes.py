@@ -145,17 +145,9 @@ def preprocessAsCode(text):
     return processedText
 
 
-def load_payload_from_clipboard():
-    """
-    Loads a value from the clipboard into the ctrlMode_payload variable.
+def normalize_content(payload):
     
-    Return:
-      bool | returns whether or not the payload has been altered on load
-    """
-    global ctrlMode_payload
-    old_payload = ctrlMode_payload
-    newPayload = pyperclip.paste()
-    normalized_content = newPayload.replace('\r\n', '\n').replace('\r', '\n')
+    normalized_content = payload.replace('\r\n', '\n').replace('\r', '\n')
 
     # Replace non-breaking spaces, em spaces, and en spaces with regular spaces
     normalized_content = normalized_content.replace('\u00A0', ' ')  # Non-breaking space
@@ -165,16 +157,49 @@ def load_payload_from_clipboard():
     # Normalize tabs (replace 4 spaces or other sequences with \t)
     normalized_content = normalized_content.replace('    ', '\t')  # 4 spaces to \t
 
-    if not isinstance(normalized_content, str):
-        raise ValueError("The clipboard must hold a string to ghost type")
-
     # Preprocess if we're in code typing mode
     if globals.settings['ghostTypingMode'] == 'Code':
         normalized_content = preprocessAsCode(normalized_content)
 
+    return normalized_content
+
+
+
+def load_payload_from_clipboard():
+    """
+    Loads a value from the clipboard into the ctrlMode_payload variable.
+    Resets the next_key_index variable if the payload has changed.
+    """
+    global ctrlMode_payload, ctrlMode_next_key_index
+    old_payload = ctrlMode_payload
+    newPayload = pyperclip.paste()
+
+    if not isinstance(newPayload, str):
+        raise ValueError("The clipboard must hold a string to ghost type")
+    
+    normalized_content = normalize_content(newPayload)
     ctrlMode_payload = normalized_content
 
-    return old_payload != ctrlMode_payload
+    if old_payload != ctrlMode_payload: ctrlMode_next_key_index = 0
+
+
+def load_payload_from_globals():
+    """
+    Loads a value from globals into the ctrlMode_payload variable.
+    Resets the next_key_index variable if the payload has changed.
+    """
+    global ctrlMode_payload, ctrlMode_next_key_index
+    old_payload = ctrlMode_payload
+    newPayload = globals.data['remoteServerClipboard']
+
+    if not isinstance(newPayload, str):
+        raise ValueError("The clipboard must hold a string to ghost type")
+    
+    normalized_content = normalize_content(newPayload)
+    ctrlMode_payload = normalized_content
+
+    if old_payload != ctrlMode_payload: ctrlMode_next_key_index = 0
+
 
 def type_next_payload_character():
     global ctrlMode_payload, ctrlMode_next_key_index
@@ -188,8 +213,27 @@ def type_next_payload_character():
 def onPress_CtrlMode(event):
     global ctrlMode_payload, ctrlMode_next_key_index
     if globals.data.get('entering_ctrl_mode'):
-        payloadChanged = load_payload_from_clipboard()
-        if payloadChanged: ctrlMode_next_key_index = 0
+        ghostTypeFrom = globals.settings.get('ghostTypeFrom')
+        if ghostTypeFrom == 'Clipboard':
+            load_payload_from_clipboard()
+            
+        elif ghostTypeFrom == 'Remote':
+            globals.data['asyncCtrlModePayloadStatus'] = "Requested"
+            specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP'])
+        
+        globals.data['entering_ctrl_mode'] = False
+
+
+    if globals.data.get('ghostTypeFrom') == "Remote":
+        if globals.data["asyncCtrlModePayloadStatus"] == "Requested":
+            return
+        elif globals.data["asyncCtrlModePayloadStatus"] == "Recieved":
+            load_payload_from_globals()
+            globals.data["asyncCtrlModePayloadStatus"] = "In Use"
+        elif globals.data["asyncCtrlModePayloadStatus"] == "In Use":
+            pass
+
+
             
     if event.Key == "Escape":
         load_payload_from_clipboard()
