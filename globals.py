@@ -5,6 +5,7 @@ from collections import defaultdict
 import settings as sett
 data = {}
 settings = {}
+flags = {}
 keypress_bypass = defaultdict(int)
 keyrelease_bypass = defaultdict(int)
 default_bypass = defaultdict(int)
@@ -18,22 +19,30 @@ def ensureENVfile():
 
 
 def init():
-    global data, settings
+    global data, settings, flags
     ensureENVfile()
     dotenv.load_dotenv()
-    # Data
-    data['keyboardMode'] = 'Default' # This can have the value 'Default', 'ShiftMode', 'CapMode', or 'CtrlMode'. Starts as 'Default'
-    data['atomicSubprocesses'] = set()
-    data['subprocessTimestamp'] = 0
+    ## Data
+
+    # Semi-Static
     data['subprocessManager'] = mp.Manager()
+    data['mainQueue'] = data['subprocessManager'].Queue()
     data['maxSubprocesses'] = 5
     data['subprocessPool'] = mp.Pool(processes=data['maxSubprocesses'])
-    data['mainQueue'] = data['subprocessManager'].Queue()
-    data['remoteServerClipboard'] = ""  # TODO: make a third dictionary in globals which holds temporary changing data. These two feel out of place in data.
-    data['asyncCtrlModePayloadStatus'] = "Recieved" # Can be 'Requested', 'Recieved', or "In Use"
+    data['atomicSubprocesses'] = set()
+
+    # Dynamic
+    data['keyboardMode'] = 'Default' # This can have the value 'Default', 'ShiftMode', 'CapMode', or 'CtrlMode'. Starts as 'Default'
+    data['subprocessTimestamp'] = 0
+    data['remoteServerClipboard'] = ""
     data['mostRecentNotepadID'] = None
     data['notepadQueues'] = [None for i in range(10)]
 
-    # Settings
+    
+
+    ## Settings
     settings = sett.loadSettings()
     
+    ## Flags
+    flags['asyncCtrlModePayloadStatus'] = "Recieved" # Can be 'Requested', 'Recieved', "In Use", or "Failed"
+

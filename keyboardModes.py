@@ -219,21 +219,22 @@ def onPress_CtrlMode(event):
             load_payload_from_clipboard()
             
         elif ghostTypeFrom == 'Remote':
-            globals.data['asyncCtrlModePayloadStatus'] = "Requested"
+            globals.flags['asyncCtrlModePayloadStatus'] = "Requested"
             specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP'])
         
         globals.data['entering_ctrl_mode'] = False
 
 
     if ghostTypeFrom == "Remote":
-        if globals.data["asyncCtrlModePayloadStatus"] == "Requested":
+        if globals.flags["asyncCtrlModePayloadStatus"] == "Requested":
             return
-        elif globals.data["asyncCtrlModePayloadStatus"] == "Recieved":
+        elif globals.flags["asyncCtrlModePayloadStatus"] == "Recieved":
             load_payload_from_globals()
-            globals.data["asyncCtrlModePayloadStatus"] = "In Use"
-        elif globals.data["asyncCtrlModePayloadStatus"] == "In Use":
+            globals.flags["asyncCtrlModePayloadStatus"] = "In Use"
+        elif globals.flags["asyncCtrlModePayloadStatus"] == "In Use":
             pass
-
+        else: #globals.flags["asyncCtrlModePayloadStatus"] == "Failed":
+            return
 
             
     if event.Key == "Escape":

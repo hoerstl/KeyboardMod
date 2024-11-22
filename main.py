@@ -88,12 +88,13 @@ def update():
     to make it available to the user
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
-
+    global updateHooks # TODO: implement updateHooks and abstract functionality
     # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well.
     
     settingsChanged = False
     while not globals.data['mainQueue'].empty():
         key, payload = globals.data['mainQueue'].get()
+        #command, *payload = globals.data['mainQueue'].get()
         if key == "command":
             command, value = payload
             if command == "terminateAtomicSubprocess":
@@ -105,7 +106,11 @@ def update():
 
             elif command == "notify":
                 specialFunctions.asyncNotify()
-                    
+
+            elif command == "remoteClipboardReadFailed":
+                if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
+                    globals.flags['asyncCtrlModePayloadStatus'] = "Failed"
+
         else:
             if key in globals.settings and globals.settings[key] != payload:
                 settingsChanged = True
@@ -113,8 +118,8 @@ def update():
             elif key in globals.data:
                 if key == "remoteServerClipboard":
                     globals.data["remoteServerClipboard"] = payload
-                    if globals.data['asyncCtrlModePayloadStatus'] == "Requested":
-                        globals.data['asyncCtrlModePayloadStatus'] = "Recieved"
+                    if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
+                        globals.flags['asyncCtrlModePayloadStatus'] = "Recieved"
                     else:
                         pyperclip.copy(globals.data["remoteServerClipboard"])
 

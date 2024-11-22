@@ -109,6 +109,7 @@ def readRemoteClipboard(remoteServerIP, **kwargs):
         kwargs['mainQueue'].put(('remoteServerClipboard', remoteClipboardData))
     except requests.exceptions.ConnectionError as e:
         print(f"Couldn't read remote clipboard at {remoteServerIP}")
+        kwargs['mainQueue'].put(('command', ('remoteClipboardReadFailed', None)))
 
 @threadedSubprocess()
 def displayRemoteScreenshot(remoteServerIP, **kwargs):
