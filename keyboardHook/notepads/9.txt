@@ -1,0 +1,3 @@
+Freshen up on SQL
+
+Learn LeetCode properly.
