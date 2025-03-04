@@ -3,6 +3,8 @@ import pyWinhook
 
 def on_key_press(event):
     print(event.Key)
+    if event.Key == "Escape":
+        exit()
     return False
 
 
