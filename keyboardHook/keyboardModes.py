@@ -42,7 +42,7 @@ key_bindings_CapMode = {
 'D': lambda: kbd.pressAndReleaseKey('End'),
 'G': lambda: specialFunctions.typeTemplate('{% | %}'),
 'R': lambda: specialFunctions.typeTemplate(\
-"""print(f"|") # Beans
+"""print(f"{|=}") # Beans
 print('*'*1000)"""),
 'Lmenu': lambda: kbd.pressKeyCombo('Lshift+Lcontrol+Left'),
 
