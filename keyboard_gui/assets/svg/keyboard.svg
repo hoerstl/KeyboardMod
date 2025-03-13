@@ -25,13 +25,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="pt"
      inkscape:zoom="3.382554"
-     inkscape:cx="553.13233"
-     inkscape:cy="12.121018"
-     inkscape:window-width="2560"
-     inkscape:window-height="1494"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
-     inkscape:window-maximized="1"
+     inkscape:cx="235.47296"
+     inkscape:cy="94.307438"
+     inkscape:window-width="1491"
+     inkscape:window-height="1481"
+     inkscape:window-x="-9"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg109" />
   <defs
      id="defs1" />
@@ -1112,7 +1112,8 @@
      width="18.72"
      height="14.4"
      rx="1.2"
-     ry="1.2" />
+     ry="1.2"
+     name="Apps" />
   <rect
      id="shape070"
      transform="translate(235.2, 97.92)"
@@ -2602,7 +2603,8 @@
      letter-spacing="0"
      text-anchor="middle"
      word-spacing="0"
-     style="text-align: start;text-align-last: auto;font-family: Segoe UI;font-size: 4;"><tspan
+     style="text-align: start;text-align-last: auto;font-family: Segoe UI;font-size: 4;"
+     name="Apps"><tspan
        x="5.75"
        id="tspan90">MENU</tspan></text>
   <text
@@ -2845,7 +2847,8 @@
      letter-spacing="0"
      text-anchor="middle"
      word-spacing="0"
-     style="text-align: start;text-align-last: auto;font-family: Segoe UI;font-size: 3;"><tspan
+     style="text-align: start;text-align-last: auto;font-family: Segoe UI;font-size: 3;"
+     name="Snapshot"><tspan
        x="5.25"
        id="tspan101">PRINT</tspan><tspan
        x="5.25"
