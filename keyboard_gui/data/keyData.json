@@ -1,0 +1,13 @@
+{
+    "Default": {
+        "W": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        }
+    },
+    "Caps Lock": {},
+    "Shift": {},
+    "Ctrl": {},
+    "Alt": {}
+}

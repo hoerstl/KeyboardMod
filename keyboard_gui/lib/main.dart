@@ -1,8 +1,10 @@
 import 'dart:ffi';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Keyboard Mod',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -74,24 +76,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  String selectedKey = "W";
-  String keyboardMode = "Default";
-  bool recentlyDeleted = false;
+  
+  var keyData;
 
-  Map<String, Map<String, Map<String, dynamic>>> keyData = {
-    "Default": {
-      "W": {
-        "Enabled": true,
-        "useDefaultFilepath": true,
-        "customFilepath": "",
-      },
-    },
-    "Caps Lock": {},
-    "Shift": {},
-    "Ctrl": {},
-    "Alt": {},
-  };
+  late Map<String, dynamic> sharedData;
+
+  Future<void> loadKeyData() async {
+    final String jsonString = await rootBundle.loadString('data/keyData.json');
+    var data = jsonDecode(jsonString);
+    keyData = data; 
+    print("loaded keyData:");
+    print(keyData); 
+  }
+
+  void setSharedData(List keys, var value ){
+    setState(() {
+      dynamic data = sharedData;
+      for (int i = 0; i < keys.length; i++){
+        if (data.containsKey(keys[i])){
+          if (i == keys.length - 1){
+            data[keys[i]] = value;
+          }
+          data = data[keys[i]];
+        } else {
+          throw StateError('KeyError: The key "${keys[i]}" does not exist in the map.');
+        }
+      }
+    });
+  }
+
+  Future<void> loadSharedData() async {
+    await loadKeyData();
+    sharedData = {
+      "selectedKey": "W",
+      "keyboardMode": "Default",
+      "keyData": keyData
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,14 +122,33 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    return FutureBuilder(
+      future: loadSharedData(), // The async method that loads your data
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Show a loading indicator while waiting for the future
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          // Handle errors gracefully
+          return Scaffold(
+            body: Center(
+              child: Text('Error loading data: ${snapshot.error}'),
+            ),
+          );
+        } else {
+          // Once the data is loaded, build the main UI
+          return buildMainUI();
+        }
+      },
+    );
+  }
 
-
-
-    TextEditingController customFilepathController = TextEditingController(
-        text: keyData[keyboardMode]?[selectedKey]?["customFilepath"]);
-    TextStyle sidebarTextStyle = TextStyle(
-        fontSize: 15.0, color: Theme.of(context).colorScheme.onSurface);
-
+  Widget buildMainUI(){
+    var keyboardMode = sharedData["keyboardMode"];
     return Scaffold(
         body: Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +192,44 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         Expanded(
             flex: 3,
-            child: Container(
+            child: Sidebar(sharedData: sharedData, setSharedData: setSharedData)),
+      ],
+    ));
+  }
+}
+
+
+
+
+
+class Sidebar extends StatefulWidget {
+  final Map<String, dynamic> sharedData;
+  final void Function(List<dynamic>, dynamic) setSharedData;
+  const Sidebar({super.key, required this.sharedData, required this.setSharedData});
+
+  @override
+  State<Sidebar> createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
+  bool recentlyDeleted = false;
+
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    var keyData = widget.sharedData["keyData"];
+    var selectedKey = widget.sharedData["selectedKey"];
+    var keyboardMode = widget.sharedData["keyboardMode"];
+
+
+    TextEditingController customFilepathController = TextEditingController(
+        text: keyData[keyboardMode]?[selectedKey]?["customFilepath"]);
+    TextStyle sidebarTextStyle = TextStyle(
+          fontSize: 15.0, color: Theme.of(context).colorScheme.onSurface);
+
+    return Container(
               padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainer,
@@ -183,19 +260,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Row(
                       children: [
                         Checkbox(
-                            value: keyData[keyboardMode]?[selectedKey]
-                                    ?['Enabled'] ??
-                                false,
+                            value: keyData[keyboardMode]?[selectedKey]?["Enabled"] ?? false,
                             onChanged: (val) {
-                              setState(() {
-                                if (keyData.containsKey(keyboardMode) &&
-                                    keyData[keyboardMode]
-                                            ?.containsKey(selectedKey) !=
-                                        null) {
-                                  keyData[keyboardMode]![selectedKey]![
-                                      'Enabled'] = val;
-                                }
-                              });
+                              if (keyData.containsKey(keyboardMode) && keyData[keyboardMode]?.containsKey(selectedKey) != null) {
+                                widget.setSharedData(["keyData", keyboardMode, selectedKey, "Enabled"], val);
+                                keyData[keyboardMode]![selectedKey]!["Enabled"] = val;
+                              }
                             }),
                         Text("Enable", style: sidebarTextStyle)
                       ],
@@ -299,7 +369,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     bottomRight: Radius.circular(10.0)),
                               )),
                           child: Text(recentlyDeleted ? "Undo" : "Delete",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 30.0, letterSpacing: 1.0)),
                         ),
                       ],
@@ -307,8 +377,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-            )),
-      ],
-    ));
+            );
   }
 }
