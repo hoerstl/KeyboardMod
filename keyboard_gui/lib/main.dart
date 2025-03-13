@@ -1,9 +1,9 @@
 import 'dart:ffi';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'home_screen/main_ui.dart';
+import 'home_screen/sidebar.dart';
 
 
 void main() {
@@ -62,15 +62,6 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -116,12 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return FutureBuilder(
       future: loadSharedData(), // The async method that loads your data
       builder: (context, snapshot) {
@@ -141,54 +126,20 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         } else {
           // Once the data is loaded, build the main UI
-          return buildMainUI();
+          return buildHomeScreen();
         }
       },
     );
   }
 
-  Widget buildMainUI(){
-    var keyboardMode = sharedData["keyboardMode"];
+  Widget buildHomeScreen(){
     return Scaffold(
         body: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           flex: 10,
-          child: Center(
-            child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(keyboardMode,
-                        style: const TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    const Text("Mode",
-                        style: TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ],
-                ),
-              ),
-              Expanded(flex: 2, child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: FittedBox(
-                  child: SvgPicture.asset("assets/svg/keyboard.svg", 
-                  height: 120,
-                  width: 312,
-                  fit: BoxFit.fill
-                )
-                        ,),
-              )),
-              Expanded(flex: 1, child: Container()),
-            ],
-          )),
+          child: keySelector(context: context, sharedData: sharedData, setSharedData: setSharedData)
         ),
         Expanded(
             flex: 3,
@@ -199,184 +150,3 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 
-
-
-
-class Sidebar extends StatefulWidget {
-  final Map<String, dynamic> sharedData;
-  final void Function(List<dynamic>, dynamic) setSharedData;
-  const Sidebar({super.key, required this.sharedData, required this.setSharedData});
-
-  @override
-  State<Sidebar> createState() => _SidebarState();
-}
-
-class _SidebarState extends State<Sidebar> {
-  bool recentlyDeleted = false;
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    var keyData = widget.sharedData["keyData"];
-    var selectedKey = widget.sharedData["selectedKey"];
-    var keyboardMode = widget.sharedData["keyboardMode"];
-
-
-    TextEditingController customFilepathController = TextEditingController(
-        text: keyData[keyboardMode]?[selectedKey]?["customFilepath"]);
-    TextStyle sidebarTextStyle = TextStyle(
-          fontSize: 15.0, color: Theme.of(context).colorScheme.onSurface);
-
-    return Container(
-              padding: const EdgeInsets.all(20.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
-                border: Border(
-                    left: BorderSide(
-                        width: 2.0,
-                        color: Theme.of(context).colorScheme.shadow)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Text(
-                      'Binding $selectedKey in $keyboardMode',
-                      style: const TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 20.0,
-                    thickness: 2.0,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                            value: keyData[keyboardMode]?[selectedKey]?["Enabled"] ?? false,
-                            onChanged: (val) {
-                              if (keyData.containsKey(keyboardMode) && keyData[keyboardMode]?.containsKey(selectedKey) != null) {
-                                widget.setSharedData(["keyData", keyboardMode, selectedKey, "Enabled"], val);
-                                keyData[keyboardMode]![selectedKey]!["Enabled"] = val;
-                              }
-                            }),
-                        Text("Enable", style: sidebarTextStyle)
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Radio(
-                        value: true,
-                        groupValue: keyData[keyboardMode]?[selectedKey]
-                            ?["useDefaultFilepath"],
-                        onChanged: (val) {
-                          setState(() {
-                            keyData[keyboardMode]?[selectedKey]
-                                ?["useDefaultFilepath"] = val;
-                          });
-                        },
-                      ),
-                      Text("Use Default Filepath", style: sidebarTextStyle),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio(
-                        value: false,
-                        groupValue: keyData[keyboardMode]?[selectedKey]
-                            ?["useDefaultFilepath"],
-                        onChanged: (val) {
-                          setState(() {
-                            keyData[keyboardMode]?[selectedKey]
-                                ?["useDefaultFilepath"] = val;
-                          });
-                        },
-                      ),
-                      Text("Use Custom Filepath", style: sidebarTextStyle),
-                    ],
-                  ),
-                  SizedBox(height: 5.0),
-                  Row(
-                    children: [
-                      const SizedBox(width: 40.0),
-                      Expanded(
-                        child: TextField(
-                          enabled: !keyData[keyboardMode]?[selectedKey]
-                              ?["useDefaultFilepath"],
-                          controller: customFilepathController,
-                          decoration: InputDecoration(
-                            hintText: 'enter filepath to .py file...',
-                            prefixIcon: IconButton(
-                              icon: Icon(Icons.folder),
-                              onPressed: () {
-                                print("Selecting a file");
-                              },
-                            ),
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (text) {
-                            keyData[keyboardMode]?[selectedKey]
-                                ?["customFilepath"] = text;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  Expanded(child: Container()),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => {print("Editing")},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    bottomLeft: Radius.circular(10.0)),
-                              )),
-                          child: const Text("Edit",
-                              style: TextStyle(
-                                  fontSize: 30.0, letterSpacing: 1.0)),
-                        ),
-                        const SizedBox(width: 10.0),
-                        ElevatedButton(
-                          onPressed: () => {setState(() {
-                            print("Deleted");
-                            recentlyDeleted = ! recentlyDeleted;
-                          })},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10.0),
-                                    bottomRight: Radius.circular(10.0)),
-                              )),
-                          child: Text(recentlyDeleted ? "Undo" : "Delete",
-                              style: const TextStyle(
-                                  fontSize: 30.0, letterSpacing: 1.0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-  }
-}
