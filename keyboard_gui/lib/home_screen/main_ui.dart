@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../logic/keyPicker/keyPicker.dart';
 
-Widget keySelector({required BuildContext context, required sharedData, required setSharedData}){
+Widget main_ui({required BuildContext context, required sharedData, required setSharedData}){
   var keyboardMode = sharedData["keyboardMode"];
   return Center(
             child: Column(
@@ -27,12 +28,13 @@ Widget keySelector({required BuildContext context, required sharedData, required
               Expanded(flex: 2, child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50),
                 child: FittedBox(
-                  child: SvgPicture.asset("assets/svg/keyboard.svg", 
-                  height: 120,
-                  width: 312,
-                  fit: BoxFit.fill
-                )
-                        ,),
+                  child: keyPicker()
+                //   SvgPicture.asset("assets/svg/keyboard.svg", 
+                //   height: 120,
+                //   width: 312,
+                //   fit: BoxFit.fill
+                // )
+                ),
               )),
               Expanded(flex: 1, child: Container()),
             ],

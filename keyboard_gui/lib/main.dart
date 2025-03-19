@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -139,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         Expanded(
           flex: 10,
-          child: keySelector(context: context, sharedData: sharedData, setSharedData: setSharedData)
+          child: main_ui(context: context, sharedData: sharedData, setSharedData: setSharedData)
         ),
         Expanded(
             flex: 3,
