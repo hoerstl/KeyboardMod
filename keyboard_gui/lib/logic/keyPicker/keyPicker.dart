@@ -35,13 +35,26 @@ class _keyPickerState extends State<keyPicker> {
 
 
 class Key { // We need to extend this from a rectangle property
-  final String id;
-  final String path;
-  final String name;
-  final Color color;
-  final Rect rect;
+  String id;
+  String path;
+  String name;
+  double strokeWidth;
+  Color color;
+  Rect rect;
   
-  Key({required this.id, required this.path, required this.name, required this.color, required this.rect});
+  Key(XmlElement element) {
+    this.id = element.getAttribute('id').toString();
+    this.path = element.getAttribute('d').toString();
+    String name = element.getAttribute('name').toString();
+    Color color = Color(int.parse("FF${element.getAttribute('stroke')?.toString().substring(1) ?? 'FFFFFF'}", radix: 16));
+    List<double> coordinates = extractLTRBFromRect(element);
+    Rect rect = Rect.fromLTRB(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+  };
+
+
+
+
+
 }
 // Load the SVG string
 // Parse the string and extract all the text, rects, and paths into separate lists
@@ -70,15 +83,8 @@ List<Key> loadKeysFromKeyboardSVG({required XmlDocument keyboardSVG}) {
    
    final keyboardRects = keyboardSVG.findAllElements('rect');
 
-   for (var element in keyboardRects) {
-     String partId = element.getAttribute('id').toString();
-     String partPath = element.getAttribute('d').toString();
-     String name = element.getAttribute('name').toString();
-     Color color = Color(int.parse("FF${element.getAttribute('stroke')?.toString().substring(1) ?? 'FFFFFF'}", radix: 16));
-     List<double> coordinates = extractLTRBFromRect(element);
-     Rect rect = Rect.fromLTRB(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
-
-     keys.add(Key(id: partId, path: partPath, color: color, name: name, rect: rect));
+   for (XmlElement element in keyboardRects) {
+     keys.add(Key(element));
    }
 
    return keys;

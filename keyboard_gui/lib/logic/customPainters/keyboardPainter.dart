@@ -15,7 +15,9 @@ class KeyboardPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint rectPaint = Paint()..color = Colors.white;
+    final Paint rectPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke;
     final Paint pathPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
@@ -23,7 +25,9 @@ class KeyboardPainter extends CustomPainter {
 
     // Draw rectangles
     for (Key key in rectangles) {
+      rectPaint.strokeWidth = key.strokeWidth;
       rectPaint.color = key.color;
+      rectPaint.color = Colors.white;  // TODO: REMOVE THIS AFTER TESTING
       canvas.drawRect(key.rect, rectPaint);
     }
 
