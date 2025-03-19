@@ -16,28 +16,38 @@ class Key { // We need to extend this from a rectangle property
 // Pass those to the customPainter which has the keyData hash map
 // Return a canvas using the customPainter which colors all elements based on the keyData
 
+List<double> extractLTRBFromRect(var element){
+  final regex = RegExp(r'translate\(([^,]+),\s*([^)]+)\)');
+  final match = regex.firstMatch(element.getAttribute('transform'));
 
-Future<List<Key>> loadKeysFromKeyboardSVG({required String svgImage}) async {
+  if (match == null) {
+    throw FormatException("This element's transform property does not match the expected format: $element.getAttribute('transform')");
+  } 
+  // Parse the numbers and return them as a list
+  final L = double.parse(match.group(1)!);
+  final T = double.parse(match.group(2)!);
+  final R = L + double.parse(element.getAttribute("width"));
+  final B = T + double.parse(element.getAttribute("height"));
+
+  return [T, L, R, B];
+}
+
+
+Future<List<Key>> loadKeysFromKeyboardSVG({required XmlDocument keyboardSVG}) async {
    List<Key> keys = [];
-   String keyboardString = await rootBundle.loadString(svgImage);
-
-
-   XmlDocument document = XmlDocument.parse(keyboardString);
-
-
-   final keyboardRects = document.findAllElements('rect');
-
+   
+   final keyboardRects = keyboardSVG.findAllElements('rect');
 
    for (var element in keyboardRects) {
      String partId = element.getAttribute('id').toString();
      String partPath = element.getAttribute('d').toString();
      String name = element.getAttribute('name').toString();
      String color = element.getAttribute('color')?.toString() ?? 'D7D3D2';
+     List<double> coordinates = extractLTRBFromRect(element);
+     Rect rect = Rect.fromLTRB(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
 
-
-     keys.add(Key(id: partId, path: partPath, color: color, name: name));
+     keys.add(Key(id: partId, path: partPath, color: color, name: name, rect: rect));
    }
-
 
    return keys;
  }
@@ -64,7 +74,9 @@ String correctSvgColors(String svgString) {
 
 Future<Widget> keyPicker() async {  // Add Context here so we can build with the correct colors
 
-  List<Key> keys = await loadKeysFromKeyboardSVG(svgImage: "assets/keyboard.svg");
+  String svgString = await rootBundle.loadString("assets/keyboard.svg");
+  XmlDocument keyboardSVG = XmlDocument.parse(svgString);
+  List<Key> keys = await loadKeysFromKeyboardSVG(keyboardSVG: keyboardSVG);
 
   // Extract lists of all text, rect, and path elements from the svg string
   // Turn each tag into its standardized class representation
