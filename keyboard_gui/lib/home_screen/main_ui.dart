@@ -28,7 +28,7 @@ Widget main_ui({required BuildContext context, required sharedData, required set
               Expanded(flex: 2, child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50),
                 child: FittedBox(
-                  child: keyPicker()
+                  child: keyPicker(sharedData: sharedData, setSharedData: setSharedData)
                 //   SvgPicture.asset("assets/svg/keyboard.svg", 
                 //   height: 120,
                 //   width: 312,

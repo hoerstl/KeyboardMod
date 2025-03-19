@@ -1,12 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:xml/xml.dart';
+import '../customPainters/keyboardPainter.dart';
+
+
+class keyPicker extends StatefulWidget {
+  final Map<String, dynamic> sharedData;
+  final void Function(List<dynamic>, dynamic) setSharedData;
+  const keyPicker({super.key, required this.sharedData, required this.setSharedData});
+
+  @override
+  State<keyPicker> createState() => _keyPickerState();
+}
+
+class _keyPickerState extends State<keyPicker> {
+  @override
+  Widget build(BuildContext context) {
+    final XmlDocument keyboardSVG = widget.sharedData["keyboardSVG"];
+    List<Key> keys = loadKeysFromKeyboardSVG(keyboardSVG: keyboardSVG);
+
+    // Extract lists of all text and path elements from the svg document
+    // Turn each tag into its standardized class representation
+
+    // Pass in the necessary lists of standardized SVG class elements
+    CustomPainter keyboardSVGPainter = KeyboardPainter(rectangles: keys, paths: [], textElements: []); 
+
+    return CustomPaint(
+      painter: keyboardSVGPainter,
+      child: Container() // Wrap this in a gestureDetector which will grab click events and check if you clicked in a key
+    );
+  }
+}
+
+
 
 class Key { // We need to extend this from a rectangle property
   final String id;
   final String path;
   final String name;
-  final String color;
+  final Color color;
   final Rect rect;
   
   Key({required this.id, required this.path, required this.name, required this.color, required this.rect});
@@ -33,7 +65,7 @@ List<double> extractLTRBFromRect(var element){
 }
 
 
-Future<List<Key>> loadKeysFromKeyboardSVG({required XmlDocument keyboardSVG}) async {
+List<Key> loadKeysFromKeyboardSVG({required XmlDocument keyboardSVG}) {
    List<Key> keys = [];
    
    final keyboardRects = keyboardSVG.findAllElements('rect');
@@ -42,7 +74,7 @@ Future<List<Key>> loadKeysFromKeyboardSVG({required XmlDocument keyboardSVG}) as
      String partId = element.getAttribute('id').toString();
      String partPath = element.getAttribute('d').toString();
      String name = element.getAttribute('name').toString();
-     String color = element.getAttribute('color')?.toString() ?? 'D7D3D2';
+     Color color = Color(int.parse("FF${element.getAttribute('stroke')?.toString().substring(1) ?? 'FFFFFF'}", radix: 16));
      List<double> coordinates = extractLTRBFromRect(element);
      Rect rect = Rect.fromLTRB(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
 
@@ -52,10 +84,7 @@ Future<List<Key>> loadKeysFromKeyboardSVG({required XmlDocument keyboardSVG}) as
    return keys;
  }
 
-String correctSvgColors(String svgString) {
-    // Parse the SVG XML.
-    final XmlDocument svgDocument = XmlDocument.parse(svgString);
-
+void correctSvgColors(XmlDocument svgDocument) {
     // Modify the 'fill' attribute of all elements with a `fill` attribute.
     for (XmlElement element in svgDocument.findAllElements('*')) {
       element.setAttribute('fill', '#FFFFFF');
@@ -64,30 +93,9 @@ String correctSvgColors(String svgString) {
       //   element.setAttribute('fill', 'purple');
       // }
     }
-
-    // Return the modified SVG string.
-    return svgDocument.toXmlString();
   }
 
 
-
-
-Future<Widget> keyPicker() async {  // Add Context here so we can build with the correct colors
-
-  String svgString = await rootBundle.loadString("assets/keyboard.svg");
-  XmlDocument keyboardSVG = XmlDocument.parse(svgString);
-  List<Key> keys = await loadKeysFromKeyboardSVG(keyboardSVG: keyboardSVG);
-
-  // Extract lists of all text, rect, and path elements from the svg string
-  // Turn each tag into its standardized class representation
-
-  CustomPainter keyboardSVGPainter = KeyboardPainter(); // Pass in the necessary lists of standardized SVG class elements
-
-  return CustomPaint(
-    painter: keyboardSVGPainter,
-    child: Container()
-  );
-}
 
 
 // Use this to get the scaled coordinates from the rendered SVG file. We can get the scaled size from the constraints argument of the LayoutBuilder.

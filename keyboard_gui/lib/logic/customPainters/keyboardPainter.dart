@@ -15,14 +15,15 @@ class KeyboardPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint rectPaint = Paint()..color = Colors.blue.withOpacity(0.5);
+    final Paint rectPaint = Paint()..color = Colors.white;
     final Paint pathPaint = Paint()
-      ..color = Colors.green
+      ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
 
     // Draw rectangles
     for (Key key in rectangles) {
+      rectPaint.color = key.color;
       canvas.drawRect(key.rect, rectPaint);
     }
 
@@ -32,9 +33,9 @@ class KeyboardPainter extends CustomPainter {
     }
 
     // Draw text
-    for (_TextElement textElement in textElements) {
+    for (SvgTextElement textElement in textElements) {
       final TextSpan textSpan = TextSpan(
-        text: textElement.text,
+        text: textElement.content,
         style: TextStyle(
           color: Colors.black,
           fontSize: textElement.fontSize,
@@ -44,7 +45,7 @@ class KeyboardPainter extends CustomPainter {
         text: textSpan,
         textDirection: TextDirection.ltr,
       )..layout();
-      textPainter.paint(canvas, textElement.position);
+      textPainter.paint(canvas, Offset(textElement.x, textElement.y));
     }
   }
 

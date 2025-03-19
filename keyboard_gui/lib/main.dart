@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:xml/xml.dart';
 import 'home_screen/main_ui.dart';
 import 'home_screen/sidebar.dart';
 
@@ -68,7 +69,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   
   var keyData;
-
   late Map<String, dynamic> sharedData;
 
   Future<void> loadKeyData() async {
@@ -95,19 +95,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> loadSharedData() async {
+  Future<void> loadAsyncData() async {
     await loadKeyData();
+    XmlDocument keyboardSVG = XmlDocument.parse(await rootBundle.loadString("assets/svg/keyboard.svg"));
+
     sharedData = {
       "selectedKey": "W",
       "keyboardMode": "Default",
-      "keyData": keyData
+      "keyData": keyData,
+      "keyboardSVG": keyboardSVG
     };
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadSharedData(), // The async method that loads your data
+      future: loadAsyncData(), // The async method that loads your data
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show a loading indicator while waiting for the future
