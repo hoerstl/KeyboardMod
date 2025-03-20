@@ -8,6 +8,7 @@ class KeyboardPainter extends CustomPainter {
   final List<Path> paths;
   final List<SvgTextElement> textElements;
   final Map<String, dynamic> sharedData;
+  final BuildContext context;
 
   KeyboardPainter({
     required this.scaleX,
@@ -15,7 +16,8 @@ class KeyboardPainter extends CustomPainter {
     required this.keys,
     required this.paths,
     required this.textElements,
-    required this.sharedData
+    required this.sharedData,
+    required this.context
   });
 
   @override
@@ -31,9 +33,9 @@ class KeyboardPainter extends CustomPainter {
     // Draw rectangles
     for (Key key in keys) {
       rectPaint.strokeWidth = key.strokeWidth;
-      rectPaint.color = key.color; // Replace this with color determining logic that uses sharedData
+      rectPaint.color = Theme.of(context).colorScheme.onPrimary; // Replace this with color determining logic that uses sharedData
       if (key.name == sharedData["selectedKey"]){
-        rectPaint.color = Colors.blue;
+        rectPaint.color = Theme.of(context).colorScheme.primary;
       }
       canvas.drawRect(Rect.fromLTRB(key.rect.left * scaleX,
          key.rect.top * scaleY,

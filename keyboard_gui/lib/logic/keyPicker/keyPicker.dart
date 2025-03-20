@@ -54,7 +54,7 @@ class _KeyPickerState extends State<KeyPicker> {
               width: renderedWidth,
               height: renderedHeight,
               child: CustomPaint(
-            painter: KeyboardPainter(scaleX: scaleX, scaleY: scaleY, keys: widget.keys, paths: [], textElements: [], sharedData: widget.sharedData),
+            painter: KeyboardPainter(scaleX: scaleX, scaleY: scaleY, keys: widget.keys, paths: [], textElements: [], sharedData: widget.sharedData, context: context),
             child: Container())
           ));
 
@@ -63,7 +63,6 @@ class _KeyPickerState extends State<KeyPicker> {
 
 
   void handleTap(double x, double y){
-    print("handling click at $x $y");
     for (Key key in widget.keys){
       if (key.rect.contains(Offset(x, y))){
         widget.setSharedData(["selectedKey"], key.name);
