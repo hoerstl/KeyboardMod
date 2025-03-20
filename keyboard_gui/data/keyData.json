@@ -1,13 +1,2187 @@
 {
     "Default": {
+        "Escape": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F10": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F11": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F12": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "0": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "A": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "B": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "C": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "D": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "E": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "G": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "H": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "I": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "J": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "K": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "L": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "M": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "N": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "O": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "P": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Q": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "R": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "S": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "T": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "U": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "V": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
         "W": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "X": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Y": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Z": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Apps": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Back": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Capital": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Delete": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "End": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Home": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Insert": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Next": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Comma": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Minus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Period": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Plus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Return": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Scroll": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Snapshot": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Space": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Tab": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Pause": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Prior": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Left": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Right": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Up": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Down": {
             "Enabled": true,
             "useDefaultFilepath": true,
             "customFilepath": ""
         }
     },
-    "Caps Lock": {},
-    "Shift": {},
-    "Ctrl": {},
-    "Alt": {}
+    "Caps Lock": {
+        "Escape": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F10": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F11": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F12": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "0": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "A": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "B": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "C": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "D": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "E": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "G": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "H": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "I": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "J": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "K": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "L": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "M": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "N": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "O": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "P": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Q": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "R": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "S": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "T": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "U": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "V": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "W": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "X": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Y": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Z": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Apps": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Back": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Capital": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Delete": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "End": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Home": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Insert": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Next": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Comma": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Minus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Period": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Plus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Return": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Scroll": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Snapshot": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Space": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Tab": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Pause": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Prior": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Left": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Right": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Up": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Down": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        }
+    },
+    "Shift": {
+        "Escape": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F10": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F11": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F12": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "0": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "A": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "B": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "C": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "D": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "E": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "G": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "H": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "I": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "J": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "K": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "L": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "M": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "N": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "O": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "P": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Q": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "R": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "S": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "T": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "U": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "V": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "W": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "X": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Y": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Z": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Apps": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Back": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Capital": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Delete": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "End": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Home": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Insert": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Next": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Comma": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Minus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Period": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Plus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Return": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Scroll": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Snapshot": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Space": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Tab": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Pause": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Prior": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Left": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Right": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Up": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Down": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        }
+    },
+    "Ctrl": {
+        "Escape": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F10": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F11": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F12": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "0": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "A": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "B": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "C": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "D": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "E": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "G": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "H": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "I": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "J": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "K": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "L": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "M": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "N": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "O": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "P": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Q": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "R": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "S": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "T": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "U": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "V": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "W": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "X": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Y": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Z": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Apps": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Back": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Capital": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Delete": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "End": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Home": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Insert": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Next": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Comma": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Minus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Period": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Plus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Return": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Scroll": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Snapshot": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Space": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Tab": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Pause": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Prior": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Left": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Right": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Up": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Down": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        }
+    },
+    "Alt": {
+        "Escape": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F10": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F11": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F12": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "0": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "8": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "9": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "A": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "B": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "C": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "D": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "E": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "F": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "G": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "H": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "I": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "J": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "K": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "L": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "M": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "N": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "O": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "P": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Q": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "R": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "S": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "T": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "U": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "V": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "W": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "X": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Y": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Z": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Apps": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Back": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Capital": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Delete": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "End": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Home": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Insert": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Next": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Lwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_1": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_2": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_3": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_4": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_5": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_6": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_7": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Comma": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Minus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Period": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Oem_Plus": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rcontrol": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Return": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rmenu": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rshift": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Rwin": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Scroll": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Snapshot": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Space": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Tab": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Pause": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Prior": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Left": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Right": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Up": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        },
+        "Down": {
+            "Enabled": true,
+            "useDefaultFilepath": true,
+            "customFilepath": ""
+        }
+    }
 }

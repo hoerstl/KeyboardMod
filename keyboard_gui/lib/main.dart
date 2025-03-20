@@ -6,7 +6,9 @@ import 'home_screen/main_ui.dart';
 import 'home_screen/sidebar.dart';
 
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await _MyHomePageState.loadAsyncData();
   runApp(const MyApp());
 }
 
@@ -68,16 +70,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   
-  var keyData;
-  late Map<String, dynamic> sharedData;
+  static late Map<String, dynamic> sharedData;
 
-  Future<void> loadKeyData() async {
+  static Future<void> loadAsyncData() async {
     final String jsonString = await rootBundle.loadString('data/keyData.json');
-    var data = jsonDecode(jsonString);
-    keyData = data; 
-    print("loaded keyData:");
-    print(keyData); 
+    var keyData = jsonDecode(jsonString);
+    XmlDocument keyboardSVG = XmlDocument.parse(await rootBundle.loadString("assets/svg/keyboard.svg"));
+
+    sharedData = {
+      "selectedKey": "W",
+      "keyboardMode": "Default",
+      "keyData": keyData,
+      "keyboardSVG": keyboardSVG
+    };
   }
+
 
   void setSharedData(List keys, var value ){
     setState(() {
@@ -95,46 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> loadAsyncData() async {
-    await loadKeyData();
-    XmlDocument keyboardSVG = XmlDocument.parse(await rootBundle.loadString("assets/svg/keyboard.svg"));
-
-    sharedData = {
-      "selectedKey": "W",
-      "keyboardMode": "Default",
-      "keyData": keyData,
-      "keyboardSVG": keyboardSVG
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: loadAsyncData(), // The async method that loads your data
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show a loading indicator while waiting for the future
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          // Handle errors gracefully
-          return Scaffold(
-            body: Center(
-              child: Text('Error loading data: ${snapshot.error}'),
-            ),
-          );
-        } else {
-          // Once the data is loaded, build the main UI
-          return buildHomeScreen();
-        }
-      },
-    );
-  }
-
-  Widget buildHomeScreen(){
     return Scaffold(
         body: Row(
       mainAxisAlignment: MainAxisAlignment.center,

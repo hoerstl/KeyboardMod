@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart' hide Key;
-import 'package:xml/xml.dart';
-import '../keyPicker/keyPicker.dart';
+import '../svgTagClasses/Key.dart';
 
 class KeyboardPainter extends CustomPainter {
-  final List<Key> rectangles;
+  final double scaleX;
+  final double scaleY;
+  final List<Key> keys;
   final List<Path> paths;
   final List<SvgTextElement> textElements;
+  final Map<String, dynamic> sharedData;
 
   KeyboardPainter({
-    required this.rectangles,
+    required this.scaleX,
+    required this.scaleY,
+    required this.keys,
     required this.paths,
     required this.textElements,
+    required this.sharedData
   });
 
   @override
@@ -24,11 +29,16 @@ class KeyboardPainter extends CustomPainter {
       ..strokeWidth = 2.0;
 
     // Draw rectangles
-    for (Key key in rectangles) {
+    for (Key key in keys) {
       rectPaint.strokeWidth = key.strokeWidth;
-      rectPaint.color = key.color;
-      rectPaint.color = Colors.white;  // TODO: REMOVE THIS AFTER TESTING
-      canvas.drawRect(key.rect, rectPaint);
+      rectPaint.color = key.color; // Replace this with color determining logic that uses sharedData
+      if (key.name == sharedData["selectedKey"]){
+        rectPaint.color = Colors.blue;
+      }
+      canvas.drawRect(Rect.fromLTRB(key.rect.left * scaleX,
+         key.rect.top * scaleY,
+         key.rect.right * scaleX,
+         key.rect.bottom * scaleY), rectPaint);
     }
 
     // Draw paths

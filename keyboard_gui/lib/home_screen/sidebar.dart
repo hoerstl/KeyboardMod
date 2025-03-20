@@ -60,7 +60,7 @@ class _SidebarState extends State<Sidebar> {
                         Checkbox(
                             value: keyData[keyboardMode]?[selectedKey]?["Enabled"] ?? false,
                             onChanged: (val) {
-                              if (keyData.containsKey(keyboardMode) && keyData[keyboardMode]?.containsKey(selectedKey) != null) {
+                              if ((keyData.containsKey(keyboardMode) && keyData[keyboardMode].containsKey(selectedKey)) != null) {
                                 widget.setSharedData(["keyData", keyboardMode, selectedKey, "Enabled"], val);
                                 keyData[keyboardMode]![selectedKey]!["Enabled"] = val;
                               }
@@ -74,7 +74,7 @@ class _SidebarState extends State<Sidebar> {
                       Radio(
                         value: true,
                         groupValue: keyData[keyboardMode]?[selectedKey]
-                            ?["useDefaultFilepath"],
+                            ?["useDefaultFilepath"] ?? false,
                         onChanged: (val) {
                           setState(() {
                             keyData[keyboardMode]?[selectedKey]
@@ -90,7 +90,7 @@ class _SidebarState extends State<Sidebar> {
                       Radio(
                         value: false,
                         groupValue: keyData[keyboardMode]?[selectedKey]
-                            ?["useDefaultFilepath"],
+                            ?["useDefaultFilepath"] ?? false,
                         onChanged: (val) {
                           setState(() {
                             keyData[keyboardMode]?[selectedKey]
@@ -108,7 +108,7 @@ class _SidebarState extends State<Sidebar> {
                       Expanded(
                         child: TextField(
                           enabled: !keyData[keyboardMode]?[selectedKey]
-                              ?["useDefaultFilepath"],
+                              ?["useDefaultFilepath"] ?? false,
                           controller: customFilepathController,
                           decoration: InputDecoration(
                             hintText: 'enter filepath to .py file...',

@@ -27,7 +27,7 @@ Widget main_ui({required BuildContext context, required sharedData, required set
               ),
               Expanded(flex: 2, child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: keyPicker(sharedData: sharedData, setSharedData: setSharedData)
+                child: KeyPicker(sharedData: sharedData, setSharedData: setSharedData)
               )),
               Expanded(flex: 1, child: Container()),
             ],
