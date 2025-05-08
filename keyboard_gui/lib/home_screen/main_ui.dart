@@ -17,6 +17,7 @@ Widget main_ui({required BuildContext context, required sharedData, required set
                           fontSize: 40.0,
                           fontWeight: FontWeight.bold,
                         )),
+                    SizedBox(width: 15),
                     const Text("Mode",
                         style: TextStyle(
                           fontSize: 40.0,

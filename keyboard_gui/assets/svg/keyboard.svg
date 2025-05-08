@@ -25,14 +25,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="pt"
      inkscape:zoom="3.382554"
-     inkscape:cx="235.47296"
+     inkscape:cx="283.07013"
      inkscape:cy="94.307438"
      inkscape:window-width="1491"
      inkscape:window-height="1481"
-     inkscape:window-x="-9"
+     inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg109" />
+     inkscape:current-layer="group10" />
   <defs
      id="defs1" />
   <rect
@@ -2700,7 +2700,7 @@
      stroke-linecap="square"
      stroke-linejoin="bevel"
      text-anchor="middle"
-     style="text-align: start;text-align-last: auto;font-size: 4;"
+     style="text-align:start;text-align-last:auto;font-family:Segoe UI;font-size:4"
      name="Space"><tspan
        x="5.5"
        id="tspan103">␣</tspan><tspan
@@ -3389,7 +3389,8 @@
        letter-spacing="0"
        text-anchor="middle"
        word-spacing="0"
-       style="text-align: start;text-align-last: auto;font-family: Arial;font-size: 2;font-style: italic;"><tspan
+       style="text-align: start;text-align-last: auto;font-family: Arial;font-size: 2;font-style: italic;"
+       name="Insert"><tspan
          x="0.5"
          id="tspan109">a</tspan></text>
   </g>

@@ -41,9 +41,9 @@ class _SidebarState extends State<Sidebar> {
                 children: [
                   Center(
                     child: Text(
-                      'Binding $selectedKey in $keyboardMode',
+                      'Binding $selectedKey',
                       style: const TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -130,12 +130,12 @@ class _SidebarState extends State<Sidebar> {
                   ),
                   Expanded(child: Container()),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: () => {print("Editing")},
+                        Expanded(child:ElevatedButton(
+                          onPressed: () => {print("Editing")}, // TODO: Make this open the correct python file for editing
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Theme.of(context).colorScheme.onSurface,
@@ -148,13 +148,12 @@ class _SidebarState extends State<Sidebar> {
                               )),
                           child: const Text("Edit",
                               style: TextStyle(
-                                  fontSize: 30.0, letterSpacing: 1.0)),
-                        ),
+                                  fontSize: 25.0, letterSpacing: 1.0)),
+                        )),
                         const SizedBox(width: 10.0),
-                        ElevatedButton(
+                        Expanded(child: ElevatedButton(
                           onPressed: () => {setState(() {
-                            print("Deleted");
-                            recentlyDeleted = ! recentlyDeleted;
+                            recentlyDeleted = !recentlyDeleted;
                           })},
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -166,10 +165,11 @@ class _SidebarState extends State<Sidebar> {
                                     topRight: Radius.circular(10.0),
                                     bottomRight: Radius.circular(10.0)),
                               )),
+                          // minimumSize: Size(150, 50),
                           child: Text(recentlyDeleted ? "Undo" : "Delete",
-                              style: const TextStyle(
-                                  fontSize: 30.0, letterSpacing: 1.0)),
-                        ),
+                              style: TextStyle(
+                                  fontSize: recentlyDeleted ? 25.0 : 20.0, letterSpacing: 1.0)),
+                        )),
                       ],
                     ),
                   ),
