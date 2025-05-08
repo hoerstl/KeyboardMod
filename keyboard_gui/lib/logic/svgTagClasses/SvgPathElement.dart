@@ -49,6 +49,7 @@ class SvgPathElement extends SvgElement {
           matrix.setEntry(1, 3, double.parse(match.group(2)!)); // m13 = translate Y
         }  
       }
+
       
       return ancestorMatrix.multiplied(matrix);
     }
