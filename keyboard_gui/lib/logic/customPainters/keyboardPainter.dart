@@ -42,10 +42,12 @@ class KeyboardPainter extends CustomPainter {
       if (key.name == sharedData["selectedKey"]){
         rectPaint.color = Theme.of(context).colorScheme.primary;
       }
-      canvas.drawRect(Rect.fromLTRB(key.rect.left * scaleX,
+      final rect = Rect.fromLTRB(key.rect.left * scaleX,
          key.rect.top * scaleY,
          key.rect.right * scaleX,
-         key.rect.bottom * scaleY), rectPaint);
+         key.rect.bottom * scaleY);
+      final RRect roundedRect = RRect.fromRectAndRadius(rect, const Radius.circular(3));
+      canvas.drawRRect(roundedRect, rectPaint);
     }
 
     // Draw paths
