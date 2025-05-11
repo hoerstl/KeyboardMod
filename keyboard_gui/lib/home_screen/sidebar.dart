@@ -107,18 +107,18 @@ class _SidebarState extends State<Sidebar> {
                       const SizedBox(width: 40.0),
                       Expanded(
                         child: TextField(
-                          enabled: !keyData[keyboardMode]?[selectedKey]
-                              ?["useDefaultFilepath"] ?? false,
+                          enabled: !(keyData[keyboardMode]?[selectedKey]
+                              ?["useDefaultFilepath"] ?? true),
                           controller: customFilepathController,
                           decoration: InputDecoration(
                             hintText: 'enter filepath to .py file...',
                             prefixIcon: IconButton(
-                              icon: Icon(Icons.folder),
+                              icon: const Icon(Icons.folder),
                               onPressed: () {
                                 print("Selecting a file");
                               },
                             ),
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                           ),
                           onChanged: (text) {
                             keyData[keyboardMode]?[selectedKey]
@@ -131,10 +131,11 @@ class _SidebarState extends State<Sidebar> {
                   Expanded(child: Container()),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(child:ElevatedButton(
+                        ElevatedButton(
                           onPressed: () => {print("Editing")}, // TODO: Make this open the correct python file for editing
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -142,16 +143,14 @@ class _SidebarState extends State<Sidebar> {
                               foregroundColor:
                                   Theme.of(context).colorScheme.surface,
                               shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    bottomLeft: Radius.circular(10.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
                               )),
                           child: const Text("Edit",
                               style: TextStyle(
                                   fontSize: 25.0, letterSpacing: 1.0)),
-                        )),
-                        const SizedBox(width: 10.0),
-                        Expanded(child: ElevatedButton(
+                        ),
+                        const SizedBox(height: 3.0),
+                        ElevatedButton(
                           onPressed: () => {setState(() {
                             recentlyDeleted = !recentlyDeleted;
                           })},
@@ -161,15 +160,13 @@ class _SidebarState extends State<Sidebar> {
                               foregroundColor:
                                   Theme.of(context).colorScheme.surface,
                               shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10.0),
-                                    bottomRight: Radius.circular(10.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
                               )),
                           // minimumSize: Size(150, 50),
                           child: Text(recentlyDeleted ? "Undo" : "Delete",
-                              style: TextStyle(
-                                  fontSize: recentlyDeleted ? 25.0 : 20.0, letterSpacing: 1.0)),
-                        )),
+                              style: const TextStyle(
+                                  fontSize: 25.0, letterSpacing: 1.0)),
+                        ),
                       ],
                     ),
                   ),
