@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 
 class Sidebar extends StatefulWidget {
   final Map<String, dynamic> sharedData;
@@ -11,7 +12,6 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  bool recentlyDeleted = false;
 
   /// Creates the file if it doesn't exist, then opens it in the default .py editor
   void openOrCreatePythonFile(String filePath) async {
@@ -138,14 +138,37 @@ class _SidebarState extends State<Sidebar> {
                         child: TextField(
                           enabled: !(keyData[keyboardMode]?[selectedKey]
                               ?["useDefaultFilepath"] ?? true),
+                          readOnly: true,
                           controller: customFilepathController,
                           decoration: InputDecoration(
-                            hintText: 'enter filepath to .py file...',
+                            hintText: '<- Select File',
                             prefixIcon: IconButton(
                               icon: const Icon(Icons.folder),
-                              onPressed: () {
-                                print("Selecting a file");
-                              },
+                              onPressed: () async {
+                                final result = await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['py'],
+                                );
+
+                                if (result != null && result.files.single.path != null) {
+                                  final filePath = result.files.single.path!;
+
+                                  final regex = RegExp(r'^[a-zA-Z]:\\');  // Matches "C:\", "D:\", etc.
+                                  bool isAbsolutePath = regex.hasMatch(filePath);
+                                  if (filePath.toLowerCase().endsWith('.py') && isAbsolutePath) {
+                                    widget.setSharedData(["keyData", keyboardMode, selectedKey, "customFilepath"], filePath);
+                                    // keyData[keyboardMode]?[selectedKey]?["customFilepath"] = filePath;
+                                    // Proceed with open or edit logic
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Please select a valid .py file.', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                        backgroundColor: Colors.red,
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
+                                  }
+                                }}
                             ),
                             border: const OutlineInputBorder(),
                           ),
@@ -178,24 +201,7 @@ class _SidebarState extends State<Sidebar> {
                               style: TextStyle(
                                   fontSize: 25.0, letterSpacing: 1.0)),
                         ),
-                        const SizedBox(height: 3.0),
-                        ElevatedButton(
-                          onPressed: () => {setState(() {
-                            recentlyDeleted = !recentlyDeleted;
-                          })},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                              )),
-                          // minimumSize: Size(150, 50),
-                          child: Text(recentlyDeleted ? "Undo" : "Delete",
-                              style: const TextStyle(
-                                  fontSize: 25.0, letterSpacing: 1.0)),
-                        ),
+                        const SizedBox(height: 3.0)
                       ],
                     ),
                   ),

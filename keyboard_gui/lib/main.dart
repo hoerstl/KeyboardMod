@@ -5,10 +5,16 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:xml/xml.dart';
 import 'home_screen/main_ui.dart';
 import 'home_screen/sidebar.dart';
+import 'dart:io';
+import 'package:system_tray/system_tray.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _MyHomePageState.loadAsyncData();
+  WidgetsFlutterBinding.ensureInitialized();
+  await initSystemTray();
+
   runApp(const MyApp());
   // Ensure minimum window size after the app starts
   doWhenWindowReady(() {
@@ -29,7 +35,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -145,3 +151,38 @@ class WindowButtons extends StatelessWidget {
     );
   }
 }
+
+Future<void> initSystemTray() async {
+  String path = 'assets/icon/icon.ico'; //TODO: Replace this icon with one I've made myself
+
+  final AppWindow appWindow = AppWindow();
+  final SystemTray systemTray = SystemTray();
+
+  // We first init the systray menu
+  await systemTray.initSystemTray(
+    title: "system tray",
+    iconPath: path,
+  );
+
+  // create context menu
+  final Menu menu = Menu();
+  await menu.buildFrom([
+    MenuItemLabel(label: 'Show', onClicked: (menuItem) => appWindow.show()),
+    MenuItemLabel(label: 'Hide', onClicked: (menuItem) => appWindow.hide()),
+    MenuItemLabel(label: 'Exit', onClicked: (menuItem) => appWindow.close()),
+  ]);
+
+  // set context menu
+  await systemTray.setContextMenu(menu);
+
+  // handle system tray event
+  systemTray.registerSystemTrayEventHandler((eventName) {
+    debugPrint("eventName: $eventName");
+    if (eventName == kSystemTrayEventClick) {
+       Platform.isWindows ? appWindow.show() : systemTray.popUpContextMenu();
+    } else if (eventName == kSystemTrayEventRightClick) {
+       Platform.isWindows ? systemTray.popUpContextMenu() : appWindow.show();
+    }
+  });
+}
+
