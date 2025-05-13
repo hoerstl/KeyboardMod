@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class Sidebar extends StatefulWidget {
   final Map<String, dynamic> sharedData;
@@ -12,7 +13,35 @@ class Sidebar extends StatefulWidget {
 class _SidebarState extends State<Sidebar> {
   bool recentlyDeleted = false;
 
+  /// Creates the file if it doesn't exist, then opens it in the default .py editor
+  void openOrCreatePythonFile(String filePath) async {
+    final file = File(filePath);
 
+    // Step 1: Create the file if it doesn't exist
+    if (!await file.exists()) {
+      await file.create(recursive: true);  // Also creates parent folders if needed
+      await file.writeAsString('# Python script ran when "${widget.sharedData["selectedKey"]}" is pressed in ${widget.sharedData["keyboardMode"]} mode\n');
+    }
+
+    // Step 2: Open the file using default associated editor (like VS Code, PyCharm, Notepad++)
+    await Process.start('cmd', ['/c', 'start', '', filePath]);
+  }
+
+  void editKeyBinding(){
+    var keyData = widget.sharedData["keyData"];
+    var selectedKey = widget.sharedData["selectedKey"];
+    var keyboardMode = widget.sharedData["keyboardMode"];
+
+    if (keyData[keyboardMode]?[selectedKey]?["useDefaultFilepath"] ?? true) {
+      final filePath = '..\\keyboardHook\\keybindings\\$keyboardMode\\$selectedKey.py';
+      openOrCreatePythonFile(filePath);
+    }
+    else {  
+      // TODO: Set up error handling for when someone enters a nonsense customFilepath or a filepath in our current directory (".")
+      final filePath = keyData[keyboardMode]?[selectedKey]?["customFilepath"];
+      openOrCreatePythonFile(filePath);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +165,7 @@ class _SidebarState extends State<Sidebar> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         ElevatedButton(
-                          onPressed: () => {print("Editing")}, // TODO: Make this open the correct python file for editing
+                          onPressed: () => {editKeyBinding()}, // TODO: Make this open the correct python file for editing
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Theme.of(context).colorScheme.onSurface,
@@ -175,3 +204,7 @@ class _SidebarState extends State<Sidebar> {
             );
   }
 }
+
+
+
+
