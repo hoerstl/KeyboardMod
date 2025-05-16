@@ -13,7 +13,7 @@ import pyperclip
 
 def process_mode_shift(event):
     """
-    Decides whether or not to switch the keyboard into Shift
+    Decides whether or not to switch the keyboard into Shift Mode
     Runs every key release.
     """
     global last_key_released, shift_release_time
