@@ -16,6 +16,7 @@ import pyperclip
 import socket
 import time
 import os
+import runpy
 
 def typeTemplate(template):
     template += '|' if '|' not in template else ''
@@ -223,31 +224,12 @@ def init():
 
 
 
-# def capitalizeWord(direction):
-#     assert direction == "Left" or direction == "Right"
-#     initialClipboardContent = pyperclip.paste()
-#     homeDirection = "Left" if direction == "Right" else "Right"
-#     kbd.pressKeyCombo(f"Lcontrol+Lshift+{direction}")
-#     kbd.pressKeyCombo("Lcontrol+C")
-#     time.sleep(1e-5)
-#     kbd.pressAndReleaseKey("Left")
-#     time.sleep(1e-5)
-#     wordToCapitalize = pyperclip.paste()
-#     charIndexToCapitalize = -1
-#     for i, character in enumerate(wordToCapitalize):
-#         if character.islower():
-#             charIndexToCapitalize = i
-#             letterToReplace = character.upper()
-#             for j in range(charIndexToCapitalize+1):
-#                 kbd.pressAndReleaseKey("Right")
-#             kbd.pressAndReleaseKey("Back")
-#             kbd.pressKeyCombo(f"Lshift+{letterToReplace}")
-#             break
-#     if homeDirection == "Left":
-#         for j in range(charIndexToCapitalize+1):
-#             kbd.pressAndReleaseKey("Left")
-#     elif homeDirection == "Right":  # Return cursor back to initial position on right
-#         for j in range(len(wordToCapitalize) - (charIndexToCapitalize+1)):
-#             kbd.pressAndReleaseKey("Right")
 
-#     pyperclip.copy(initialClipboardContent)
+
+@threadedSubprocess()
+def runPythonFile(filepath, **kwargs):
+    runpy.run_path(filepath)
+
+
+
+

@@ -1,11 +1,14 @@
 import multiprocessing as mp
 import dotenv
 import os
+import json
 from collections import defaultdict
 import settings as sett
 data = {}
 settings = {}
 flags = {}
+keyData = {}
+
 keypress_bypass = defaultdict(int)
 keyrelease_bypass = defaultdict(int)
 default_bypass = defaultdict(int)
@@ -19,7 +22,7 @@ def ensureENVfile():
 
 
 def init():
-    global data, settings, flags
+    global data, settings, flags, keyData
     ensureENVfile()
     dotenv.load_dotenv()
     ## Data
@@ -45,4 +48,8 @@ def init():
     
     ## Flags
     flags['asyncCtrlModePayloadStatus'] = "Recieved" # Can be 'Requested', 'Recieved', "In Use", or "Failed"
+
+    # Key Data
+    with open("../keyboard_gui/data/keyData.json") as f:
+        keyData = json.load(f)
 

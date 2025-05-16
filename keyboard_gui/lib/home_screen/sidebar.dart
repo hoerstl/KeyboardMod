@@ -43,6 +43,36 @@ class _SidebarState extends State<Sidebar> {
     }
   }
 
+  Future<void> selectPythonFile() async {
+    var keyData = widget.sharedData["keyData"];
+    var selectedKey = widget.sharedData["selectedKey"];
+    var keyboardMode = widget.sharedData["keyboardMode"];
+
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['py'],
+    );
+
+    if (result != null && result.files.single.path != null) {
+      final filePath = result.files.single.path!;
+
+      final regex = RegExp(r'^[a-zA-Z]:\\');  // Matches "C:\", "D:\", etc.
+      bool isAbsolutePath = regex.hasMatch(filePath);
+      if (filePath.toLowerCase().endsWith('.py') && isAbsolutePath) {
+        widget.setSharedData(["keyData", keyboardMode, selectedKey, "customFilepath"], filePath);
+        // keyData[keyboardMode]?[selectedKey]?["customFilepath"] = filePath;
+        // Proceed with open or edit logic
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select a valid .py file.', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    }}
+
   @override
   Widget build(BuildContext context) {
 
@@ -139,36 +169,13 @@ class _SidebarState extends State<Sidebar> {
                           enabled: !(keyData[keyboardMode]?[selectedKey]
                               ?["useDefaultFilepath"] ?? true),
                           readOnly: true,
+                          onTap: selectPythonFile,
                           controller: customFilepathController,
                           decoration: InputDecoration(
-                            hintText: '<- Select File',
+                            hintText: 'Select File',
                             prefixIcon: IconButton(
                               icon: const Icon(Icons.folder),
-                              onPressed: () async {
-                                final result = await FilePicker.platform.pickFiles(
-                                  type: FileType.custom,
-                                  allowedExtensions: ['py'],
-                                );
-
-                                if (result != null && result.files.single.path != null) {
-                                  final filePath = result.files.single.path!;
-
-                                  final regex = RegExp(r'^[a-zA-Z]:\\');  // Matches "C:\", "D:\", etc.
-                                  bool isAbsolutePath = regex.hasMatch(filePath);
-                                  if (filePath.toLowerCase().endsWith('.py') && isAbsolutePath) {
-                                    widget.setSharedData(["keyData", keyboardMode, selectedKey, "customFilepath"], filePath);
-                                    // keyData[keyboardMode]?[selectedKey]?["customFilepath"] = filePath;
-                                    // Proceed with open or edit logic
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Please select a valid .py file.', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                                        backgroundColor: Colors.red,
-                                        duration: Duration(seconds: 3),
-                                      ),
-                                    );
-                                  }
-                                }}
+                              onPressed: selectPythonFile
                             ),
                             border: const OutlineInputBorder(),
                           ),

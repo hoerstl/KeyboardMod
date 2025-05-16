@@ -13,7 +13,7 @@ import pyperclip
 
 def process_mode_shift(event):
     """
-    Decides whether or not to switch the keyboard into ShiftMode
+    Decides whether or not to switch the keyboard into Shift
     Runs every key release.
     """
     global last_key_released, shift_release_time
@@ -21,12 +21,12 @@ def process_mode_shift(event):
         is_different = event.Key != last_key_released
         was_quick_enough = time.time() - shift_release_time < .05
         if keyboardModes.is_shift_key(last_key_released) and is_different and was_quick_enough:
-            if globals.data['keyboardMode'] == 'ShiftMode':
-                print("ShiftMode Off")
+            if globals.data['keyboardMode'] == 'Shift':
+                print("Shift Mode Off")
                 globals.data['keyboardMode'] = 'Default'
             else:
-                print("ShiftMode On")
-                globals.data['keyboardMode'] = 'ShiftMode'
+                print("Shift Mode On")
+                globals.data['keyboardMode'] = 'Shift'
 
             last_key_released = ''
             return True
@@ -35,22 +35,22 @@ def process_mode_shift(event):
 
 def process_mode_cap(event):
     """
-    Decides whether or not to switch the keyboard into CapMode
+    Decides whether or not to switch the keyboard into Caps Lock Mode
     Runs every key release.
     """
     global cap_press_time
     if event.Key == 'Capital':
-        if event.MessageName == 'key down' and globals.data['keyboardMode'] != 'CapMode':
+        if event.MessageName == 'key down' and globals.data['keyboardMode'] != 'Caps Lock':
             globals.data['cap_mode_used'] = False
             if globals.data['keyboardMode'] != 'Default':  # We should count disabling another keyboard mode as a valid use case of cap mode.
                 globals.data['cap_mode_used'] = True
-            globals.data['keyboardMode'] = 'CapMode'
-            print('Entering Cap Mode')
+            globals.data['keyboardMode'] = 'Caps Lock'
+            print('Entering Caps Lock Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up' or event.MessageName == 'key sys up':
             kbd.cleanupHeldKeys()
             globals.data['keyboardMode'] = 'Default'
-            print('Leaving Cap Mode')
+            print('Leaving Caps Lock Mode')
             if time.time() - cap_press_time < .3 and not globals.data.get('cap_mode_used'):
                 kbd.pressAndReleaseKey("Capital")
         return True
@@ -60,7 +60,7 @@ def process_mode_cap(event):
 
 def process_mode_ctrl(event):
     """
-    Decides whether or not to switch the keyboard into CtrlMode
+    Decides whether or not to switch the keyboard into Ctrl Mode
     Runs every key release.
     """
     global last_key_released, ctrl_release_time
@@ -69,13 +69,13 @@ def process_mode_ctrl(event):
         was_quick_enough = time.time() - ctrl_release_time < .05
         if keyboardModes.is_ctrl_key(last_key_released) and is_different and was_quick_enough:
             'passed all criteria'
-            if globals.data['keyboardMode'] == 'CtrlMode':
-                print("CtrlMode Off")
+            if globals.data['keyboardMode'] == 'Ctrl':
+                print("Ctrl Mode Off")
                 globals.data['keyboardMode'] = 'Default'
             else:
-                print("CtrlMode On")
+                print("Ctrl Mode On")
                 globals.data['entering_ctrl_mode'] = True
-                globals.data['keyboardMode'] = 'CtrlMode'
+                globals.data['keyboardMode'] = 'Ctrl'
 
             last_key_released = ''
             return True
@@ -169,11 +169,11 @@ def on_key_press(event):
     # Process keyboard input as you wish
     if globals.data['keyboardMode'] == 'Default':
         return keyboardModes.onPress_Default(event)
-    elif globals.data['keyboardMode'] == 'ShiftMode':
+    elif globals.data['keyboardMode'] == 'Shift':
         keyboardModes.onPress_ShiftMode(event)
-    elif globals.data['keyboardMode'] == 'CapMode':
+    elif globals.data['keyboardMode'] == 'Caps Lock':
         keyboardModes.onPress_CapMode(event)
-    elif globals.data['keyboardMode'] == 'CtrlMode':
+    elif globals.data['keyboardMode'] == 'Ctrl':
         keyboardModes.onPress_CtrlMode(event)
 
     return False
@@ -193,7 +193,7 @@ def on_key_release(event):
     if is_release_bypassed(event):
         return True
 
-    # Read these if statements as "if the key falls under entering _____ mode's juristiction. Ex. shift keys fall under shiftmode etc."
+    # Read these if statements as "if the key falls under entering _____ mode's juristiction. Ex. shift keys fall under shift mode etc."
     if process_mode_shift(event):
         pass  # We need to allow the shift keys to be released via a default bypass when we swap to and from modes since it involves two keys
     if process_mode_cap(event):
@@ -208,12 +208,12 @@ def on_key_release(event):
     # Default keyboard input
     if globals.data['keyboardMode'] == 'Default':
         return True
-    elif globals.data['keyboardMode'] == 'ShiftMode':
+    elif globals.data['keyboardMode'] == 'Shift':
         return False
-    elif globals.data['keyboardMode'] == 'CapMode':
+    elif globals.data['keyboardMode'] == 'Caps Lock':
         keyboardModes.onRelease_CapMode(event)
         return False
-    elif globals.data['keyboardMode'] == 'CtrlMode':
+    elif globals.data['keyboardMode'] == 'Ctrl':
         return False
     return True
 

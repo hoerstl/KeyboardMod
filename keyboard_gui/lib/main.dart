@@ -146,7 +146,7 @@ class WindowButtons extends StatelessWidget {
       children: [
         MinimizeWindowButton(colors: buttonColors),
         MaximizeWindowButton(colors: buttonColors),
-        CloseWindowButton(colors: closeButtonColors),
+        CloseWindowButton(colors: closeButtonColors, onPressed: () => {appWindow.hide()}),
       ],
     );
   }
@@ -167,6 +167,8 @@ Future<void> initSystemTray() async {
   // create context menu
   final Menu menu = Menu();
   await menu.buildFrom([
+    // MenuItemLabel(label: 'Keyboard Mod', enabled: false),
+    // MenuSeparator(),
     MenuItemLabel(label: 'Show', onClicked: (menuItem) => appWindow.show()),
     MenuItemLabel(label: 'Hide', onClicked: (menuItem) => appWindow.hide()),
     MenuItemLabel(label: 'Exit', onClicked: (menuItem) => appWindow.close()),
@@ -177,7 +179,6 @@ Future<void> initSystemTray() async {
 
   // handle system tray event
   systemTray.registerSystemTrayEventHandler((eventName) {
-    debugPrint("eventName: $eventName");
     if (eventName == kSystemTrayEventClick) {
        Platform.isWindows ? appWindow.show() : systemTray.popUpContextMenu();
     } else if (eventName == kSystemTrayEventRightClick) {
