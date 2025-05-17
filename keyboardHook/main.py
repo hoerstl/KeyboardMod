@@ -7,6 +7,7 @@ import convenienceFunctions as kbd
 import settings
 import globals
 import pyperclip
+import threading
 
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
 # don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
@@ -81,19 +82,17 @@ def process_mode_ctrl(event):
             return True
         ctrl_release_time = time.time()
 
-
-def update():
-    """
-    Performs logic as frequently as possible (every frame ideally but really every time a button is pressed or released)
-    to make it available to the user
-    """
-    # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
+def updateFromMainQueue():
     global updateHooks # TODO: implement updateHooks and abstract functionality
-    # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well.
-    
-    settingsChanged = False
-    while not globals.data['mainQueue'].empty():
-        key, payload = globals.data['mainQueue'].get()
+    while True:
+        item = globals.data['mainQueue'].get()
+
+        # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
+        # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well.
+        
+        settingsChanged = False
+        
+        key, payload = item
         #command, *payload = globals.data['mainQueue'].get()
         if key == "command":
             command, value = payload
@@ -111,6 +110,9 @@ def update():
                 if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
                     globals.flags['asyncCtrlModePayloadStatus'] = "Failed"
 
+            elif command == "print":
+                print(f"Value recieved! {value}")
+
         else:
             if key in globals.settings and globals.settings[key] != payload:
                 settingsChanged = True
@@ -124,7 +126,7 @@ def update():
                         pyperclip.copy(globals.data["remoteServerClipboard"])
 
 
-    if settingsChanged: settings.saveSettings(globals.settings)
+        if settingsChanged: settings.saveSettings(globals.settings)
 
 
 def is_press_bypassed(event):
@@ -160,7 +162,6 @@ def on_key_press(event):
         bool | If the response is True, then the keystroke is passed onto windows. If false, then the 
         default keystroke behavior is blocked
     """
-    update()
     if is_press_bypassed(event):
         return True
     if process_mode_cap(event):
@@ -189,7 +190,6 @@ def on_key_release(event):
         default key release behavior is blocked
     """
     global last_key_released
-    update()
     if is_release_bypassed(event):
         return True
 
@@ -240,6 +240,9 @@ if __name__ == '__main__':
     shift_release_time = 0
     ctrl_release_time = 0
     last_key_released = ''
+
+    threading.Thread(target=updateFromMainQueue, daemon=True).start()
+
     start_hook()
 
 
