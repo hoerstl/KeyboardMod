@@ -16,7 +16,10 @@ import pyperclip
 import socket
 import time
 import os
+import sys
 import runpy
+
+import clientSideConvenienceFunctions as clientkbd # Beans
 
 def typeTemplate(template):
     template += '|' if '|' not in template else ''
@@ -36,6 +39,26 @@ def typeTemplate(template):
     else:
         for character in second:
             kbd.pressAndReleaseKey('Left')
+
+def clientTypeTemplate(template): # Beans
+    template += '|' if '|' not in template else ''
+    first, second = template.split('|')
+    for char in first:
+        clientkbd.typeCharacter(char)
+    for char in second:
+        clientkbd.typeCharacter(char)
+    lines_in_second = second.split('\n')
+    if len(lines_in_second) > 1:  # Move to the right spot
+        for character in lines_in_second[-1]:  # Move to the start of the line you're on
+            clientkbd.pressAndReleaseKey('Left')
+        for line in range(len(lines_in_second) - 1):  # Move up a number of lines equal to the number of lines since the cursor position
+            clientkbd.pressAndReleaseKey('Up')
+        for character in first.split('\n')[-1]:  # Move right the correct number of times
+            clientkbd.pressAndReleaseKey('Right')
+    else:
+        for character in second:
+            clientkbd.pressAndReleaseKey('Left')
+
 
 
 @threadedSubprocess()
@@ -228,7 +251,15 @@ def init():
 
 @threadedSubprocess()
 def runPythonFile(filepath, **kwargs):
-    runpy.run_path(filepath)
+    # Get absolute directory of the file
+    addToPath = [os.path.abspath(os.path.dirname(filepath)), os.path.abspath("./keybindings/")]
+
+    for path in addToPath:
+        if path not in sys.path:
+            sys.path.insert(0, path)
+
+    
+    runpy.run_path(filepath, init_globals=kwargs)
 
 
 

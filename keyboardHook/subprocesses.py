@@ -2,6 +2,7 @@ import multiprocessing as mp
 import globals
 from functools import wraps
 import sys
+import traceback
 import time
 
 
@@ -35,15 +36,20 @@ def threadedSubprocess(atomic=False, createSubprocessQueue=None):
                 globals.data['atomicSubprocesses'].add(func.__name__)
 
             ms = 100
-            timestamp = round((time.time() * 1000)/ms) * ms / 1000
-            spCountOutdated = globals.data['subprocessTimestamp'] != timestamp
-            if spCountOutdated:
-                globals.data['subprocessTimestamp'] = timestamp
+            currentTimestamp = round((time.time() * 1000)/ms) * ms / 1000
+            if globals.data['subprocessTimestamp'] != currentTimestamp:
+                globals.data['subprocessTimestamp'] = currentTimestamp
                 if mp.current_process().name != "MainProcess":
                     print("Don't call an asynchronous function from a subprocess")
-                subProcessQueue = createSubprocessQueue and createSubprocessQueue()
-                kwargs.update({'mainQueue': globals.data['mainQueue'], 'subprocessQueue': subProcessQueue})
-                globals.data['subprocessPool'].apply_async(func, args, kwargs, error_callback=lambda e:print(f'There was an error in a subprocess: {e}'))
+                subprocessQueue = globals.data['subprocessManager'].Queue()
+                subprocessId = globals.data["unusedSubprocessId"]
+                globals.data["unusedSubprocessId"] += 1
+                globals.data["subprocessQueues"][subprocessId] = subprocessQueue
+                kwargs.update({'mainQueue': globals.data['mainQueue'], 'processQueue': subprocessQueue, 'processId': subprocessId})
+                def error_callback(e):
+                    print("There was an error in a subprocess:")
+                    traceback.print_exception(type(e), e, e.__traceback__)
+                globals.data['subprocessPool'].apply_async(func, args, kwargs, callback=lambda _: globals.data["subprocessQueues"].pop(subprocessId), error_callback=error_callback)
             else:
                 pass
 

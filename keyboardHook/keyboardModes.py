@@ -3,6 +3,8 @@ import globals
 import convenienceFunctions as kbd
 import specialFunctions
 
+import os
+
 
 ###################### START OF THE DEFAULT DEFINITIONS ############################
 
@@ -61,11 +63,24 @@ key_mimics_CapMode = {
     'Space': 'Lshift',
 }
 def onPress_CapMode(event):
-    global key_bindings_CapMode, key_mimics_CapMode
-    keyaction = key_bindings_CapMode.get(event.Key, lambda: 'no binding found')
-    if keyaction() != 'no binding found':
-        globals.data['cap_mode_used'] = True
+
+
+    keyData = globals.keyData["Caps Lock"].get(event.Key)
+    if keyData is None:
+        print(f"Unsupported key '{event.Key}' pressed.")
         return
+    
+    if not keyData["Enabled"]:
+        return
+
+    targetFilepath = f"./keybindings/Caps Lock/{event.Key}.py" if keyData["useDefaultFilepath"] else keyData["customFilepath"]
+    if os.path.exists(targetFilepath):
+        specialFunctions.asyncRunPythonFile(targetFilepath)
+    elif keyData["useDefaultFilepath"]:
+        print(f"No binding for {event.Key} in Caps Lock Mode given")
+    else:
+        print(f"Custom file at '{keyData['customFilepath']}' specified but file does not exist")
+
 
     keyToMimic = key_mimics_CapMode.get(event.Key)
     if keyToMimic:
@@ -132,8 +147,6 @@ ctrlMode_payload = ""
 ctrlMode_next_key_index = 0
 
 def preprocessAsCode(text):
-    # TODO: Determine if other code editors such as HackerRank drop a tab when a return statement is typed
-    
     processedText = ""
     linesOfText = text.split("\n")
     previousLineTabCount = float("-inf")

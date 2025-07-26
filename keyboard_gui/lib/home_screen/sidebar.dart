@@ -195,7 +195,7 @@ class _SidebarState extends State<Sidebar> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         ElevatedButton(
-                          onPressed: () => {editKeyBinding()}, // TODO: Make this open the correct python file for editing
+                          onPressed: () => {editKeyBinding()},
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Theme.of(context).colorScheme.onSurface,

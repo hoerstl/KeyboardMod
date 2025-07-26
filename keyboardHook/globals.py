@@ -32,6 +32,8 @@ def init():
     data['mainQueue'] = data['subprocessManager'].Queue()
     data['maxSubprocesses'] = 5
     data['subprocessPool'] = mp.Pool(processes=data['maxSubprocesses'])
+    data['subprocessQueues'] = {}
+    data['unusedSubprocessId'] = 0
     data['atomicSubprocesses'] = set()
 
     # Dynamic

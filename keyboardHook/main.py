@@ -12,6 +12,87 @@ import threading
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
 # don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
 
+
+def updateFromMainQueue():
+    """
+    This function runs threaded and is blocked, listening for values sent to mainQueue.
+    
+    Responsible for updating any global keyboard information at the request of any subprocess with access to the mainQueue object, running user-defined 
+    functions in response to arbitrary commands passed through.
+    """
+    global updateHooks # TODO: implement updateHooks and abstract functionality of user defined functions.
+    # Rework the way we interact with setting custom globals/settings here. If statements won't scale well.
+
+    while True:
+        item = globals.data['mainQueue'].get()
+        
+        action, data = item
+        
+        if action == "__action__":
+            subprocessId, *values = data
+            action, *parameters = values
+            if action == "keyPressBypass":
+                globals.keypress_bypass[parameters[0]] += 1
+            elif action == "keyReleaseBypass":
+                globals.keyrelease_bypass[parameters[0]] += 1
+            elif action == "markKeyAsHeld":
+                globals.held_keys.append(parameters[0])
+            elif action == "markKeyAsReleased":
+                globals.held_keys.remove(parameters[0])
+            elif action == "cleanUpHeldKeys":
+                globals.held_keys = []
+                globals.active_mimics = []
+            else:
+                raise ValueError(f"Invalid internal action requested: \"{action}\"")
+
+            globals.data["subprocessQueues"][subprocessId].put("Internal Action Complete")
+
+        if action == "__globalGet__":
+            subprocessId, requestedData = data
+            data = f"No data spec found for '{requestedData}'"
+            if requestedData == "held_keys":
+                data = globals.held_keys
+
+
+            globals.data["subprocessQueues"][subprocessId].put(data)
+
+
+        settingsChanged = False
+        if action == "command":
+            command, data = data
+            if command == "terminateAtomicSubprocess":
+                globals.data['atomicSubprocesses'].remove(data)
+                
+            elif command == "closeNotepad":
+                globals.data['mostRecentNotepadID'] = None
+                globals.data['notepadQueues'][data] = None
+
+            elif command == "notify":
+                specialFunctions.asyncNotify()
+
+            elif command == "remoteClipboardReadFailed":
+                if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
+                    globals.flags['asyncCtrlModePayloadStatus'] = "Failed"
+
+            elif command == "print":
+                print(f"Value recieved! {data}")
+
+        else:
+            if action in globals.settings and globals.settings[action] != data:
+                settingsChanged = True
+                globals.settings.update({action: data})
+            elif action in globals.data:
+                if action == "remoteServerClipboard":
+                    globals.data["remoteServerClipboard"] = data
+                    if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
+                        globals.flags['asyncCtrlModePayloadStatus'] = "Recieved"
+                    else:
+                        pyperclip.copy(globals.data["remoteServerClipboard"])
+
+
+        if settingsChanged: settings.saveSettings(globals.settings)
+
+
 def process_mode_shift(event):
     """
     Decides whether or not to switch the keyboard into Shift Mode
@@ -81,52 +162,6 @@ def process_mode_ctrl(event):
             last_key_released = ''
             return True
         ctrl_release_time = time.time()
-
-def updateFromMainQueue():
-    global updateHooks # TODO: implement updateHooks and abstract functionality
-    while True:
-        item = globals.data['mainQueue'].get()
-
-        # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
-        # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well.
-        
-        settingsChanged = False
-        
-        key, payload = item
-        #command, *payload = globals.data['mainQueue'].get()
-        if key == "command":
-            command, value = payload
-            if command == "terminateAtomicSubprocess":
-                globals.data['atomicSubprocesses'].remove(value)
-                
-            elif command == "closeNotepad":
-                globals.data['mostRecentNotepadID'] = None
-                globals.data['notepadQueues'][value] = None
-
-            elif command == "notify":
-                specialFunctions.asyncNotify()
-
-            elif command == "remoteClipboardReadFailed":
-                if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
-                    globals.flags['asyncCtrlModePayloadStatus'] = "Failed"
-
-            elif command == "print":
-                print(f"Value recieved! {value}")
-
-        else:
-            if key in globals.settings and globals.settings[key] != payload:
-                settingsChanged = True
-                globals.settings.update({key: payload})
-            elif key in globals.data:
-                if key == "remoteServerClipboard":
-                    globals.data["remoteServerClipboard"] = payload
-                    if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
-                        globals.flags['asyncCtrlModePayloadStatus'] = "Recieved"
-                    else:
-                        pyperclip.copy(globals.data["remoteServerClipboard"])
-
-
-        if settingsChanged: settings.saveSettings(globals.settings)
 
 
 def is_press_bypassed(event):

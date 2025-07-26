@@ -1,0 +1,1317 @@
+{
+    "Default": {
+        "Escape": {
+            "code": ""
+        },
+        "F1": {
+            "code": ""
+        },
+        "F2": {
+            "code": ""
+        },
+        "F3": {
+            "code": ""
+        },
+        "F4": {
+            "code": ""
+        },
+        "F5": {
+            "code": ""
+        },
+        "F6": {
+            "code": ""
+        },
+        "F7": {
+            "code": ""
+        },
+        "F8": {
+            "code": ""
+        },
+        "F9": {
+            "code": ""
+        },
+        "F10": {
+            "code": ""
+        },
+        "F11": {
+            "code": ""
+        },
+        "F12": {
+            "code": ""
+        },
+        "0": {
+            "code": ""
+        },
+        "1": {
+            "code": ""
+        },
+        "2": {
+            "code": ""
+        },
+        "3": {
+            "code": ""
+        },
+        "4": {
+            "code": ""
+        },
+        "5": {
+            "code": ""
+        },
+        "6": {
+            "code": ""
+        },
+        "7": {
+            "code": ""
+        },
+        "8": {
+            "code": ""
+        },
+        "9": {
+            "code": ""
+        },
+        "A": {
+            "code": ""
+        },
+        "B": {
+            "code": ""
+        },
+        "C": {
+            "code": ""
+        },
+        "D": {
+            "code": ""
+        },
+        "E": {
+            "code": ""
+        },
+        "F": {
+            "code": ""
+        },
+        "G": {
+            "code": ""
+        },
+        "H": {
+            "code": ""
+        },
+        "I": {
+            "code": ""
+        },
+        "J": {
+            "code": ""
+        },
+        "K": {
+            "code": ""
+        },
+        "L": {
+            "code": ""
+        },
+        "M": {
+            "code": ""
+        },
+        "N": {
+            "code": ""
+        },
+        "O": {
+            "code": ""
+        },
+        "P": {
+            "code": ""
+        },
+        "Q": {
+            "code": ""
+        },
+        "R": {
+            "code": ""
+        },
+        "S": {
+            "code": ""
+        },
+        "T": {
+            "code": ""
+        },
+        "U": {
+            "code": ""
+        },
+        "V": {
+            "code": ""
+        },
+        "W": {
+            "code": ""
+        },
+        "X": {
+            "code": ""
+        },
+        "Y": {
+            "code": ""
+        },
+        "Z": {
+            "code": ""
+        },
+        "Apps": {
+            "code": ""
+        },
+        "Back": {
+            "code": ""
+        },
+        "Capital": {
+            "code": ""
+        },
+        "Delete": {
+            "code": ""
+        },
+        "End": {
+            "code": ""
+        },
+        "Home": {
+            "code": ""
+        },
+        "Insert": {
+            "code": ""
+        },
+        "Next": {
+            "code": ""
+        },
+        "Lcontrol": {
+            "code": ""
+        },
+        "Lmenu": {
+            "code": ""
+        },
+        "Lshift": {
+            "code": ""
+        },
+        "Lwin": {
+            "code": ""
+        },
+        "Oem_1": {
+            "code": ""
+        },
+        "Oem_2": {
+            "code": ""
+        },
+        "Oem_3": {
+            "code": ""
+        },
+        "Oem_4": {
+            "code": ""
+        },
+        "Oem_5": {
+            "code": ""
+        },
+        "Oem_6": {
+            "code": ""
+        },
+        "Oem_7": {
+            "code": ""
+        },
+        "Oem_Comma": {
+            "code": ""
+        },
+        "Oem_Minus": {
+            "code": ""
+        },
+        "Oem_Period": {
+            "code": ""
+        },
+        "Oem_Plus": {
+            "code": ""
+        },
+        "Rcontrol": {
+            "code": ""
+        },
+        "Return": {
+            "code": ""
+        },
+        "Rmenu": {
+            "code": ""
+        },
+        "Rshift": {
+            "code": ""
+        },
+        "Rwin": {
+            "code": ""
+        },
+        "Scroll": {
+            "code": ""
+        },
+        "Snapshot": {
+            "code": ""
+        },
+        "Space": {
+            "code": ""
+        },
+        "Tab": {
+            "code": ""
+        },
+        "Pause": {
+            "code": ""
+        },
+        "Prior": {
+            "code": ""
+        },
+        "Left": {
+            "code": ""
+        },
+        "Right": {
+            "code": ""
+        },
+        "Up": {
+            "code": ""
+        },
+        "Down": {
+            "code": ""
+        }
+    },
+    "Caps Lock": {
+        "Escape": {
+            "code": ""
+        },
+        "F1": {
+            "code": ""
+        },
+        "F2": {
+            "code": ""
+        },
+        "F3": {
+            "code": ""
+        },
+        "F4": {
+            "code": ""
+        },
+        "F5": {
+            "code": ""
+        },
+        "F6": {
+            "code": ""
+        },
+        "F7": {
+            "code": ""
+        },
+        "F8": {
+            "code": ""
+        },
+        "F9": {
+            "code": ""
+        },
+        "F10": {
+            "code": ""
+        },
+        "F11": {
+            "code": ""
+        },
+        "F12": {
+            "code": ""
+        },
+        "0": {
+            "code": ""
+        },
+        "1": {
+            "code": ""
+        },
+        "2": {
+            "code": ""
+        },
+        "3": {
+            "code": ""
+        },
+        "4": {
+            "code": ""
+        },
+        "5": {
+            "code": ""
+        },
+        "6": {
+            "code": ""
+        },
+        "7": {
+            "code": ""
+        },
+        "8": {
+            "code": ""
+        },
+        "9": {
+            "code": ""
+        },
+        "A": {
+            "code": ""
+        },
+        "B": {
+            "code": ""
+        },
+        "C": {
+            "code": ""
+        },
+        "D": {
+            "code": ""
+        },
+        "E": {
+            "code": ""
+        },
+        "F": {
+            "code": ""
+        },
+        "G": {
+            "code": ""
+        },
+        "H": {
+            "code": ""
+        },
+        "I": {
+            "code": ""
+        },
+        "J": {
+            "code": ""
+        },
+        "K": {
+            "code": ""
+        },
+        "L": {
+            "code": ""
+        },
+        "M": {
+            "code": ""
+        },
+        "N": {
+            "code": ""
+        },
+        "O": {
+            "code": ""
+        },
+        "P": {
+            "code": ""
+        },
+        "Q": {
+            "code": ""
+        },
+        "R": {
+            "code": ""
+        },
+        "S": {
+            "code": ""
+        },
+        "T": {
+            "code": ""
+        },
+        "U": {
+            "code": ""
+        },
+        "V": {
+            "code": ""
+        },
+        "W": {
+            "code": ""
+        },
+        "X": {
+            "code": ""
+        },
+        "Y": {
+            "code": ""
+        },
+        "Z": {
+            "code": ""
+        },
+        "Apps": {
+            "code": ""
+        },
+        "Back": {
+            "code": ""
+        },
+        "Capital": {
+            "code": ""
+        },
+        "Delete": {
+            "code": ""
+        },
+        "End": {
+            "code": ""
+        },
+        "Home": {
+            "code": ""
+        },
+        "Insert": {
+            "code": ""
+        },
+        "Next": {
+            "code": ""
+        },
+        "Lcontrol": {
+            "code": ""
+        },
+        "Lmenu": {
+            "code": ""
+        },
+        "Lshift": {
+            "code": ""
+        },
+        "Lwin": {
+            "code": ""
+        },
+        "Oem_1": {
+            "code": ""
+        },
+        "Oem_2": {
+            "code": ""
+        },
+        "Oem_3": {
+            "code": ""
+        },
+        "Oem_4": {
+            "code": ""
+        },
+        "Oem_5": {
+            "code": ""
+        },
+        "Oem_6": {
+            "code": ""
+        },
+        "Oem_7": {
+            "code": ""
+        },
+        "Oem_Comma": {
+            "code": ""
+        },
+        "Oem_Minus": {
+            "code": ""
+        },
+        "Oem_Period": {
+            "code": ""
+        },
+        "Oem_Plus": {
+            "code": ""
+        },
+        "Rcontrol": {
+            "code": ""
+        },
+        "Return": {
+            "code": ""
+        },
+        "Rmenu": {
+            "code": ""
+        },
+        "Rshift": {
+            "code": ""
+        },
+        "Rwin": {
+            "code": ""
+        },
+        "Scroll": {
+            "code": ""
+        },
+        "Snapshot": {
+            "code": ""
+        },
+        "Space": {
+            "code": ""
+        },
+        "Tab": {
+            "code": ""
+        },
+        "Pause": {
+            "code": ""
+        },
+        "Prior": {
+            "code": ""
+        },
+        "Left": {
+            "code": ""
+        },
+        "Right": {
+            "code": ""
+        },
+        "Up": {
+            "code": ""
+        },
+        "Down": {
+            "code": ""
+        }
+    },
+    "Shift": {
+        "Escape": {
+            "code": ""
+        },
+        "F1": {
+            "code": ""
+        },
+        "F2": {
+            "code": ""
+        },
+        "F3": {
+            "code": ""
+        },
+        "F4": {
+            "code": ""
+        },
+        "F5": {
+            "code": ""
+        },
+        "F6": {
+            "code": ""
+        },
+        "F7": {
+            "code": ""
+        },
+        "F8": {
+            "code": ""
+        },
+        "F9": {
+            "code": ""
+        },
+        "F10": {
+            "code": ""
+        },
+        "F11": {
+            "code": ""
+        },
+        "F12": {
+            "code": ""
+        },
+        "0": {
+            "code": ""
+        },
+        "1": {
+            "code": ""
+        },
+        "2": {
+            "code": ""
+        },
+        "3": {
+            "code": ""
+        },
+        "4": {
+            "code": ""
+        },
+        "5": {
+            "code": ""
+        },
+        "6": {
+            "code": ""
+        },
+        "7": {
+            "code": ""
+        },
+        "8": {
+            "code": ""
+        },
+        "9": {
+            "code": ""
+        },
+        "A": {
+            "code": ""
+        },
+        "B": {
+            "code": ""
+        },
+        "C": {
+            "code": ""
+        },
+        "D": {
+            "code": ""
+        },
+        "E": {
+            "code": ""
+        },
+        "F": {
+            "code": ""
+        },
+        "G": {
+            "code": ""
+        },
+        "H": {
+            "code": ""
+        },
+        "I": {
+            "code": ""
+        },
+        "J": {
+            "code": ""
+        },
+        "K": {
+            "code": ""
+        },
+        "L": {
+            "code": ""
+        },
+        "M": {
+            "code": ""
+        },
+        "N": {
+            "code": ""
+        },
+        "O": {
+            "code": ""
+        },
+        "P": {
+            "code": ""
+        },
+        "Q": {
+            "code": ""
+        },
+        "R": {
+            "code": ""
+        },
+        "S": {
+            "code": ""
+        },
+        "T": {
+            "code": ""
+        },
+        "U": {
+            "code": ""
+        },
+        "V": {
+            "code": ""
+        },
+        "W": {
+            "code": ""
+        },
+        "X": {
+            "code": ""
+        },
+        "Y": {
+            "code": ""
+        },
+        "Z": {
+            "code": ""
+        },
+        "Apps": {
+            "code": ""
+        },
+        "Back": {
+            "code": ""
+        },
+        "Capital": {
+            "code": ""
+        },
+        "Delete": {
+            "code": ""
+        },
+        "End": {
+            "code": ""
+        },
+        "Home": {
+            "code": ""
+        },
+        "Insert": {
+            "code": ""
+        },
+        "Next": {
+            "code": ""
+        },
+        "Lcontrol": {
+            "code": ""
+        },
+        "Lmenu": {
+            "code": ""
+        },
+        "Lshift": {
+            "code": ""
+        },
+        "Lwin": {
+            "code": ""
+        },
+        "Oem_1": {
+            "code": ""
+        },
+        "Oem_2": {
+            "code": ""
+        },
+        "Oem_3": {
+            "code": ""
+        },
+        "Oem_4": {
+            "code": ""
+        },
+        "Oem_5": {
+            "code": ""
+        },
+        "Oem_6": {
+            "code": ""
+        },
+        "Oem_7": {
+            "code": ""
+        },
+        "Oem_Comma": {
+            "code": ""
+        },
+        "Oem_Minus": {
+            "code": ""
+        },
+        "Oem_Period": {
+            "code": ""
+        },
+        "Oem_Plus": {
+            "code": ""
+        },
+        "Rcontrol": {
+            "code": ""
+        },
+        "Return": {
+            "code": ""
+        },
+        "Rmenu": {
+            "code": ""
+        },
+        "Rshift": {
+            "code": ""
+        },
+        "Rwin": {
+            "code": ""
+        },
+        "Scroll": {
+            "code": ""
+        },
+        "Snapshot": {
+            "code": ""
+        },
+        "Space": {
+            "code": ""
+        },
+        "Tab": {
+            "code": ""
+        },
+        "Pause": {
+            "code": ""
+        },
+        "Prior": {
+            "code": ""
+        },
+        "Left": {
+            "code": ""
+        },
+        "Right": {
+            "code": ""
+        },
+        "Up": {
+            "code": ""
+        },
+        "Down": {
+            "code": ""
+        }
+    },
+    "Ctrl": {
+        "Escape": {
+            "code": ""
+        },
+        "F1": {
+            "code": ""
+        },
+        "F2": {
+            "code": ""
+        },
+        "F3": {
+            "code": ""
+        },
+        "F4": {
+            "code": ""
+        },
+        "F5": {
+            "code": ""
+        },
+        "F6": {
+            "code": ""
+        },
+        "F7": {
+            "code": ""
+        },
+        "F8": {
+            "code": ""
+        },
+        "F9": {
+            "code": ""
+        },
+        "F10": {
+            "code": ""
+        },
+        "F11": {
+            "code": ""
+        },
+        "F12": {
+            "code": ""
+        },
+        "0": {
+            "code": ""
+        },
+        "1": {
+            "code": ""
+        },
+        "2": {
+            "code": ""
+        },
+        "3": {
+            "code": ""
+        },
+        "4": {
+            "code": ""
+        },
+        "5": {
+            "code": ""
+        },
+        "6": {
+            "code": ""
+        },
+        "7": {
+            "code": ""
+        },
+        "8": {
+            "code": ""
+        },
+        "9": {
+            "code": ""
+        },
+        "A": {
+            "code": ""
+        },
+        "B": {
+            "code": ""
+        },
+        "C": {
+            "code": ""
+        },
+        "D": {
+            "code": ""
+        },
+        "E": {
+            "code": ""
+        },
+        "F": {
+            "code": ""
+        },
+        "G": {
+            "code": ""
+        },
+        "H": {
+            "code": ""
+        },
+        "I": {
+            "code": ""
+        },
+        "J": {
+            "code": ""
+        },
+        "K": {
+            "code": ""
+        },
+        "L": {
+            "code": ""
+        },
+        "M": {
+            "code": ""
+        },
+        "N": {
+            "code": ""
+        },
+        "O": {
+            "code": ""
+        },
+        "P": {
+            "code": ""
+        },
+        "Q": {
+            "code": ""
+        },
+        "R": {
+            "code": ""
+        },
+        "S": {
+            "code": ""
+        },
+        "T": {
+            "code": ""
+        },
+        "U": {
+            "code": ""
+        },
+        "V": {
+            "code": ""
+        },
+        "W": {
+            "code": ""
+        },
+        "X": {
+            "code": ""
+        },
+        "Y": {
+            "code": ""
+        },
+        "Z": {
+            "code": ""
+        },
+        "Apps": {
+            "code": ""
+        },
+        "Back": {
+            "code": ""
+        },
+        "Capital": {
+            "code": ""
+        },
+        "Delete": {
+            "code": ""
+        },
+        "End": {
+            "code": ""
+        },
+        "Home": {
+            "code": ""
+        },
+        "Insert": {
+            "code": ""
+        },
+        "Next": {
+            "code": ""
+        },
+        "Lcontrol": {
+            "code": ""
+        },
+        "Lmenu": {
+            "code": ""
+        },
+        "Lshift": {
+            "code": ""
+        },
+        "Lwin": {
+            "code": ""
+        },
+        "Oem_1": {
+            "code": ""
+        },
+        "Oem_2": {
+            "code": ""
+        },
+        "Oem_3": {
+            "code": ""
+        },
+        "Oem_4": {
+            "code": ""
+        },
+        "Oem_5": {
+            "code": ""
+        },
+        "Oem_6": {
+            "code": ""
+        },
+        "Oem_7": {
+            "code": ""
+        },
+        "Oem_Comma": {
+            "code": ""
+        },
+        "Oem_Minus": {
+            "code": ""
+        },
+        "Oem_Period": {
+            "code": ""
+        },
+        "Oem_Plus": {
+            "code": ""
+        },
+        "Rcontrol": {
+            "code": ""
+        },
+        "Return": {
+            "code": ""
+        },
+        "Rmenu": {
+            "code": ""
+        },
+        "Rshift": {
+            "code": ""
+        },
+        "Rwin": {
+            "code": ""
+        },
+        "Scroll": {
+            "code": ""
+        },
+        "Snapshot": {
+            "code": ""
+        },
+        "Space": {
+            "code": ""
+        },
+        "Tab": {
+            "code": ""
+        },
+        "Pause": {
+            "code": ""
+        },
+        "Prior": {
+            "code": ""
+        },
+        "Left": {
+            "code": ""
+        },
+        "Right": {
+            "code": ""
+        },
+        "Up": {
+            "code": ""
+        },
+        "Down": {
+            "code": ""
+        }
+    },
+    "Alt": {
+        "Escape": {
+            "code": ""
+        },
+        "F1": {
+            "code": ""
+        },
+        "F2": {
+            "code": ""
+        },
+        "F3": {
+            "code": ""
+        },
+        "F4": {
+            "code": ""
+        },
+        "F5": {
+            "code": ""
+        },
+        "F6": {
+            "code": ""
+        },
+        "F7": {
+            "code": ""
+        },
+        "F8": {
+            "code": ""
+        },
+        "F9": {
+            "code": ""
+        },
+        "F10": {
+            "code": ""
+        },
+        "F11": {
+            "code": ""
+        },
+        "F12": {
+            "code": ""
+        },
+        "0": {
+            "code": ""
+        },
+        "1": {
+            "code": ""
+        },
+        "2": {
+            "code": ""
+        },
+        "3": {
+            "code": ""
+        },
+        "4": {
+            "code": ""
+        },
+        "5": {
+            "code": ""
+        },
+        "6": {
+            "code": ""
+        },
+        "7": {
+            "code": ""
+        },
+        "8": {
+            "code": ""
+        },
+        "9": {
+            "code": ""
+        },
+        "A": {
+            "code": ""
+        },
+        "B": {
+            "code": ""
+        },
+        "C": {
+            "code": ""
+        },
+        "D": {
+            "code": ""
+        },
+        "E": {
+            "code": ""
+        },
+        "F": {
+            "code": ""
+        },
+        "G": {
+            "code": ""
+        },
+        "H": {
+            "code": ""
+        },
+        "I": {
+            "code": ""
+        },
+        "J": {
+            "code": ""
+        },
+        "K": {
+            "code": ""
+        },
+        "L": {
+            "code": ""
+        },
+        "M": {
+            "code": ""
+        },
+        "N": {
+            "code": ""
+        },
+        "O": {
+            "code": ""
+        },
+        "P": {
+            "code": ""
+        },
+        "Q": {
+            "code": ""
+        },
+        "R": {
+            "code": ""
+        },
+        "S": {
+            "code": ""
+        },
+        "T": {
+            "code": ""
+        },
+        "U": {
+            "code": ""
+        },
+        "V": {
+            "code": ""
+        },
+        "W": {
+            "code": ""
+        },
+        "X": {
+            "code": ""
+        },
+        "Y": {
+            "code": ""
+        },
+        "Z": {
+            "code": ""
+        },
+        "Apps": {
+            "code": ""
+        },
+        "Back": {
+            "code": ""
+        },
+        "Capital": {
+            "code": ""
+        },
+        "Delete": {
+            "code": ""
+        },
+        "End": {
+            "code": ""
+        },
+        "Home": {
+            "code": ""
+        },
+        "Insert": {
+            "code": ""
+        },
+        "Next": {
+            "code": ""
+        },
+        "Lcontrol": {
+            "code": ""
+        },
+        "Lmenu": {
+            "code": ""
+        },
+        "Lshift": {
+            "code": ""
+        },
+        "Lwin": {
+            "code": ""
+        },
+        "Oem_1": {
+            "code": ""
+        },
+        "Oem_2": {
+            "code": ""
+        },
+        "Oem_3": {
+            "code": ""
+        },
+        "Oem_4": {
+            "code": ""
+        },
+        "Oem_5": {
+            "code": ""
+        },
+        "Oem_6": {
+            "code": ""
+        },
+        "Oem_7": {
+            "code": ""
+        },
+        "Oem_Comma": {
+            "code": ""
+        },
+        "Oem_Minus": {
+            "code": ""
+        },
+        "Oem_Period": {
+            "code": ""
+        },
+        "Oem_Plus": {
+            "code": ""
+        },
+        "Rcontrol": {
+            "code": ""
+        },
+        "Return": {
+            "code": ""
+        },
+        "Rmenu": {
+            "code": ""
+        },
+        "Rshift": {
+            "code": ""
+        },
+        "Rwin": {
+            "code": ""
+        },
+        "Scroll": {
+            "code": ""
+        },
+        "Snapshot": {
+            "code": ""
+        },
+        "Space": {
+            "code": ""
+        },
+        "Tab": {
+            "code": ""
+        },
+        "Pause": {
+            "code": ""
+        },
+        "Prior": {
+            "code": ""
+        },
+        "Left": {
+            "code": ""
+        },
+        "Right": {
+            "code": ""
+        },
+        "Up": {
+            "code": ""
+        },
+        "Down": {
+            "code": ""
+        }
+    }
+}

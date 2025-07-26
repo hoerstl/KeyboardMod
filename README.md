@@ -1,7 +1,7 @@
 # KeyboardMod
 
 ## Mission
-Our goal is to allow users to create their own keyboard shortcuts that
+My goal is to allow users to create their own keyboard shortcuts that
 have python-integrated functionality such as running other sub-modules with the press of a 
 button or rebinding keys to complete complex tasks using other python modules.
 

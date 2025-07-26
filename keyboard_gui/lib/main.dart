@@ -2,6 +2,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:keyboard_gui/home_screen/settingsMenu.dart';
 import 'package:xml/xml.dart';
 import 'home_screen/main_ui.dart';
 import 'home_screen/sidebar.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isSidebarVisible = false; // TODO: Rename this variable to isSettingsVisible
   
   @override
   Widget build(BuildContext context) {
@@ -57,8 +59,10 @@ class _MyAppState extends State<MyApp> {
                   Expanded(child: MoveWindow()),
                   WindowButtons()
                 ])),
-                Expanded(child: MyHomePage())
-              ]))),
+                Expanded(
+                  child: MyHomePage(),
+                )
+                ]))),
     );
   }
 }
@@ -83,7 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
       "selectedKey": "W",
       "keyboardMode": "Default",
       "keyData": keyData,
-      "keyboardSVG": keyboardSVG
+      "keyboardSVG": keyboardSVG,
+      "isSettingsVisible": false,
     };
   }
 
@@ -106,22 +111,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
       children: [
-        Expanded(
-            flex: 10,
-            child: main_ui(
-                context: context,
-                sharedData: sharedData,
-                setSharedData: setSharedData)),
-        Expanded(
-            flex: 3,
-            child:
-                Sidebar(sharedData: sharedData, setSharedData: setSharedData)),
+          Scaffold(
+            body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+                flex: 10,
+                child: main_ui(
+                    context: context,
+                    sharedData: sharedData,
+                    setSharedData: setSharedData)),
+            Expanded(
+                flex: 3,
+                child:
+                    Sidebar(sharedData: sharedData, setSharedData: setSharedData)),
+          ],
+        )),
+        // Settings Menu
+        settingsMenu(sharedData: sharedData, setSharedData: setSharedData),
+        // Settings Icon
+        if (!sharedData["isSettingsVisible"])
+          Positioned(
+            top: 20,
+            left: 20,
+            child: IconButton(
+              icon: const Icon(Icons.settings, color: Colors.white, size: 30),
+              onPressed: () {
+                setState(() {
+                  setSharedData(["isSettingsVisible"], true);
+                });
+              },
+            ),
+          ),
       ],
-    ));
+    );
   }
 }
 
