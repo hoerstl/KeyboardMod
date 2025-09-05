@@ -21,7 +21,7 @@ def onPress_Default(event):
 
 
 
-###################### START OF THE CAPMODE DEFINITIONS ############################
+###################### START OF THE CAPS LOCK MODE DEFINITIONS ############################
 key_bindings_CapMode = {
 # RIGHT HAND BINDINGS
 'J': lambda: kbd.pressAndReleaseKey('Left'),
@@ -100,14 +100,13 @@ def onRelease_CapMode(event):
         return
 
 
-###################### START OF THE SHIFTMODE DEFINITIONS ############################
+###################### START OF THE SHIFT MODE DEFINITIONS ############################
 def is_shift_key(key_name):
-    shift_names = [
+    return key_name in (
         "shift",
         "Lshift",
         "Rshift"
-    ]
-    return key_name in shift_names
+    )
 
 key_bindings_ShiftMode = {
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
@@ -124,6 +123,7 @@ key_bindings_ShiftMode = {
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
     'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.settings['remoteServerIP']),
     'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
+    'Escape': lambda: exit(),
 }
 def onPress_ShiftMode(event):
     global key_bindings_ShiftMode
@@ -134,14 +134,13 @@ def onPress_ShiftMode(event):
         print("ShiftMode Off")
 
 
-###################### START OF THE CTRLMODE DEFINITIONS ############################
+###################### START OF THE CTRL MODE DEFINITIONS ############################
 def is_ctrl_key(key_name):
-    ctrl_names = [
+    return key_name in (
         "control",
         "Lcontrol",
         "Rcontrol",
-    ]
-    return key_name in ctrl_names
+    )
 
 ctrlMode_payload = ""
 ctrlMode_next_key_index = 0
@@ -255,6 +254,52 @@ def onPress_CtrlMode(event):
     elif not is_ctrl_key(event.Key) and not is_shift_key(event.Key):
         type_next_payload_character()
     
+
+###################### START OF THE ALT MODE DEFINITIONS ############################
+
+def is_alt_key(key_name):
+    return key_name in (
+        "menu",
+        "Lmenu",
+        "Rmenu"
+    )
+
+def onPress_AltMode(event):
+    pass
+    # keyData = globals.keyData["Caps Lock"].get(event.Key)
+    # if keyData is None:
+    #     print(f"Unsupported key '{event.Key}' pressed.")
+    #     return
+    
+    # if not keyData["Enabled"]:
+    #     return
+
+    # targetFilepath = f"./keybindings/Caps Lock/{event.Key}.py" if keyData["useDefaultFilepath"] else keyData["customFilepath"]
+    # if os.path.exists(targetFilepath):
+    #     specialFunctions.asyncRunPythonFile(targetFilepath)
+    # elif keyData["useDefaultFilepath"]:
+    #     print(f"No binding for {event.Key} in Caps Lock Mode given")
+    # else:
+    #     print(f"Custom file at '{keyData['customFilepath']}' specified but file does not exist")
+
+
+    # keyToMimic = key_mimics_CapMode.get(event.Key)
+    # if keyToMimic:
+    #     if event.Key not in globals.active_mimics:
+    #         kbd.holdKey(keyToMimic)
+    #         globals.active_mimics.append(event.Key)
+    #     return
+
+
+def onRelease_AltMode(event):
+    pass
+    # global key_mimics_CapMode
+    # keyToMimic = key_mimics_CapMode.get(event.Key)
+    # if keyToMimic:
+    #     if event.Key in globals.active_mimics and keyToMimic in globals.held_keys:
+    #         kbd.releaseKey(keyToMimic)
+    #         globals.active_mimics.remove(event.Key)
+    #     return
 
 
 ########################## Currently inactive code for moving the mouse with the keyboard ##########################################

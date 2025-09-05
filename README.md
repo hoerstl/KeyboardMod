@@ -49,12 +49,13 @@ of the bindings implemented by default:
 
 ## Known issues
 
-- The crtl mode cannot handle the typing of some characters (emojis). typeCharacter() needs some work. Currently values are hardcoded and that's limited.
+- The crtl mode cannot handle the typing of some characters (emojis). typeCharacter() needs some work. Currently values are hardcoded and that's limited. Consider using keyboard.write()?
 
 
 
 
 TODO: Consider different test taking cases and put an emphasis on being able to solve questions solo.
+- Consider support for custom autocorrect. AHK does it where you can type a custom phrase and then it'll replace it with whatever you set it to.
 - e.x. Move the mouse to the top-left and bottom-right of a question and be able to answer it.
 - in order to flag a teammate, we should flash numlock on and off
 - Focus on both two person and single person tech separately

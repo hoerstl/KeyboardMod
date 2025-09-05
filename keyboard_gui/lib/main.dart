@@ -118,11 +118,32 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-                flex: 10,
-                child: main_ui(
+              flex: 10,
+              child: Stack(
+                children: [
+                  main_ui(
                     context: context,
                     sharedData: sharedData,
-                    setSharedData: setSharedData)),
+                    setSharedData: setSharedData,
+                  ),
+                  Positioned(
+                    top: 20,
+                    right: 20,
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: sharedData["keyData"][sharedData["keyboardMode"]]["usingSingleModeFile"],
+                          onChanged: (value) {
+                              setSharedData(["keyData", sharedData["keyboardMode"], "usingSingleModeFile"], value);
+                          }
+                        ),  
+                        const Text("Enable feature"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
                 flex: 3,
                 child:
@@ -145,6 +166,18 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
+        Positioned(
+          top: 20,
+          left: 20,
+          child: IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white, size: 30),
+            onPressed: () {
+              setState(() {
+                setSharedData(["isSettingsVisible"], true);
+              });
+            },
+          ),
+        )
       ],
     );
   }

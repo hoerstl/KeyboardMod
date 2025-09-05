@@ -1,5 +1,7 @@
 {
     "Default": {
+        "usingSingleModeFile": false,
+        "modeFilepath": "",
         "Escape": {
             "Enabled": true,
             "useDefaultFilepath": true,
@@ -437,6 +439,8 @@
         }
     },
     "Caps Lock": {
+        "usingSingleModeFile": false,
+        "modeFilepath": "",
         "Escape": {
             "Enabled": true,
             "useDefaultFilepath": true,
@@ -874,6 +878,8 @@
         }
     },
     "Shift": {
+        "usingSingleModeFile": false,
+        "modeFilepath": "",
         "Escape": {
             "Enabled": true,
             "useDefaultFilepath": true,
@@ -1311,6 +1317,8 @@
         }
     },
     "Ctrl": {
+        "usingSingleModeFile": false,
+        "modeFilepath": "",
         "Escape": {
             "Enabled": true,
             "useDefaultFilepath": true,
@@ -1748,6 +1756,8 @@
         }
     },
     "Alt": {
+        "usingSingleModeFile": false,
+        "modeFilepath": "",
         "Escape": {
             "Enabled": true,
             "useDefaultFilepath": true,

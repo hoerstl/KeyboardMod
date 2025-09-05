@@ -33,7 +33,7 @@ Widget main_ui(
                 SubtleDropdown(
                     value: keyboardMode,
                     options: const ["Default", "Caps Lock", "Shift", "Ctrl", "Alt"],
-                    style: modeStyle,
+                    style: modeStyle.copyWith(decoration: TextDecoration.underline),
                     onChanged: (newValue) {
                       setSharedData(["keyboardMode"], newValue);
                     }),

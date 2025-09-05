@@ -37,7 +37,7 @@ def init():
     data['atomicSubprocesses'] = set()
 
     # Dynamic
-    data['keyboardMode'] = 'Default' # This can have the value 'Default', 'ShiftMode', 'CapMode', or 'CtrlMode'. Starts as 'Default'
+    data['keyboardMode'] = 'Default' # This can have the value 'Default', 'Shift', 'Caps Lock', 'Ctrl', or 'Alt'. Starts as 'Default'
     data['subprocessTimestamp'] = 0
     data['remoteServerClipboard'] = ""
     data['mostRecentNotepadID'] = None

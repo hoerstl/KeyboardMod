@@ -2,6 +2,8 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:keyboard_gui/logic/settingsMenu/exportProfile.dart';
+import 'package:keyboard_gui/logic/settingsMenu/importProfile.dart';
 import 'package:xml/xml.dart';
 import 'dart:io';
 import 'package:system_tray/system_tray.dart';
@@ -20,7 +22,7 @@ class _settingsMenuState extends State<settingsMenu> {
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       left: widget.sharedData["isSettingsVisible"] ? 0 : -250, // Adjust width here
       top: 0,
@@ -56,18 +58,18 @@ class _settingsMenuState extends State<settingsMenu> {
             ),
             const Divider(color: Colors.white54),
             ListTile(
-              leading: const Icon(Icons.person, color: Colors.white),
-              title: const Text('Profile', style: TextStyle(color: Colors.white)),
-              onTap: () {},
+              leading: const Icon(Icons.file_download, color: Colors.white),
+              title: const Text('Import Profile', style: TextStyle(color: Colors.white)),
+              onTap: () {importKeyboardProfile();},
             ),
             ListTile(
-              leading: const Icon(Icons.notifications, color: Colors.white),
-              title: const Text('Notifications', style: TextStyle(color: Colors.white)),
-              onTap: () {},
+              leading: const Icon(Icons.file_upload, color: Colors.white),
+              title: const Text('Export Profile', style: TextStyle(color: Colors.white)),
+              onTap: () {exportKeyboardProfile();},
             ),
             ListTile(
               leading: const Icon(Icons.settings, color: Colors.white),
-              title: const Text('Preferences', style: TextStyle(color: Colors.white)),
+              title: const Text('TBD', style: TextStyle(color: Colors.white)),
               onTap: () {},
             ),
           ],

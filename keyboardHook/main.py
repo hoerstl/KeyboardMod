@@ -162,6 +162,30 @@ def process_mode_ctrl(event):
             last_key_released = ''
             return True
         ctrl_release_time = time.time()
+        
+
+def process_mode_alt(event):
+    """
+    Decides whether or not to switch the keyboard into Alt Mode
+    Runs every key release.
+    """
+    global last_key_released, alt_release_time
+    if keyboardModes.is_alt_key(event.Key):
+        is_different = event.Key != last_key_released
+        was_quick_enough = time.time() - alt_release_time < .05
+        if keyboardModes.is_alt_key(last_key_released) and is_different and was_quick_enough:
+            'passed all criteria'
+            if globals.data['keyboardMode'] == 'Alt':
+                print("Alt Mode Off")
+                globals.data['keyboardMode'] = 'Default'
+            else:
+                print("Alt Mode On")
+                globals.data['entering_alt_mode'] = True
+                globals.data['keyboardMode'] = 'Alt'
+
+            last_key_released = ''
+            return True
+        alt_release_time = time.time()
 
 
 def is_press_bypassed(event):
@@ -211,6 +235,8 @@ def on_key_press(event):
         keyboardModes.onPress_CapMode(event)
     elif globals.data['keyboardMode'] == 'Ctrl':
         keyboardModes.onPress_CtrlMode(event)
+    elif globals.data['keyboardMode'] == 'Alt':
+        keyboardModes.onPress_AltMode(event)
 
     return False
 
@@ -235,6 +261,8 @@ def on_key_release(event):
         return False # We can just block both the press and release of a single key since interacting with it at all means that we are certainly changing keyboard modes
     if process_mode_ctrl(event):
         pass # We need to allow the ctrl keys to be released via a default bypass when we swap to and from modes since it involves two keys
+    if process_mode_alt(event):
+        pass # We need to allow the alt keys to be released via a default bypass when we swap to and from modes since it involves two keys
     last_key_released = event.Key
 
     if is_default_bypassed(event):
@@ -249,6 +277,8 @@ def on_key_release(event):
         keyboardModes.onRelease_CapMode(event)
         return False
     elif globals.data['keyboardMode'] == 'Ctrl':
+        return False
+    elif globals.data['keyboardMode'] == 'Alt':
         return False
     return True
 
@@ -274,6 +304,7 @@ if __name__ == '__main__':
     cap_press_time = 0
     shift_release_time = 0
     ctrl_release_time = 0
+    alt_release_time = 0
     last_key_released = ''
 
     threading.Thread(target=updateFromMainQueue, daemon=True).start()
