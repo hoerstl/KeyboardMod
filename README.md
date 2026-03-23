@@ -3,11 +3,28 @@
 ## Mission
 Our goal is to allow users to create their own keyboard shortcuts that
 have python-integrated functionality such as running other sub-modules with the press of a 
-button or rebinding keys to complete complex tasks using other python modules.
+button or rebinding keys to complete complex tasks using other python modules. 
 
-Motivation: I, Lawrence, wanted to increase my productivity with a keyboard and reduce the time 
-my hands spend moving away from the home row on my keyboard. I also thought it would be excellent
-to bind the scripts I write to make me more powerful on my machines.
+This application features several different keyboard layers called "modes" that typists can 
+move between, each with their own unique keybindings.
+
+
+<img width="1298" height="697" alt="image" src="https://github.com/user-attachments/assets/59843d50-53cc-4522-8632-bb9e36e4808a" />
+
+<img width="1295" height="695" alt="image" src="https://github.com/user-attachments/assets/d9094380-99ba-4bb7-bca9-ab1fd2dd7907" />
+
+<img width="1006" height="692" alt="image" src="https://github.com/user-attachments/assets/70bed7e9-5cc7-45a4-94d2-f496bafb75ea" />
+
+
+## Motivation 
+I, Lawrence, wanted to increase my productivity with a keyboard and reduce the time 
+my hands spend moving away from the home row while using proper typing form. I believed
+it would be excellent to bind the scripts I write to make me more powerful on my machines.
+After scoping out the problem I identified some key weaknesses with existing solutions and settled
+on my own keyboard layering system with a centralized server for passing and storing data between 
+subroutines. This allows for more flexibility and supreme integration with native windows operating 
+systems and I'm proud to bring this to you all.
+
 
 ## Functionalities:
 - Pressing and holding the caps-lock key rebinds every key on the keyboard, entering 'CapMode'
@@ -54,8 +71,6 @@ of the bindings implemented by default:
 
 
 
-TODO: Consider different test taking cases and put an emphasis on being able to solve questions solo.
-- e.x. Move the mouse to the top-left and bottom-right of a question and be able to answer it.
-- in order to flag a teammate, we should flash numlock on and off
-- Focus on both two person and single person tech separately
-- Think about how we scale api keys
+TODO:
+- Focus on both multi-person collaboration and single person tech separately
+- Think about how we scale could scale api keys to integrate AI workflows
