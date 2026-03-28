@@ -40,6 +40,7 @@ def init():
     data['remoteServerClipboard'] = ""
     data['mostRecentNotepadID'] = None
     data['notepadQueues'] = [None for i in range(10)]
+    data['selectedCoordinates'] = [None, None]
 
     
 

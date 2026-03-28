@@ -6,7 +6,8 @@ from popup import displayToUser, getString, OverlayEditModal
 from settings import PaginatedSettingsWindow
 import convenienceFunctions as kbd
 
-from PIL import Image
+from PIL import Image, ImageGrab, ImageChops
+import simpleaudio as sa
 from io import BytesIO
 import ctypes
 import multiprocessing as mp
@@ -38,6 +39,10 @@ def typeTemplate(template):
             kbd.pressAndReleaseKey('Left')
 
 
+def setCoordinates(coordinates, coordinateIndex=0):
+    globals.data['selectedCoordinates'][coordinateIndex] = coordinates
+
+
 @threadedSubprocess()
 def showIcecreamCode(**kwargs):
     freeIceCreamCode = getFreeIceCreamCode()
@@ -62,6 +67,35 @@ def answerVisableExtendedResponseQuestion(**kwargs):
 
     print("Recieved an answer to the extended response question.")
 
+@threadedSubprocess(atomic=True)
+def detectDifferenceInSelection(coordinates, **kwargs):
+    
+    # Get the boundary box for the screenshot
+    pos1, pos2 = coordinates
+    if pos1 is None or pos2 is None:
+        return
+    x1, y1 = min(pos1[0], pos2[0]), min(pos1[1], pos2[1])
+    x2, y2 = max(pos1[0], pos2[0]), max(pos1[1], pos2[1])
+
+    previousImage = None
+
+    while True:
+        # Take screenshot and crop to region
+        screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+
+        if previousImage is not None:
+            # Compare images
+            diff = ImageChops.difference(screenshot, previousImage)
+
+            if diff.getbbox() is not None:
+                trumpet = sa.WaveObject.from_wave_file("./assets/trumpet.wav")
+                while True:
+                    play_obj = trumpet.play()
+                    play_obj.wait_done()
+
+        # Store current image for next iteration
+        previousImage = screenshot
+        time.sleep(0.1)
 
 @threadedSubprocess()
 def countToTheMoon(**kwargs):

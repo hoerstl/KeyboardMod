@@ -85,6 +85,25 @@ def onRelease_CapMode(event):
         return
 
 
+mouse_bindings_CapMode = {
+    "mouse left down": lambda e: specialFunctions.setCoordinates(e.Position, 0),
+    "mouse right down": lambda e: specialFunctions.setCoordinates(e.Position, 1),
+    "mouse left up": lambda e: 0,
+    "mouse right up": lambda e: 0,
+}
+
+def onMouse_CapMode(event):
+    global mouse_bindings_CapMode
+
+    mouseaction = mouse_bindings_CapMode.get(event.MessageName, lambda e: 'no binding found')
+    if mouseaction(event) != 'no binding found':
+        globals.data['cap_mode_used'] = True
+        return False
+
+    return True
+
+
+
 ###################### START OF THE SHIFTMODE DEFINITIONS ############################
 def is_shift_key(key_name):
     shift_names = [
@@ -102,6 +121,7 @@ key_bindings_ShiftMode = {
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
+    'M': lambda: specialFunctions.asyncDetectDifferenceInSelection(globals.data["selectedCoordinates"]),
     'N': lambda: specialFunctions.asyncSendNotify(globals.settings['remoteServerIP']),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),

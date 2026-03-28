@@ -218,6 +218,15 @@ def on_key_release(event):
     return True
 
 
+def on_mouse(event):
+    update()
+
+    # Process mouse input as you wish
+    if globals.data['keyboardMode'] == 'Caps Lock':
+        return keyboardModes.onMouse_CapMode(event)
+    
+    return True
+
 
 
 def start_hook():
@@ -228,8 +237,12 @@ def start_hook():
     hook_manager.KeyDown = on_key_press
     hook_manager.KeyUp = on_key_release
 
+    # Register the callback function for mouse events
+    hook_manager.MouseAll = on_mouse
+
     # Set the hook and start the event loop
     hook_manager.HookKeyboard()
+    hook_manager.HookMouse()
     pythoncom.PumpMessages()
 
 
