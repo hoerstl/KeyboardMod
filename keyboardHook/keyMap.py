@@ -83,6 +83,7 @@ key_map = {
     'Oem_Comma': 188,  # Comma
     'Oem_Period': 190,  # Period
     'GRAVE': 192,  # TODO: find the grave button on my keyboard
+    'Oem_3': 0xC0, # Back tick
     'Oem_7': 222,  # Single quote
     'Oem_4': 219,  # Left Bracket
     'Oem_6': 221,  # Right bracket

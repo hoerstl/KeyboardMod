@@ -114,6 +114,7 @@ def is_shift_key(key_name):
     return key_name in shift_names
 
 key_bindings_ShiftMode = {
+    'Escape': lambda: specialFunctions.clearData(),
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
     'C': lambda: specialFunctions.asyncClickMouseXTimes(globals.settings['timesToClick']),
@@ -121,14 +122,15 @@ key_bindings_ShiftMode = {
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
-    'M': lambda: specialFunctions.asyncDetectDifferenceInSelection(globals.data["selectedCoordinates"]),
+    'M': lambda: specialFunctions.asyncDetectDifferenceInSelection(globals.data["selectedCoordinates"], loopForever=True),
     'N': lambda: specialFunctions.asyncSendNotify(globals.settings['remoteServerIP']),
     'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),
     'S': lambda: specialFunctions.asyncOpenSettingsMenu(globals.settings),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
     'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.settings['remoteServerIP']),
-    'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(stealthy=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
+    'X': lambda: specialFunctions.asyncAnswerVisableCodingQuestion(globals.data["selectedCoordinates"], outputTo="Clipboard", GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY'], chatHistory=globals.data["chatHistory"]),
+    'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(globals.data["selectedCoordinates"], outputTo="Audio", GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
 }
 def onPress_ShiftMode(event):
     global key_bindings_ShiftMode

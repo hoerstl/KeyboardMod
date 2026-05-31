@@ -8,6 +8,7 @@ import convenienceFunctions as kbd
 
 from PIL import Image, ImageGrab, ImageChops
 import simpleaudio as sa
+import pyttsx3
 from io import BytesIO
 import ctypes
 import multiprocessing as mp
@@ -56,19 +57,45 @@ def answerVisableQuizQuestion(**kwargs):
     displayToUser('Answer', quizTaker.answerVisableQuizQuestion(**keywordArguments), fontSize='small', desiredHeight=200)
 
 @threadedSubprocess()
-def answerVisableExtendedResponseQuestion(**kwargs):
-    isStealthy = kwargs.get('stealthy')
+def answerVisableExtendedResponseQuestion(coords, **kwargs):
+    outputTo = kwargs.get('outputTo')
     quizTaker.init(kwargs['GOOGLE_API_KEY'])
-    answer = quizTaker.answerVisableExtendedResponseQuestion()
-    if isStealthy:
+    answer = quizTaker.answerVisableExtendedResponseQuestion(coords)
+    kwargs['mainQueue'].put(('command', ('addToChatHistory', answer)))
+    if outputTo == "Audio":
+        engine = pyttsx3.init()
+        engine.say(answer)
+        engine.runAndWait()
+    elif outputTo == "Clipboard":
         pyperclip.copy(answer)
     else:
         displayToUser('Answer', answer, fontSize='small', desiredHeight=200)
 
     print("Recieved an answer to the extended response question.")
 
+
+@threadedSubprocess()
+def answerVisableCodingQuestion(coords, **kwargs):
+    outputTo = kwargs.get('outputTo')
+    chatHistory = kwargs.get('chatHistory')
+    print(f"Using: {chatHistory=}")
+    quizTaker.init(kwargs['GOOGLE_API_KEY'])
+    answer = quizTaker.answerVisableCodingQuestion(coords, chatHistory)
+    kwargs['mainQueue'].put(('command', ('addToChatHistory', answer)))
+    if outputTo == "Audio":
+        engine = pyttsx3.init()
+        engine.say(answer)
+        engine.runAndWait()
+    elif outputTo == "Clipboard":
+        pyperclip.copy(answer)
+    else:
+        displayToUser('Answer', answer, fontSize='small', desiredHeight=200)
+
+    print("Recieved an answer to the coding question.")
+
+
 @threadedSubprocess(atomic=True)
-def detectDifferenceInSelection(coordinates, **kwargs):
+def detectDifferenceInSelection(coordinates, loopForever=False, **kwargs):
     
     # Get the boundary box for the screenshot
     pos1, pos2 = coordinates
@@ -89,9 +116,11 @@ def detectDifferenceInSelection(coordinates, **kwargs):
 
             if diff.getbbox() is not None:
                 trumpet = sa.WaveObject.from_wave_file("./assets/trumpet.wav")
-                while True:
+                while loopForever:
                     play_obj = trumpet.play()
                     play_obj.wait_done()
+                play_obj = trumpet.play()
+                play_obj.wait_done()
 
         # Store current image for next iteration
         previousImage = screenshot
@@ -248,6 +277,11 @@ def killAllSubprocesses():
     globals.data['notepadQueues'] = [None for _ in globals.data['notepadQueues']]
     print("All subprocesses killed")
 
+
+def clearData():
+    print("Clearing data")
+    globals.data['chatHistory'] = []
+    globals.data['selectedCoordinates'] = [None, None]
 
 
 def init():

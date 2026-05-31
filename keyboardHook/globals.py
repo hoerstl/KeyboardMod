@@ -40,7 +40,8 @@ def init():
     data['remoteServerClipboard'] = ""
     data['mostRecentNotepadID'] = None
     data['notepadQueues'] = [None for i in range(10)]
-    data['selectedCoordinates'] = [None, None]
+    data['selectedCoordinates'] = [None, None] # Stores coordinates in the format [(x1, y1), (x2, y2)]
+    data['chatHistory'] = []
 
     
 

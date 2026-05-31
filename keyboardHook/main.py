@@ -111,6 +111,9 @@ def update():
                 if globals.flags['asyncCtrlModePayloadStatus'] == "Requested":
                     globals.flags['asyncCtrlModePayloadStatus'] = "Failed"
 
+            elif command == "addToChatHistory":
+                globals.data["chatHistory"].append(value)
+
         else:
             if key in globals.settings and globals.settings[key] != payload:
                 settingsChanged = True
