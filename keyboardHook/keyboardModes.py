@@ -27,23 +27,24 @@ key_bindings_CapMode = {
 'L': lambda: kbd.pressAndReleaseKey('Up'),
 'Oem_1': lambda: kbd.pressAndReleaseKey('Right'),  # semicolon
 'Oem_7': lambda: kbd.pressKeyCombo('Lmenu+Tab'),  # apostrophe
-'O': lambda: kbd.pressKeyCombo('Lcontrol+Lwin+Left'),
-'P': lambda: kbd.pressKeyCombo('Lcontrol+Lwin+Right'),
+'O': lambda: specialFunctions.pressDesktopKeyCombo('Lcontrol+Lwin+Left'),
+'P': lambda: specialFunctions.pressDesktopKeyCombo('Lcontrol+Lwin+Right'),
 'Return': lambda: kbd.pressAndReleaseKeys('End_Return'),
 'Oem_Period': lambda: kbd.pressKeyCombo('Lcontrol+Lshift+Tab'),
 'Oem_2': lambda: kbd.pressKeyCombo('Lcontrol+Tab'),
-'Rmenu': lambda: kbd.pressKeyCombo('Lshift+Lcontrol+Right'),
 'Back': lambda: kbd.pressAndReleaseKey('Delete'),
+'M': lambda: kbd.pressAndReleaseKey('Tab'),
+'N': lambda: kbd.pressKeyCombo('Lshift+Tab'),
+'Rmenu': lambda: kbd.pressKeyCombo('Lshift+Lcontrol+Right'),
 
 # LEFT HAND BINDINGS
+'T': lambda: kbd.pressKeyCombo('Lwin+Lcontrol+Lmenu+T'),
 'S': lambda: kbd.pressKeyCombo('Lcontrol+Left'),
 'F': lambda: kbd.pressKeyCombo('Lcontrol+Right'),
 'E': lambda: kbd.pressAndReleaseKey('Home'),
 'D': lambda: kbd.pressAndReleaseKey('End'),
-'G': lambda: specialFunctions.typeTemplate('{% | %}'),
-'R': lambda: specialFunctions.typeTemplate(\
-"""print(f"{|=}") # Beans
-print('*'*1000)"""),
+'V': lambda: specialFunctions.typeTemplate(specialFunctions.getFromDesktop("Value")),
+'B': lambda: specialFunctions.pasteWindowsPath(),
 'Lmenu': lambda: kbd.pressKeyCombo('Lshift+Lcontrol+Left'),
 
 '1': lambda: specialFunctions.toggleNotepad(1),
@@ -115,10 +116,13 @@ def is_shift_key(key_name):
 
 key_bindings_ShiftMode = {
     'Escape': lambda: specialFunctions.clearData(),
+    # '1': lambda: specialFunctions.openFile("thunder://DEN.861/"),
+    # '2': lambda: specialFunctions.openFile("thunder://DEN.5325/"),
+    # '3': lambda: specialFunctions.openFile("thunder://DEN.5826/"),
     'A': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
     'B': lambda: specialFunctions.asyncShowIcecreamCode(),
     'C': lambda: specialFunctions.asyncClickMouseXTimes(globals.settings['timesToClick']),
-    'D': lambda: specialFunctions.showRemoteServerIP(),
+    'D': lambda: specialFunctions.asyncSetValue(),
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),

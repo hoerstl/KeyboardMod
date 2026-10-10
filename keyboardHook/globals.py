@@ -42,6 +42,7 @@ def init():
     data['notepadQueues'] = [None for i in range(10)]
     data['selectedCoordinates'] = [None, None] # Stores coordinates in the format [(x1, y1), (x2, y2)]
     data['chatHistory'] = []
+    data['desktopData'] = defaultdict(lambda: defaultdict(str)) # Key value pairs in the format of DesktopID: {info1: val1, info2: val2, ...}
 
     
 

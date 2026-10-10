@@ -114,6 +114,9 @@ def update():
             elif command == "addToChatHistory":
                 globals.data["chatHistory"].append(value)
 
+            elif command == "setDesktopData":
+                specialFunctions.setDesktopData(*value)
+
         else:
             if key in globals.settings and globals.settings[key] != payload:
                 settingsChanged = True

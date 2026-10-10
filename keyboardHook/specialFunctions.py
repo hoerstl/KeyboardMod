@@ -18,6 +18,8 @@ import pyperclip
 import socket
 import time
 import os
+import winreg
+import uuid
 import runpy
 
 def typeTemplate(template):
@@ -42,6 +44,15 @@ def typeTemplate(template):
 
 def setCoordinates(coordinates, coordinateIndex=0):
     globals.data['selectedCoordinates'][coordinateIndex] = coordinates
+
+
+def pasteWindowsPath():
+    path = pyperclip.paste()
+    print("replacing backslashes with forward slashes in path: " + path)
+    path = path.replace('\\', '/')
+    pyperclip.copy(path)
+    print("typing path: " + path)
+    typeTemplate(path)
 
 
 @threadedSubprocess()
@@ -197,6 +208,27 @@ def notify(**kwargs):
         kbd.pressAndReleaseKey('Capital')
         time.sleep(.5)
 
+@threadedSubprocess()
+def setValue(**kwargs):
+    val = getString("Desktop Value", "Enter the value you want on this desktop.")
+    if not val:
+        return
+    kwargs['mainQueue'].put(('command', ("setDesktopData", ("Value", val))))
+
+def pressDesktopKeyCombo(keyCombo):
+    kbd.pressKeyCombo(keyCombo)
+    # Will probably need to put an update on the queue for changing desktop to update the values
+    # time.sleep(.1)
+    # onChangeDesktop()
+
+def onChangeDesktop():
+    # val = getFromDesktop("Value")
+    # with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment", 0, winreg.KEY_SET_VALUE) as k:
+    #     winreg.SetValueEx(k, "CURRENT_Value", 0, winreg.REG_SZ, val)
+    pass
+
+def openFile(filepath):
+    os.startfile(filepath)
 
 ####################################### NOTEPAD LOGIC ##################################
 def createNotepadQueue():
@@ -267,6 +299,26 @@ def openSettingsMenu(settings, **kwargs):
     root.mainloop()
     kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', openSettingsMenu.__name__)))
 
+
+def getDesktopID():
+    """Return the GUID of the currently active virtual desktop as a string.
+    Works regardless of which window (if any) is focused."""
+    BASE = r"Software\Microsoft\Windows\CurrentVersion\Explorer\VirtualDesktops"
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, BASE) as k:
+        raw, _ = winreg.QueryValueEx(k, "CurrentVirtualDesktop")
+    
+    return str(uuid.UUID(bytes_le=bytes(raw)))
+
+
+def setDesktopData(key, value):
+    desktopID = getDesktopID()
+    globals.data['desktopData'][desktopID][key] = value
+    print(f"Set value in desktop '{desktopID}': ({key}, {value})")
+
+
+def getFromDesktop(key):
+    desktopID = getDesktopID()
+    return globals.data['desktopData'][desktopID][key]
 
 
 def killAllSubprocesses():
