@@ -3,9 +3,42 @@ import asyncio
 import os
 
 from websockets.asyncio.server import serve
+import subprocess
 
-HOST = os.environ.get("WS_HOST", "127.0.0.1")
-PORT = 8765
+
+def getTailscaleIP(computerName: str) -> str | None:
+    """
+    Retrieve the Tailscale IP address for a computer by its hostname.
+    """
+    if not computerName or computerName == "localhost":
+        return "127.0.0.1"
+
+    try:
+        result = subprocess.run(
+            ["tailscale", "status"],
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=10
+        )
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Failed to retrieve Tailscale status: {e.stderr}") from e
+    except FileNotFoundError as e:
+        raise RuntimeError(
+            "Tailscale CLI was not found. Ensure it is installed and on PATH."
+        ) from e
+    except subprocess.TimeoutExpired as e:
+        raise RuntimeError("Tailscale status command timed out.") from e
+
+    for line in result.stdout.splitlines():
+        fields = line.split()
+
+        # Expected format: IP hostname username OS status
+        if len(fields) >= 2 and fields[1].lower() == computerName.lower():
+            return fields[0]
+
+    return None
+
 
 clients = set()
 
@@ -38,9 +71,16 @@ async def handler(websocket):
         print("Disconnected")
 
 
-async def main():
-    async with serve(handler, HOST, PORT):
-        print(f"WebSocket server listening on {HOST}:{PORT}")
+async def main(computerName="localhost", port=8765):
+    host = getTailscaleIP(computerName)
+
+    if host is None:
+        raise RuntimeError(
+            f"Computer '{computerName}' was not found in Tailscale status."
+        )
+    
+    async with serve(handler, host, port):
+        print(f"WebSocket server listening on {host}:{port}", flush=True)
         await asyncio.Future()
 
 

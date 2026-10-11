@@ -89,7 +89,7 @@ def update():
     """
     # Update all information given from subprocesses and put them into the globally accessable data dict from globals.py
     global updateHooks # TODO: implement updateHooks and abstract functionality
-    # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well.
+    # TODO: rework the way we interact with setting custom globals/settings here. If statements won't scale well for readability.
     
     settingsChanged = False
     while not globals.data['mainQueue'].empty():
@@ -116,6 +116,10 @@ def update():
 
             elif command == "setDesktopData":
                 specialFunctions.setDesktopData(*value)
+
+            elif command == "startTailScaleServer":
+                specialFunctions.asyncStartTailScaleServer(globals.settings["tailScaleServerComputerName"])
+                
 
         else:
             if key in globals.settings and globals.settings[key] != payload:

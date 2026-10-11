@@ -3,8 +3,8 @@ import QuizTaker.main as quizTaker
 import localServer
 from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
-from settings import PaginatedSettingsWindow
 import convenienceFunctions as kbd
+import tailScaleServer 
 
 from PIL import Image, ImageGrab, ImageChops
 import simpleaudio as sa
@@ -18,6 +18,7 @@ import pyperclip
 import socket
 import time
 import os
+import asyncio
 import winreg
 import uuid
 import runpy
@@ -158,6 +159,18 @@ def clickMouseXTimes(timesToClick, **kwargs):
 
 
 @threadedSubprocess(atomic=True)
+def startTailScaleServer(computerName=None, **kwargs):
+    print("Starting TailScale Server")
+    try:
+        asyncio.run(tailScaleServer.main(computerName))
+    finally:
+        kwargs['mainQueue'].put((
+            'command',
+            ('terminateAtomicSubprocess', startTailScaleServer.__name__)
+        ))
+
+
+@threadedSubprocess(atomic=True)
 def hostServer(**kwargs):
     localServer.startApplication(kwargs['mainQueue'])
     kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', hostServer.__name__)))
@@ -295,7 +308,10 @@ def toggleNotepad(notepadID):
 
 @threadedSubprocess(atomic=True)
 def openSettingsMenu(settings, **kwargs):
-    root = PaginatedSettingsWindow(lambda key, value: kwargs['mainQueue'].put((key, value)), default_values=settings)
+    from settings import PaginatedSettingsWindow
+    root = PaginatedSettingsWindow(on_change_callback= lambda key, value: kwargs['mainQueue'].put((key, value)), 
+                                   run_command_callback= lambda command, *args: kwargs['mainQueue'].put(("command", (command, args))),
+                                   default_values=settings)
     root.mainloop()
     kwargs['mainQueue'].put(('command', ('terminateAtomicSubprocess', openSettingsMenu.__name__)))
 

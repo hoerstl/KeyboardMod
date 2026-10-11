@@ -3,20 +3,22 @@ from tkinter import ttk
 import os
 import json
 from popup import clickAt
+from specialFunctions import asyncCountToTheMoon
 
 ### DEFAULT SETTINGS ###
 defaultSettings = { 
     'remoteServerIP': '127.0.0.1',
+    'tailScaleServerComputerName': 'jester-junction',
     'ghostTypingMode': 'Default',
-    'ghostTypeFrom' : "Clipboard",
+    'ghostTypeFrom' : 'Clipboard',
     'timesToClick': 1,
-    'GOOGLE_API_KEY' : "",
+    'GOOGLE_API_KEY' : '',
     'headphoneActions': False,
     }
 
 
 class PaginatedSettingsWindow(tk.Tk):
-    def __init__(self, on_change_callback, default_values=None):
+    def __init__(self, on_change_callback, run_command_callback, default_values=None):
         super().__init__()
         self.title("Settings")
         self.attributes("-topmost", True)
@@ -34,6 +36,7 @@ class PaginatedSettingsWindow(tk.Tk):
 
         # Callback function for when a widget value changes
         self.on_change_callback = on_change_callback
+        self.run_command_callback = run_command_callback
 
         # Default values dictionary
         self.default_values = default_values if default_values else {}
@@ -107,7 +110,7 @@ class PaginatedSettingsWindow(tk.Tk):
         else:
             self.next_button.state(['!disabled'])
 
-    def add_widget_to_page(self, page_number, widget_type, text=None, options=None, key=None):
+    def add_widget_to_page(self, page_number, widget_type, text=None, options=None, key=None, command=None):
         """Dynamically add a widget to a specific page and track its value with the given key."""
         if page_number not in self.pages:
             highest_page_num = max(list(self.pages.keys()) + [0])
@@ -116,7 +119,16 @@ class PaginatedSettingsWindow(tk.Tk):
         if page_number in self.pages:
             page_frame = self.pages[page_number]
 
-            if widget_type == "label":
+            # Buttons send a command message to the main queue. The command should be the name of a command defined in main.update
+            if widget_type == "button":
+                button = ttk.Button(
+                    page_frame,
+                    text=text,
+                    command=lambda: self.on_button_click(command)
+                )
+                button.pack(padx=10, pady=10)
+
+            elif widget_type == "label":
                 label = ttk.Label(page_frame, text=text)
                 label.pack(padx=10, pady=(10, 0))
 
@@ -165,23 +177,33 @@ class PaginatedSettingsWindow(tk.Tk):
                 pass
             self.on_change_callback(key, value)
 
+    def on_button_click(self, on_click):
+        """Called whenever a button is clicked, triggers the button's callback"""
+        self.run_command_callback(on_click)
+
     def addPresetSettingsContent(self):
         # Page 1
-        self.add_widget_to_page(1, "label", text="Linked Computer IP Address")
-        self.add_widget_to_page(1, "entry", key="remoteServerIP")
-        self.add_widget_to_page(1, "label", text="Ghost Typing Content")
-        self.add_widget_to_page(1, "select", options=["Default", "Code"], key="ghostTypingMode")
-        self.add_widget_to_page(1, "label", text="Ghost Type From?")
-        self.add_widget_to_page(1, "select", options=["Clipboard", "Remote"], key="ghostTypeFrom")
-        self.add_widget_to_page(1, "label", text="Times to Rapid Click")
-        self.add_widget_to_page(1, "entry", key="timesToClick")
+        self.add_widget_to_page(1, "label", text="Manage Tailscale Server")
+        self.add_widget_to_page(1, "button", text="Start Tailscale Server", command="startTailScaleServer")
+        self.add_widget_to_page(1, "label", text="Tailscale Server's Computer Name")
+        self.add_widget_to_page(1, "entry", key="tailScaleServerComputerName")
 
         # Page 2
-        self.add_widget_to_page(2, "label", text="Enable headphone actions?")
-        self.add_widget_to_page(2, "checkbox", key="headphoneActions")
-        self.add_widget_to_page(2, "label", text="Google API key")
-        self.add_widget_to_page(2, "entry", key="GOOGLE_API_KEY")
+        self.add_widget_to_page(2, "label", text="Linked Computer IP Address")
+        self.add_widget_to_page(2, "entry", key="remoteServerIP")
+        self.add_widget_to_page(2, "label", text="Ghost Typing Content")
+        self.add_widget_to_page(2, "select", options=["Default", "Code"], key="ghostTypingMode")
+        self.add_widget_to_page(2, "label", text="Ghost Type From?")
+        self.add_widget_to_page(2, "select", options=["Clipboard", "Remote"], key="ghostTypeFrom")
+        self.add_widget_to_page(2, "label", text="Times to Rapid Click")
+        self.add_widget_to_page(2, "entry", key="timesToClick")
 
+
+        # Page 3
+        self.add_widget_to_page(3, "label", text="Enable headphone actions?")
+        self.add_widget_to_page(3, "checkbox", key="headphoneActions")
+        self.add_widget_to_page(3, "label", text="Google API key")
+        self.add_widget_to_page(3, "entry", key="GOOGLE_API_KEY")
 
 
 def saveSettings(settings):
