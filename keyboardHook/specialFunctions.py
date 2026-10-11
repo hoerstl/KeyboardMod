@@ -4,7 +4,8 @@ import localServer
 from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
 import convenienceFunctions as kbd
-import tailScaleServer 
+import tailScaleServer
+import tailScaleClient
 
 from PIL import Image, ImageGrab, ImageChops
 import simpleaudio as sa
@@ -167,6 +168,17 @@ def startTailScaleServer(computerName=None, **kwargs):
         kwargs['mainQueue'].put((
             'command',
             ('terminateAtomicSubprocess', startTailScaleServer.__name__)
+        ))
+
+@threadedSubprocess(atomic=True)
+def startTailScaleClient(computerName=None, **kwargs):
+    print("Starting TailScale Client")
+    try:
+        asyncio.run(tailScaleClient.main(computerName))
+    finally:
+        kwargs['mainQueue'].put((
+            'command',
+            ('terminateAtomicSubprocess', startTailScaleClient.__name__)
         ))
 
 

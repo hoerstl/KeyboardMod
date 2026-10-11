@@ -119,7 +119,9 @@ def update():
 
             elif command == "startTailScaleServer":
                 specialFunctions.asyncStartTailScaleServer(globals.settings["tailScaleServerComputerName"])
-                
+
+            elif command == "startTailScaleClient":
+                specialFunctions.asyncStartTailScaleClient(globals.settings["tailScaleServerComputerName"])
 
         else:
             if key in globals.settings and globals.settings[key] != payload:

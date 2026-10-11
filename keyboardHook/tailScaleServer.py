@@ -72,15 +72,15 @@ async def handler(websocket):
 
 
 async def main(computerName="localhost", port=8765):
-    host = getTailscaleIP(computerName)
+    serverIP = getTailscaleIP(computerName)
 
-    if host is None:
+    if serverIP is None:
         raise RuntimeError(
             f"Computer '{computerName}' was not found in Tailscale status."
         )
     
-    async with serve(handler, host, port):
-        print(f"WebSocket server listening on {host}:{port}", flush=True)
+    async with serve(handler, serverIP, port):
+        print(f"WebSocket server listening on {serverIP}:{port}", flush=True)
         await asyncio.Future()
 
 

@@ -1,16 +1,24 @@
 
 import asyncio
 import os
+import tailScaleServer
 
 from websockets.asyncio.client import connect
 
-SERVER_IP = os.environ["WS_SERVER_IP"]
-SERVER_URL = f"ws://{SERVER_IP}:8765"
+async def main(computerName=None):
+    serverIP = tailScaleServer.getTailscaleIP(computerName)
 
+    if serverIP is None:
+        raise RuntimeError(
+            f"Computer '{computerName}' was not found in Tailscale status."
+        )
 
-async def main():
-    async with connect(SERVER_URL) as websocket:
-        print(f"Connected to {SERVER_URL}")
+    serverURL = f"ws://{serverIP}:8765"
+
+    print(f"Attempting connection to {serverURL=}")
+
+    async with connect(serverURL) as websocket:
+        print(f"Connected to {serverURL}")
         print("Type a message and press Enter.")
 
         async def receive():
