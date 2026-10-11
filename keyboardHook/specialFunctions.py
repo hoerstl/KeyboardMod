@@ -5,7 +5,8 @@ from subprocesses import threadedSubprocess
 from popup import displayToUser, getString, OverlayEditModal
 import convenienceFunctions as kbd
 import tailScaleServer
-import tailScaleClient
+import screenSender
+import screenViewer
 
 from PIL import Image, ImageGrab, ImageChops
 import simpleaudio as sa
@@ -109,7 +110,6 @@ def answerVisableCodingQuestion(coords, **kwargs):
 
 @threadedSubprocess(atomic=True)
 def detectDifferenceInSelection(coordinates, loopForever=False, **kwargs):
-    
     # Get the boundary box for the screenshot
     pos1, pos2 = coordinates
     if pos1 is None or pos2 is None:
@@ -171,14 +171,25 @@ def startTailScaleServer(computerName=None, **kwargs):
         ))
 
 @threadedSubprocess(atomic=True)
-def startTailScaleClient(computerName=None, **kwargs):
+def startScreenSender(computerName=None, **kwargs):
     print("Starting TailScale Client")
     try:
-        asyncio.run(tailScaleClient.main(computerName))
+        asyncio.run(screenSender.main(computerName))
     finally:
         kwargs['mainQueue'].put((
             'command',
-            ('terminateAtomicSubprocess', startTailScaleClient.__name__)
+            ('terminateAtomicSubprocess', startScreenSender.__name__)
+        ))
+
+@threadedSubprocess(atomic=True)
+def startScreenViewer(computerName=None, **kwargs):
+    print("Starting Screen Viewer")
+    try:
+        asyncio.run(screenViewer.main(computerName))
+    finally:
+        kwargs['mainQueue'].put((
+            'command',
+            ('terminateAtomicSubprocess', startScreenViewer.__name__)
         ))
 
 

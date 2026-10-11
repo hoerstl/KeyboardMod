@@ -185,7 +185,8 @@ class PaginatedSettingsWindow(tk.Tk):
         # Page 1
         self.add_widget_to_page(1, "label", text="Manage Tailscale Server")
         self.add_widget_to_page(1, "button", text="Start Tailscale Server", command="startTailScaleServer")
-        self.add_widget_to_page(1, "button", text="Start Tailscale Client", command="startTailScaleClient")
+        self.add_widget_to_page(1, "button", text="Start Screen Sharing", command="startScreenSender")
+        self.add_widget_to_page(1, "button", text="Start Screen Viewer", command="startScreenViewer")
         self.add_widget_to_page(1, "label", text="Tailscale Server's Computer Name")
         self.add_widget_to_page(1, "entry", key="tailScaleServerComputerName")
 

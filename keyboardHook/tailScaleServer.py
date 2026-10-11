@@ -5,6 +5,7 @@ import os
 from websockets.asyncio.server import serve
 import subprocess
 
+MAX_MESSAGE_SIZE = 10 * 1024 * 1024  # 10 MiB
 
 def getTailscaleIP(computerName: str) -> str | None:
     """
@@ -49,7 +50,7 @@ async def handler(websocket):
 
     try:
         async for message in websocket:
-            print(f"Received: {message}")
+            # print(f"Received: {message}")
 
             # Send the message to every other connected client.
             recipients = clients - {websocket}
@@ -79,8 +80,8 @@ async def main(computerName="localhost", port=8765):
             f"Computer '{computerName}' was not found in Tailscale status."
         )
     
-    async with serve(handler, serverIP, port):
-        print(f"WebSocket server listening on {serverIP}:{port}", flush=True)
+    async with serve(handler, serverIP, port, max_size=MAX_MESSAGE_SIZE):
+        print(f"WebSocket server listening on {serverIP}:{port}")
         await asyncio.Future()
 
 
