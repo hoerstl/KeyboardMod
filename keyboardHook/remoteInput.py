@@ -2,20 +2,22 @@
 import ctypes
 from ctypes import wintypes
 
-
-# Windows keyboard input constants
 INPUT_KEYBOARD = 1
+INPUT_MOUSE = 0
+INPUT_HARDWARE = 2
+
 KEYEVENTF_KEYUP = 0x0002
 KEYEVENTF_EXTENDEDKEY = 0x0001
 
-# Virtual-key codes that require the extended-key flag.
+ULONG_PTR = ctypes.c_size_t
+
 EXTENDED_KEYS = {
-    0x21, 0x22, 0x23, 0x24,  # Page Up, Page Down, End, Home
-    0x25, 0x26, 0x27, 0x28,  # Arrow keys
-    0x2D, 0x2E,              # Insert, Delete
-    0x5B, 0x5C,              # Left/Right Windows
-    0x6F,                    # Numpad divide
-    0xA3, 0xA5,              # Right Ctrl, Right Alt
+    0x21, 0x22, 0x23, 0x24,
+    0x25, 0x26, 0x27, 0x28,
+    0x2D, 0x2E,
+    0x5B, 0x5C,
+    0x6F,
+    0xA3, 0xA5,
 }
 
 
@@ -25,12 +27,35 @@ class KEYBDINPUT(ctypes.Structure):
         ("wScan", wintypes.WORD),
         ("dwFlags", wintypes.DWORD),
         ("time", wintypes.DWORD),
-        ("dwExtraInfo", ctypes.POINTER(ctypes.c_ulong)),
+        ("dwExtraInfo", ULONG_PTR),
+    ]
+
+
+class MOUSEINPUT(ctypes.Structure):
+    _fields_ = [
+        ("dx", wintypes.LONG),
+        ("dy", wintypes.LONG),
+        ("mouseData", wintypes.DWORD),
+        ("dwFlags", wintypes.DWORD),
+        ("time", wintypes.DWORD),
+        ("dwExtraInfo", ULONG_PTR),
+    ]
+
+
+class HARDWAREINPUT(ctypes.Structure):
+    _fields_ = [
+        ("uMsg", wintypes.DWORD),
+        ("wParamL", wintypes.WORD),
+        ("wParamH", wintypes.WORD),
     ]
 
 
 class INPUTUNION(ctypes.Union):
-    _fields_ = [("ki", KEYBDINPUT)]
+    _fields_ = [
+        ("mi", MOUSEINPUT),
+        ("ki", KEYBDINPUT),
+        ("hi", HARDWAREINPUT),
+    ]
 
 
 class INPUT(ctypes.Structure):
@@ -52,13 +77,11 @@ user32.SendInput.restype = wintypes.UINT
 
 
 def inject_key(vk: int, action: str) -> None:
-    """
-    Simulate a key-down or key-up event.
-
-    vk: Windows virtual-key code, such as 65 for A.
-    action: "down" or "up".
-    """
-    if not isinstance(vk, int) or isinstance(vk, bool) or not 0 <= vk <= 255:
+    if (
+        isinstance(vk, bool)
+        or not isinstance(vk, int)
+        or not 0 <= vk <= 255
+    ):
         raise ValueError(f"Invalid virtual-key code: {vk}")
 
     if action not in ("down", "up"):
@@ -72,14 +95,12 @@ def inject_key(vk: int, action: str) -> None:
     if action == "up":
         flags |= KEYEVENTF_KEYUP
 
-    extra_info = ctypes.c_ulong(0)
-
     keyboard_input = KEYBDINPUT(
         wVk=vk,
         wScan=0,
         dwFlags=flags,
         time=0,
-        dwExtraInfo=ctypes.pointer(extra_info),
+        dwExtraInfo=0,
     )
 
     native_input = INPUT(
@@ -95,3 +116,8 @@ def inject_key(vk: int, action: str) -> None:
 
     if sent != 1:
         raise ctypes.WinError(ctypes.get_last_error())
+
+# print("Pointer size:", ctypes.sizeof(ctypes.c_void_p))
+# print("KEYBDINPUT size:", ctypes.sizeof(KEYBDINPUT))
+# print("MOUSEINPUT size:", ctypes.sizeof(MOUSEINPUT))
+# print("INPUT size:", ctypes.sizeof(INPUT))
