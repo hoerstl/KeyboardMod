@@ -288,6 +288,7 @@ def on_key_release(event):
     elif globals.data['keyboardMode'] == 'Ctrl':
         return False
     elif globals.data['keyboardMode'] == 'Alt':
+        keyboardModes.onRelease_AltMode(event)
         return False
     return True
 

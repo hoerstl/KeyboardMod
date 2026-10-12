@@ -87,6 +87,8 @@ class RemoteKeyboardSender:
             target=self._thread_main,
             daemon=True,
         )
+        self._held_keys = set()
+        self._key_lock = threading.Lock()
 
     def start(self):
         """Start the WebSocket connection in a background thread."""
@@ -177,19 +179,32 @@ class RemoteKeyboardSender:
             pass
 
     def send_key(self, vk, action):
-        """Queue a key-down or key-up event from the hook thread."""
-        if self.loop is None or self.queue is None:
+        print(f"Sending key event: vk={vk}, action={action}")
+        
+        if action not in ("down", "up"):
             return
 
-        message = json.dumps({
-            "type": "key",
-            "action": action,
-            "vk": vk,
-        })
+        if isinstance(vk, bool) or not isinstance(vk, int) or not 0 <= vk <= 255:
+            return
 
-        self.loop.call_soon_threadsafe(
-            self.queue.put_nowait,
-            message,
-        )
+        with self._key_lock:
+            if action == "down":
+                self._held_keys.add(vk)
+            else:
+                self._held_keys.discard(vk)
+
+            if self.loop is None or self.queue is None:
+                return
+
+            message = json.dumps({
+                "type": "key",
+                "action": action,
+                "vk": vk,
+            })
+
+            self.loop.call_soon_threadsafe(
+                self.queue.put_nowait,
+                message,
+            )
 
 

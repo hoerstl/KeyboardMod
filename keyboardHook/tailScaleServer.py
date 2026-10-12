@@ -50,7 +50,11 @@ async def handler(websocket):
 
     try:
         async for message in websocket:
-            # print(f"Received: {message}")
+            if isinstance(message, bytes):
+                pass
+                # print(f"Relaying binary message: {len(message)} bytes")
+            else:
+                print(f"Relaying text message: {message}")
 
             # Send the message to every other connected client.
             recipients = clients - {websocket}

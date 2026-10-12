@@ -281,11 +281,35 @@ def is_alt_key(key_name):
 
 remote_keyboard = None
 
+
+def get_virtual_key_code(event):
+    """Extract the Windows virtual-key code from a pyWinhook event."""
+    vk = getattr(event, "KeyID", None)
+
+    if isinstance(vk, bool) or not isinstance(vk, int) or not 0 <= vk <= 255:
+        print(f"Invalid virtual-key code: {vk}; event key={event.Key}")
+        return None
+
+    return vk
+
+
 def onPress_AltMode(event):
-    pass
+    if remote_keyboard is None:
+        return
+
+    vk = get_virtual_key_code(event)
+    if vk is not None:
+        remote_keyboard.send_key(vk, "down")
+
 
 def onRelease_AltMode(event):
-    pass
+    if remote_keyboard is None:
+        return
+
+    vk = get_virtual_key_code(event)
+    if vk is not None:
+        remote_keyboard.send_key(vk, "up")
+
 
 def enter_AltMode():
     """Connect to the remote computer when Alt mode is activated."""

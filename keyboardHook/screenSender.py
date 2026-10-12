@@ -6,6 +6,7 @@ from PIL import ImageGrab
 from websockets.asyncio.client import connect
 
 import tailScaleServer
+import remoteInput
 
 
 def handle_keyboard_message(message: str):
@@ -31,6 +32,7 @@ def handle_keyboard_message(message: str):
         return
 
     try:
+        print(f"Injecting key event: vk={vk}, action={action}") # Beans
         remoteInput.inject_key(vk, action)
     except (ValueError, OSError) as exc:
         print(f"Failed to inject keyboard event: {exc}")
