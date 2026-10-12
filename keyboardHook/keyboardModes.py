@@ -2,6 +2,7 @@ import pyperclip
 import globals
 import convenienceFunctions as kbd
 import specialFunctions
+from remoteKeyboard import RemoteKeyboardSender 
 
 
 ###################### START OF THE DEFAULT DEFINITIONS ############################
@@ -268,6 +269,58 @@ def onPress_CtrlMode(event):
     elif not is_ctrl_key(event.Key) and not is_shift_key(event.Key):
         type_next_payload_character()
     
+
+###################### START OF THE ALT MODE DEFINITIONS ############################
+
+def is_alt_key(key_name):
+    return key_name in (
+        "menu",
+        "Lmenu",
+        "Rmenu"
+    )
+
+remote_keyboard = None
+
+def onPress_AltMode(event):
+    pass
+
+def onRelease_AltMode(event):
+    pass
+
+def enter_AltMode():
+    """Connect to the remote computer when Alt mode is activated."""
+    global remote_keyboard
+
+    if remote_keyboard is not None:
+        return
+
+    computer_name = globals.settings["tailScaleServerComputerName"]
+
+    try:
+        sender = RemoteKeyboardSender(computer_name)
+        sender.start()
+        remote_keyboard = sender
+        print("Alt mode enabled: remote keyboard connected.")
+    except Exception as exc:
+        remote_keyboard = None
+        print(f"Could not enter remote keyboard mode: {exc}")
+
+
+def exit_AltMode():
+    """Disconnect the remote keyboard when Alt mode is deactivated."""
+    global remote_keyboard
+
+    if remote_keyboard is None:
+        return
+
+    try:
+        remote_keyboard.stop()
+    except Exception as exc:
+        print(f"Error stopping remote keyboard: {exc}")
+    finally:
+        remote_keyboard = None
+
+    print("Alt mode disabled: remote keyboard disconnected.")
 
 
 ########################## Currently inactive code for moving the mouse with the keyboard ##########################################

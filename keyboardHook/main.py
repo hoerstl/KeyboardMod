@@ -8,8 +8,16 @@ import settings
 import globals
 import pyperclip
 
+import asyncio
+import json
+import threading
+
+from websockets.asyncio.client import connect
+import tailScaleServer
+
 # TODO: When two keys are released at the same time, only one of those key releases triggers the keyboard hook. This means that we sometimes
 # don't get signals when we release keys. This might be the case for pressing keys too. This issue requires further research.
+
 
 def process_mode_shift(event):
     """
@@ -23,10 +31,10 @@ def process_mode_shift(event):
         if keyboardModes.is_shift_key(last_key_released) and is_different and was_quick_enough:
             if globals.data['keyboardMode'] == 'Shift':
                 print("Shift Mode Off")
-                globals.data['keyboardMode'] = 'Default'
+                setKeyboardMode('Default')
             else:
                 print("Shift Mode On")
-                globals.data['keyboardMode'] = 'Shift'
+                setKeyboardMode('Shift')
 
             last_key_released = ''
             return True
@@ -44,12 +52,12 @@ def process_mode_cap(event):
             globals.data['cap_mode_used'] = False
             if globals.data['keyboardMode'] != 'Default':  # We should count disabling another keyboard mode as a valid use case of cap mode.
                 globals.data['cap_mode_used'] = True
-            globals.data['keyboardMode'] = 'Caps Lock'
+            setKeyboardMode('Caps Lock')
             print('Entering Caps Lock Mode')
             cap_press_time = time.time()
         elif event.MessageName == 'key up' or event.MessageName == 'key sys up':
             kbd.cleanupHeldKeys()
-            globals.data['keyboardMode'] = 'Default'
+            setKeyboardMode('Default')
             print('Leaving Caps Lock Mode')
             if time.time() - cap_press_time < .3 and not globals.data.get('cap_mode_used'):
                 kbd.pressAndReleaseKey("Capital")
@@ -71,15 +79,38 @@ def process_mode_ctrl(event):
             'passed all criteria'
             if globals.data['keyboardMode'] == 'Ctrl':
                 print("Ctrl Mode Off")
-                globals.data['keyboardMode'] = 'Default'
+                setKeyboardMode('Default')
             else:
                 print("Ctrl Mode On")
                 globals.data['entering_ctrl_mode'] = True
-                globals.data['keyboardMode'] = 'Ctrl'
+                setKeyboardMode('Ctrl')
 
             last_key_released = ''
             return True
         ctrl_release_time = time.time()
+
+
+def process_mode_alt(event):
+    """
+    Decides whether or not to switch the keyboard into Alt Mode
+    Runs every key release.
+    """
+    global last_key_released, alt_release_time
+    if keyboardModes.is_alt_key(event.Key):
+        is_different = event.Key != last_key_released
+        was_quick_enough = time.time() - alt_release_time < .05
+        if keyboardModes.is_alt_key(last_key_released) and is_different and was_quick_enough:
+            'passed all criteria'
+            if globals.data['keyboardMode'] == 'Alt':
+                print("Alt Mode Off")
+                setKeyboardMode('Default')
+            else:
+                print("Alt Mode On")
+                setKeyboardMode('Alt')
+
+            last_key_released = ''
+            return True
+        alt_release_time = time.time()
 
 
 def update():
@@ -142,6 +173,28 @@ def update():
     if settingsChanged: settings.saveSettings(globals.settings)
 
 
+def setKeyboardMode(mode):
+    # Run logic to exit any mode we might be in
+    if globals.data['keyboardMode'] == "Alt":
+        keyboardModes.exit_AltMode()
+
+    # Run logic to enter any mode we might be going into
+    if mode == "Alt":
+        keyboardModes.enter_AltMode()
+
+    # Set the Keyboard Mode
+    globals.data['keyboardMode'] = mode
+
+    # Set flags for first iteration/keypress behavior
+    globals.data['entering_ctrl_mode'] = False
+    globals.data['entering_alt_mode'] = False
+
+    if mode == "Ctrl":
+        globals.data['entering_ctrl_mode'] = True
+    elif mode == "Alt":
+        globals.data['entering_alt_mode'] = True
+
+
 def is_press_bypassed(event):
     if globals.keypress_bypass[event.Key] > 0:
         globals.keypress_bypass[event.Key] -= 1
@@ -190,6 +243,8 @@ def on_key_press(event):
         keyboardModes.onPress_CapMode(event)
     elif globals.data['keyboardMode'] == 'Ctrl':
         keyboardModes.onPress_CtrlMode(event)
+    elif globals.data['keyboardMode'] == 'Alt':
+        keyboardModes.onPress_AltMode(event)
 
     return False
 
@@ -215,6 +270,8 @@ def on_key_release(event):
         return False # We can just block both the press and release of a single key since interacting with it at all means that we are certainly changing keyboard modes
     if process_mode_ctrl(event):
         pass # We need to allow the ctrl keys to be released via a default bypass when we swap to and from modes since it involves two keys
+    if process_mode_alt(event):
+        pass # We need to allow the alt keys to be released via a default bypass when we swap to and from modes since it involves two keys
     last_key_released = event.Key
 
     if is_default_bypassed(event):
@@ -229,6 +286,8 @@ def on_key_release(event):
         keyboardModes.onRelease_CapMode(event)
         return False
     elif globals.data['keyboardMode'] == 'Ctrl':
+        return False
+    elif globals.data['keyboardMode'] == 'Alt':
         return False
     return True
 
@@ -267,6 +326,7 @@ if __name__ == '__main__':
     cap_press_time = 0
     shift_release_time = 0
     ctrl_release_time = 0
+    alt_release_time = 0
     last_key_released = ''
     start_hook()
 

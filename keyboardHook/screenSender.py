@@ -1,10 +1,40 @@
 import asyncio
+import json
 from io import BytesIO
 
 from PIL import ImageGrab
 from websockets.asyncio.client import connect
 
 import tailScaleServer
+
+
+def handle_keyboard_message(message: str):
+    try:
+        data = json.loads(message)
+    except json.JSONDecodeError:
+        print(f"Invalid JSON message: {message}")
+        return
+
+    if not isinstance(data, dict) or data.get("type") != "key":
+        return
+
+    action = data.get("action")
+    vk = data.get("vk")
+
+    if (
+        action not in ("down", "up")
+        or isinstance(vk, bool)
+        or not isinstance(vk, int)
+        or not 0 <= vk <= 255
+    ):
+        print(f"Invalid keyboard event: {data}")
+        return
+
+    try:
+        remoteInput.inject_key(vk, action)
+    except (ValueError, OSError) as exc:
+        print(f"Failed to inject keyboard event: {exc}")
+
 
 
 def capture_screenshot() -> bytes:
@@ -69,10 +99,10 @@ async def main(computerName=None, fps=10):
             async for message in websocket:
                 if isinstance(message, bytes):
                     # print(f"Received binary message: {len(message)} bytes")
-                    pass
-                else:
-                    # print(f"Received text message: {message}")
-                    pass
+                    # The sending client shouldn't do anything to read images.
+                    continue
+                
+                handle_keyboard_message(message)
 
         await asyncio.gather(
             receive(),
