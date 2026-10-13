@@ -47,6 +47,10 @@ def process_mode_cap(event):
     Runs every key release.
     """
     global cap_press_time
+
+    if not globals.settings["enableCapsLockMode"]:
+        return False
+
     if event.Key == 'Capital':
         if event.MessageName == 'key down' and globals.data['keyboardMode'] != 'Caps Lock':
             globals.data['cap_mode_used'] = False

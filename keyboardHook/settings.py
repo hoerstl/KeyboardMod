@@ -7,6 +7,7 @@ from specialFunctions import asyncCountToTheMoon
 
 ### DEFAULT SETTINGS ###
 defaultSettings = { 
+    'enableCapsLockMode': True,
     'remoteServerIP': '127.0.0.1',
     'tailScaleServerComputerName': 'jester-junction',
     'ghostTypingMode': 'Default',
@@ -191,6 +192,8 @@ class PaginatedSettingsWindow(tk.Tk):
         self.add_widget_to_page(1, "entry", key="tailScaleServerComputerName")
 
         # Page 2
+        self.add_widget_to_page(2, "label", text="Enable Caps Lock Mode")
+        self.add_widget_to_page(2, "checkbox", key="enableCapsLockMode")
         self.add_widget_to_page(2, "label", text="Linked Computer IP Address")
         self.add_widget_to_page(2, "entry", key="remoteServerIP")
         self.add_widget_to_page(2, "label", text="Ghost Typing Content")
