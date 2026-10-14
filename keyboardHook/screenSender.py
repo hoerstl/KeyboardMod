@@ -65,7 +65,7 @@ def capture_screenshot() -> bytes:
     return img_io.getvalue()
 
 
-async def stream_screenshots(websocket, fps=10):
+async def stream_screenshots(websocket, fps=4):
     """
     Stream screenshots without accumulating a backlog.
 
@@ -194,7 +194,7 @@ async def run_connection(server_url, fps):
     raise ConnectionError("WebSocket connection closed")
 
 
-async def main(computerName=None, fps=10):
+async def main(computerName=None, fps=4):
     """
     Retry indefinitely when discovery, connection, or streaming fails.
     """
@@ -243,6 +243,6 @@ async def main(computerName=None, fps=10):
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main("jester-junction", fps=10))
+        asyncio.run(main("jester-junction", fps=4))
     except KeyboardInterrupt:
         log("Stopped by user")
