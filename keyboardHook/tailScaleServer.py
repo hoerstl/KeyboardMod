@@ -90,4 +90,4 @@ async def main(computerName="localhost", port=8765):
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main("jester-junction"))
