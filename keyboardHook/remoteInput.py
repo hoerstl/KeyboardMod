@@ -71,7 +71,7 @@ user32 = ctypes.WinDLL("user32", use_last_error=True)
 user32.SendInput.argtypes = [
     wintypes.UINT,
     ctypes.POINTER(INPUT),
-    wintypes.c_int,
+    ctypes.c_int,
 ]
 user32.SendInput.restype = wintypes.UINT
 
