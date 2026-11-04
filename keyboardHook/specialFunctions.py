@@ -24,6 +24,7 @@ import asyncio
 import winreg
 import uuid
 import runpy
+import webbrowser
 
 def typeTemplate(template):
     template += '|' if '|' not in template else ''
@@ -56,6 +57,11 @@ def pasteWindowsPath():
     pyperclip.copy(path)
     print("typing path: " + path)
     typeTemplate(path)
+
+
+def newGoogleMeet():
+    url = "https://meet.new"
+    webbrowser.open(url)
 
 
 @threadedSubprocess()
