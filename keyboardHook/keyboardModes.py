@@ -2,6 +2,7 @@ import pyperclip
 import globals
 import convenienceFunctions as kbd
 import specialFunctions
+from remoteKeyboard import RemoteKeyboardSender 
 
 
 ###################### START OF THE DEFAULT DEFINITIONS ############################
@@ -126,15 +127,16 @@ key_bindings_ShiftMode = {
     'H': lambda: specialFunctions.asyncHostServer(),
     'I': lambda: specialFunctions.asyncShowIPAddress(),
     'K': lambda: specialFunctions.killAllSubprocesses(),
-    'M': lambda: specialFunctions.asyncDetectDifferenceInSelection(globals.data["selectedCoordinates"], loopForever=True),
-    'N': lambda: specialFunctions.asyncSendNotify(globals.settings['remoteServerIP']),
-    'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
-    'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),
-    'S': lambda: specialFunctions.asyncOpenSettingsMenu(globals.settings),
+    'M': lambda: specialFunctions.newGoogleMeet(),
+    # 'N': lambda: specialFunctions.asyncSendNotify(globals.settings['remoteServerIP']),
+    # 'Q': lambda: specialFunctions.asyncAnswerVisableQuizQuestion(verbose=True, GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
+    # 'R': lambda: specialFunctions.asyncReadRemoteClipboard(globals.settings['remoteServerIP']),
+    # 'S': lambda: specialFunctions.asyncOpenSettingsMenu(globals.settings),
     'T': lambda: specialFunctions.asyncCountToTheMoon(),
-    'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.settings['remoteServerIP']),
-    'X': lambda: specialFunctions.asyncAnswerVisableCodingQuestion(globals.data["selectedCoordinates"], outputTo="Clipboard", GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY'], chatHistory=globals.data["chatHistory"]),
-    'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(globals.data["selectedCoordinates"], outputTo="Audio", GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
+    # 'V': lambda: specialFunctions.asyncDisplayRemoteScreenshot(globals.settings['remoteServerIP']),
+    'W': lambda: specialFunctions.asyncDetectDifferenceInSelection(globals.data["selectedCoordinates"], loopForever=True),
+    # 'X': lambda: specialFunctions.asyncAnswerVisableCodingQuestion(globals.data["selectedCoordinates"], outputTo="Clipboard", GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY'], chatHistory=globals.data["chatHistory"]),
+    # 'Z': lambda: specialFunctions.asyncAnswerVisableExtendedResponseQuestion(globals.data["selectedCoordinates"], outputTo="Audio", GOOGLE_API_KEY=globals.settings['GOOGLE_API_KEY']),
 }
 def onPress_ShiftMode(event):
     global key_bindings_ShiftMode
@@ -268,6 +270,82 @@ def onPress_CtrlMode(event):
     elif not is_ctrl_key(event.Key) and not is_shift_key(event.Key):
         type_next_payload_character()
     
+
+###################### START OF THE ALT MODE DEFINITIONS ############################
+
+def is_alt_key(key_name):
+    return key_name in (
+        "menu",
+        "Lmenu",
+        "Rmenu"
+    )
+
+remote_keyboard = None
+
+
+def get_virtual_key_code(event):
+    """Extract the Windows virtual-key code from a pyWinhook event."""
+    vk = getattr(event, "KeyID", None)
+
+    if isinstance(vk, bool) or not isinstance(vk, int) or not 0 <= vk <= 255:
+        print(f"Invalid virtual-key code: {vk}; event key={event.Key}")
+        return None
+
+    return vk
+
+
+def onPress_AltMode(event):
+    if remote_keyboard is None:
+        return
+
+    vk = get_virtual_key_code(event)
+    if vk is not None:
+        remote_keyboard.send_key(vk, "down")
+
+
+def onRelease_AltMode(event):
+    if remote_keyboard is None:
+        return
+
+    vk = get_virtual_key_code(event)
+    if vk is not None:
+        remote_keyboard.send_key(vk, "up")
+
+
+def enter_AltMode():
+    """Connect to the remote computer when Alt mode is activated."""
+    global remote_keyboard
+
+    if remote_keyboard is not None:
+        return
+
+    computer_name = globals.settings["tailScaleServerComputerName"]
+
+    try:
+        sender = RemoteKeyboardSender(computer_name)
+        sender.start()
+        remote_keyboard = sender
+        print("Alt mode enabled: remote keyboard connected.")
+    except Exception as exc:
+        remote_keyboard = None
+        print(f"Could not enter remote keyboard mode: {exc}")
+
+
+def exit_AltMode():
+    """Disconnect the remote keyboard when Alt mode is deactivated."""
+    global remote_keyboard
+
+    if remote_keyboard is None:
+        return
+
+    try:
+        remote_keyboard.stop()
+    except Exception as exc:
+        print(f"Error stopping remote keyboard: {exc}")
+    finally:
+        remote_keyboard = None
+
+    print("Alt mode disabled: remote keyboard disconnected.")
 
 
 ########################## Currently inactive code for moving the mouse with the keyboard ##########################################
