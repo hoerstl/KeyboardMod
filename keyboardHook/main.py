@@ -172,6 +172,7 @@ def update():
                         globals.flags['asyncCtrlModePayloadStatus'] = "Recieved"
                     else:
                         pyperclip.copy(globals.data["remoteServerClipboard"])
+                globals.data[key] = payload
 
 
     if settingsChanged: settings.saveSettings(globals.settings)

@@ -15,6 +15,7 @@ defaultSettings = {
     'timesToClick': 1,
     'GOOGLE_API_KEY' : '',
     'headphoneActions': False,
+    'meetingInviteEmails': ""
     }
 
 
@@ -194,21 +195,25 @@ class PaginatedSettingsWindow(tk.Tk):
         # Page 2
         self.add_widget_to_page(2, "label", text="Enable Caps Lock Mode")
         self.add_widget_to_page(2, "checkbox", key="enableCapsLockMode")
-        self.add_widget_to_page(2, "label", text="Linked Computer IP Address")
-        self.add_widget_to_page(2, "entry", key="remoteServerIP")
-        self.add_widget_to_page(2, "label", text="Ghost Typing Content")
-        self.add_widget_to_page(2, "select", options=["Default", "Code"], key="ghostTypingMode")
-        self.add_widget_to_page(2, "label", text="Ghost Type From?")
-        self.add_widget_to_page(2, "select", options=["Clipboard", "Remote"], key="ghostTypeFrom")
-        self.add_widget_to_page(2, "label", text="Times to Rapid Click")
-        self.add_widget_to_page(2, "entry", key="timesToClick")
-
+        self.add_widget_to_page(2, "label", text="Google Calendar Invite Emails (comma separated)")
+        self.add_widget_to_page(2, "entry", key="meetingInviteEmails")
 
         # Page 3
-        self.add_widget_to_page(3, "label", text="Enable headphone actions?")
-        self.add_widget_to_page(3, "checkbox", key="headphoneActions")
-        self.add_widget_to_page(3, "label", text="Google API key")
-        self.add_widget_to_page(3, "entry", key="GOOGLE_API_KEY")
+        self.add_widget_to_page(3, "label", text="Linked Computer IP Address")
+        self.add_widget_to_page(3, "entry", key="remoteServerIP")
+        self.add_widget_to_page(3, "label", text="Ghost Typing Content")
+        self.add_widget_to_page(3, "select", options=["Default", "Code"], key="ghostTypingMode")
+        self.add_widget_to_page(3, "label", text="Ghost Type From?")
+        self.add_widget_to_page(3, "select", options=["Clipboard", "Remote"], key="ghostTypeFrom")
+
+
+        # Page 4
+        self.add_widget_to_page(4, "label", text="Enable headphone actions?")
+        self.add_widget_to_page(4, "checkbox", key="headphoneActions")
+        self.add_widget_to_page(4, "label", text="Google API key")
+        self.add_widget_to_page(4, "entry", key="GOOGLE_API_KEY")
+        self.add_widget_to_page(4, "label", text="Times to Rapid Click")
+        self.add_widget_to_page(4, "entry", key="timesToClick")
 
 
 def saveSettings(settings):
@@ -226,7 +231,7 @@ def loadSettings():
     with open('settings.json', 'r') as file:
         settings = json.load(file)
     os.environ['GOOGLE_API_KEY'] = settings['GOOGLE_API_KEY']
-    return settings
+    return defaultSettings | settings
 
 
 if __name__ == "__main__":

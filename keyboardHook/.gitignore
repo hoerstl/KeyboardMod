@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 
 /notepads/
-settings.json
+*.json
 keybindings

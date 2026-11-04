@@ -25,6 +25,8 @@ import winreg
 import uuid
 import runpy
 import webbrowser
+import googleCalendar
+
 
 def typeTemplate(template):
     template += '|' if '|' not in template else ''
@@ -63,6 +65,14 @@ def newGoogleMeet():
     url = "https://meet.new"
     webbrowser.open(url)
 
+@threadedSubprocess()
+def createGoogleCalendarEvent(emails, **kwargs):
+    eventId = googleCalendar.createCalendarEvent(emails)
+    kwargs['mainQueue'].put(('googleCalendarEventId', eventId))
+
+@threadedSubprocess()
+def deleteGoogleCalendarEvent(eventId, **kwargs):
+    googleCalendar.deleteCalendarEvent(eventId)
 
 @threadedSubprocess()
 def showIcecreamCode(**kwargs):
